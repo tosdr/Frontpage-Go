@@ -1,0 +1,226 @@
+.service-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.service-logo {
+    width: 64px;
+    height: 64px;
+    margin-right: 1rem;
+    border-radius: 25%;
+}
+
+.service-grade {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    margin-left: auto;
+}
+
+.service-points {
+    list-style-type: none;
+    padding: 0;
+}
+
+.service-points li {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.point-content {
+    display: flex;
+    align-items: center;
+}
+
+.edit-button {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: var(--link-hover-color);
+}
+
+.service-documents {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.service-documents li {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.document-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    text-decoration: none;
+    border-radius: 0.3rem;
+    transition: background-color 0.3s;
+}
+
+.document-link:hover {
+    background-color: var(--link-hover-color);
+    color: var(--btn-secondary-bg);
+}
+
+.point-good {
+    background-color: var(--point-good-bg);
+    color: var(--point-good-text);
+}
+.point-neutral {
+    background-color: var(--point-neutral-bg);
+    color: var(--point-neutral-text);
+}
+.point-bad {
+    background-color: var(--point-bad-bg);
+    color: var(--point-bad-text);
+}
+.point-blocker {
+    background-color: var(--point-blocker-bg);
+    color: var(--point-blocker-text);
+}
+
+.grade-A { background-color: var(--grade-a-bg); color: var(--grade-text); }
+.grade-B { background-color: var(--grade-b-bg); color: var(--grade-text); }
+.grade-C { background-color: var(--grade-c-bg); color: var(--grade-text); }
+.grade-D { background-color: var(--grade-d-bg); color: var(--grade-text); }
+.grade-E { background-color: var(--grade-e-bg); color: var(--grade-text); }
+
+
+.point-actions {
+    display: flex;
+    align-items: center;
+}
+
+.updated-on, .edit-icon {
+    margin-left: 10px;
+    font-size: 1rem;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.updated-on {
+    position: relative;
+}
+
+.updated-on:hover::after {
+    content: attr(title);
+    position: absolute;
+    background-color: #f8f9fa;
+    color: #212529;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1;
+    left: 50%;
+    transform: translateX(-70%);
+    bottom: 100%;
+    margin-bottom: 5px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-icon {
+    text-decoration: none;
+}
+
+.edit-icon:hover {
+    color: #007bff;
+}
+
+.point-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-invert)) sepia(var(--icon-sepia)) saturate(var(--icon-saturate)) hue-rotate(var(--icon-hue-rotate)) brightness(var(--icon-brightness)) contrast(var(--icon-contrast));
+}
+
+.point-good .point-icon {
+    --icon-invert: 23%;
+    --icon-sepia: 91%;
+    --icon-saturate: 1041%;
+    --icon-hue-rotate: 95deg;
+    --icon-brightness: 109%;
+    --icon-contrast: 105%;
+}
+
+.point-neutral .point-icon {
+    --icon-invert: 50%;
+    --icon-sepia: 0%;
+    --icon-saturate: 100%;
+    --icon-hue-rotate: 0deg;
+    --icon-brightness: 100%;
+    --icon-contrast: 100%;
+}
+
+.point-bad .point-icon {
+    --icon-invert: 14%;
+    --icon-sepia: 92%;
+    --icon-saturate: 3206%;
+    --icon-hue-rotate: 343deg;
+    --icon-brightness: 94%;
+    --icon-contrast: 94%;
+}
+
+.point-blocker .point-icon {
+    --icon-invert: 9%;
+    --icon-sepia: 100%;
+    --icon-saturate: 5952%;
+    --icon-hue-rotate: 359deg;
+    --icon-brightness: 97%;
+    --icon-contrast: 104%;
+}
+
+
+@media (max-width: 768px) {
+    .service-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .service-grade {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+
+    .service-logo {
+        margin-right: 0;
+    }
+
+    .service-points li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .point-actions {
+        align-self: flex-end;
+        margin-top: 0.5rem;
+    }
+}

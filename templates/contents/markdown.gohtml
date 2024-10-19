@@ -1,0 +1,11 @@
+{{ define "css_block" }}
+    <link rel="stylesheet" href="/static/css/md.css">
+{{ end }}
+
+{{define "content"}}
+<section class="resources-section slide-in">
+    <div class="markdown-content">
+        {{.Content}}
+    </div>
+</section>
+{{end}}

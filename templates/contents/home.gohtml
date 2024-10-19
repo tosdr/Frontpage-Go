@@ -1,0 +1,68 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/home.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="container">
+    <div class="logo-display">
+        <img class="logo" src="https://s3.tosdr.org/branding/tosdr-logo-128.svg" alt="Logo">
+    </div>
+    
+    <h1 class="tagline">"I have read and agree to the Terms" is the biggest lie on the web. We aim to fix that.</h1>
+    
+    <div class="search-container">
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input type="text" id="searchInput" placeholder="Search for a service..." class="search-input">
+        <button id="searchButton" class="search-button">Search</button>
+    </div>
+    
+    <div class="services-grid">
+        {{ range .Featured }}
+            <div class="service-card">
+                <div class="service-header">
+                    <img src="{{.Icon}}" alt="{{.Name}} Service Icon" class="service-icon">
+                    <h2 class="service-name"><a href="/service/{{.ID}}">{{.Name}}</a></h2>
+                    <span class="service-grade grade-{{.Grade}}">Grade {{.Grade}}</span>
+                </div>
+                <ul class="service-points">
+                    {{ range .Points }}
+                        <li class="point-{{ .Case.Classification }}">{{.Title}}</li>
+                    {{ end }}
+                    <li class="point-neutral"><a class="follow" href="https://edit.tosdr.org/services/182">View more on Phoenix</a></li>
+                </ul>
+                <div class="service-footer">
+                    <a href="https://edit.tosdr.org/services/{{.ID}}/annotate/" class="btn btn-primary">View Documents</a>
+                    <a href="/service/{{.ID}}" class="btn btn-secondary">View Details</a>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+    
+    <div class="last-fetched-info">
+        <p>Data last fetched: <span id="lastFetchedTime">{{ .LastFetchedTime }}</span></p>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        searchInput.focus();
+
+        function performSearch() {
+            const searchTerm = encodeURIComponent(searchInput.value.trim());
+            if (searchTerm) {
+                window.location.href = `/search/${searchTerm}`;
+            }
+        }
+
+        searchButton.addEventListener('click', performSearch);
+
+        searchInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    });
+</script>
+{{ end }}

@@ -1,0 +1,210 @@
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo-display {
+    text-align: center;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-display .logo {
+    background-color: #fff;
+    border-radius: 1rem;
+    max-width: 100%;
+    height: auto;
+}
+
+.tagline {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.search-input {
+    width: 70%;
+    max-width: 500px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 1rem 0 0 1rem;
+}
+
+.search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 1rem 1rem 0;
+    cursor: pointer;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.service-card {
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.service-header a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.service-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 25%;
+}
+
+.service-name {
+    font-size: 18px;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.service-grade {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: var(--border-radius);
+}
+
+.grade-E { background-color: var(--grade-e-bg); color: var(--grade-text); }
+.grade-D { background-color: var(--grade-d-bg); color: var(--grade-text); }
+.grade-C { background-color: var(--grade-c-bg); color: var(--grade-text); }
+.grade-B { background-color: var(--grade-b-bg); color: var(--grade-text); }
+.grade-A { background-color: var(--grade-a-bg); color: var(--grade-text); }
+
+.service-points {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.service-points li {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.service-points li a {
+    text-decoration: none;
+    color: #000;
+}
+
+.point-good {
+    background-color: var(--point-good-bg);
+    color: var(--point-good-text);
+}
+.point-neutral {
+    background-color: var(--point-neutral-bg);
+    color: var(--point-neutral-text);
+}
+.point-bad {
+    background-color: var(--point-bad-bg);
+    color: var(--point-bad-text);
+}
+.point-blocker {
+    background-color: var(--point-blocker-bg);
+    color: var(--point-blocker-text);
+}
+
+.service-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.follow {
+    color: var(--point-neutral-text) !important;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: .7rem;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+}
+
+.btn-secondary {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+}
+
+
+.last-fetched-info {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+
+@media (max-width: 768px) {
+    .tagline {
+        font-size: 20px;
+    }
+
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-input {
+        width: 100%;
+        max-width: none;
+        border-radius: var(--border-radius);
+    }
+
+    .search-button {
+        visibility: hidden;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}

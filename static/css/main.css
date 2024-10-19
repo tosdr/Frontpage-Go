@@ -1,0 +1,88 @@
+/* Reset and base styles */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --link-color: #007bff;
+    --link-hover-color: #0056b3;
+    --header-bg: #f4f4f4;
+    --footer-bg: #333333;
+    --footer-text: #ffffff;
+    --btn-primary-bg: #007bff;
+    --btn-primary-text: #ffffff;
+    --btn-secondary-bg: #6c757d;
+    --btn-secondary-text: #ffffff;
+    --card-bg: #ffffff;
+    --card-border: #e0e0e0;
+    --input-border: #cccccc;
+    --point-good-bg: #d1e7dd;
+    --point-good-text: #0f5132;
+    --point-neutral-bg: #e2e3e5;
+    --point-neutral-text: #41464b;
+    --point-bad-bg: #fff3cd;
+    --point-bad-text: #664d03;
+    --point-blocker-bg: #f8d7da;
+    --point-blocker-text: #842029;
+    --grade-a-bg: #198754;
+    --grade-b-bg: #79b752;
+    --grade-c-bg: #ffc107;
+    --grade-d-bg: #d66f2c;
+    --grade-e-bg: #dc3545;
+    --grade-text: #ffffff;
+
+    --border-radius: 2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --link-color: #3a9fff;
+        --link-hover-color: #70b8ff;
+        --header-bg: #2a2a2a;
+        --footer-bg: #2a2a2a;
+        --footer-text: #e0e0e0;
+        --btn-primary-bg: #3a9fff;
+        --btn-primary-text: #ffffff;
+        --btn-secondary-bg: #5a5a5a;
+        --btn-secondary-text: #ffffff;
+        --card-bg: #2a2a2a;
+        --card-border: #444444;
+        --input-border: #444444;
+        --point-good-bg: #133d2a;
+        --point-good-text: #4ade80;
+        --point-neutral-bg: #2f3136;
+        --point-neutral-text: #b9bbbe;
+        --point-bad-bg: #3f2f00;
+        --point-bad-text: #ffd966;
+        --point-blocker-bg: #3f1f1f;
+        --point-blocker-text: #f87171;
+        --grade-a-bg: #15803d;
+        --grade-b-bg: #65a30d;
+        --grade-c-bg: #ca8a04;
+        --grade-d-bg: #b45309;
+        --grade-e-bg: #b91c1c;
+        --grade-text: #ffffff;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+}

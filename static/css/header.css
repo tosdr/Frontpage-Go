@@ -1,0 +1,163 @@
+header {
+    background-color: var(--header-bg);
+    padding: 0 1rem;
+    margin: 1rem;
+    border-radius: var(--border-radius);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+
+.logo-and-links {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.logo-and-links .logo {
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.logo-and-links .logo img {
+    max-height: 32px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.nav-links li {
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    background-color: var(--header-bg);
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 0;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.right-nav {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.donate-btn, .leave-beta-btn {
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    text-decoration: none;
+    color: var(--btn-primary-text);
+    background-color: var(--btn-primary-bg);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    margin-right: 1rem;
+    padding-top: .3rem;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-color);
+    margin: 2px 0;
+}
+
+/* Mobile styles for header */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .logo-and-links {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        display: none;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 0.5rem 0;
+    }
+
+    .right-nav {
+        display: none;
+    }
+
+    .right-nav.active {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .right-nav a {
+        margin: 0.5rem 0;
+    }
+
+    .hamburger {
+        height: 32px;
+        display: flex;
+        position: absolute;
+        right: 1rem;
+    }
+
+    .logo-and-links.active .nav-links,
+    .right-nav.active {
+        display: flex;
+    }
+}

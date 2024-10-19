@@ -1,0 +1,54 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/search.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="search-result-container">
+
+    <div class="search-container">
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input type="text" id="searchInput" placeholder="Search for a service..." class="search-input" value="{{ .SearchTerm }}">
+        <button id="searchButton" class="search-button">Search</button>
+    </div>
+
+    <h1>Search Results for "{{ .SearchTerm }}"</h1>
+    
+    <div class="search-results">
+        {{ if .SearchResults }}
+            {{ range .SearchResults }}
+                <div class="search-result">
+                    <img src="{{ .Image }}" alt="{{ .Name }} logo" class="result-logo">
+                    <div class="result-info">
+                        <h2><a href="/service/{{ .ID }}">{{ .Name }}</a></h2>
+                        <span class="result-rating grade-{{ .Rating }}">{{ .Rating }}</span>
+                        <span class="result-match">Match: {{ printf "%.2f" .MatchPercentage }}%</span>
+                    </div>
+                </div>
+            {{ end }}
+        {{ else }}
+            <p>No results found for "{{ .SearchTerm }}"</p>
+        {{ end }}
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        function performSearch() {
+            const searchTerm = encodeURIComponent(searchInput.value.trim());
+            if (searchTerm) {
+                window.location.href = `/search/${searchTerm}`;
+            }
+        }
+
+        searchButton.addEventListener('click', performSearch);
+
+        searchInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    });
+</script>
+{{ end }}

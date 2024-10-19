@@ -1,0 +1,14 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/error.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="error-container">
+    <h1>Error {{ .ErrorCode }}</h1>
+    <p class="error-message">{{ .ErrorMessage }}</p>
+    <div class="error-actions">
+        <a href="/" class="btn btn-primary">Back to Home</a>
+        <a href="mailto:team@tosdr.org" class="btn btn-secondary">Contact Us</a>
+    </div>
+</div>
+{{ end }}

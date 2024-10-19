@@ -1,0 +1,51 @@
+{{ define "header" }}
+<header>
+    <nav>
+        <div class="logo-and-links">
+            <a href="/" class="logo">
+                <img src="https://s3.tosdr.org/branding/tosdr-icon-32.svg" alt="Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/sites/feedback">Feedback</a></li>
+                <li><a href="/sites/about">About</a></li>
+                <li><a href="/sites/download">Download</a></li>
+                <li class="dropdown">
+                    <a href="#">Contribute</a>
+                    <ul class="dropdown-content">
+                        <li><a href="https://tosdr.org/login">Login</a></li>
+                        <li><a href="https://tosdr.org/new_service">Add new Service</a></li>
+                        <li><a href="/sites/communities">Communities</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="right-nav">
+            <a href="/sites/donate" class="donate-btn">Donate</a>
+            {{if .Beta}}
+            <a href="https://tosdr.org/" class="leave-beta-btn">Leave Beta</a>
+            {{end}}
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+</header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.querySelector('.hamburger');
+        const logoAndLinks = document.querySelector('.logo-and-links');
+        const navLinks = document.querySelector('.nav-links');
+        const rightNav = document.querySelector('.right-nav');
+
+        hamburger.addEventListener('click', () => {
+            logoAndLinks.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            rightNav.classList.toggle('active');
+        });
+    });
+</script>
+{{ end }}
