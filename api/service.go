@@ -8,8 +8,8 @@ import (
 	"tosdrgo/api/structs"
 )
 
-func FetchService(serviceID string) (*structs.Service, error) {
-	url := fmt.Sprintf("http://localhost:8080/service/v1/%s", serviceID)
+func FetchService(apiBaseURL string, serviceID string) (*structs.Service, error) {
+	url := fmt.Sprintf("%s/service/v1/%s", apiBaseURL, serviceID)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("error making request: %v", err)

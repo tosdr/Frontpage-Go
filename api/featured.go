@@ -8,8 +8,8 @@ import (
 	"tosdrgo/api/structs"
 )
 
-func FetchFeaturedServices() (*structs.FeaturedServices, error) {
-	url := "http://localhost:8080/featured/v1"
+func FetchFeaturedServices(apiBaseURL string) (*structs.FeaturedServices, error) {
+	url := apiBaseURL + "/featured/v1"
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("error making request: %v", err)

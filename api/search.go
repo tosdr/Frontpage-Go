@@ -7,8 +7,8 @@ import (
 	"tosdrgo/api/structs"
 )
 
-func SearchServices(term string) ([]structs.SearchResult, error) {
-	url := fmt.Sprintf("http://localhost:8080/search/v1/%s", term)
+func SearchServices(apiBaseURL string, term string) ([]structs.SearchResult, error) {
+	url := fmt.Sprintf("%s/search/v1/%s", apiBaseURL, term)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("error making request: %v", err)

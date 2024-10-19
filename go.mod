@@ -9,4 +9,7 @@ require (
 	github.com/yuin/goldmark v1.7.6
 )
 
-require github.com/tdewolff/parse/v2 v2.7.18 // indirect
+require (
+	github.com/tdewolff/parse/v2 v2.7.18 // indirect
+	gopkg.in/yaml.v2 v2.4.0
+)

@@ -17,12 +17,17 @@ import (
 )
 
 var (
-	pageCache = cache.New(4*time.Hour, 10*time.Minute)
-	isBeta    bool
+	pageCache  = cache.New(4*time.Hour, 10*time.Minute)
+	isBeta     bool
+	apiBaseURL string
 )
 
 func SetIsBeta(value bool) {
 	isBeta = value
+}
+
+func SetAPIBaseURL(value string) {
+	apiBaseURL = value
 }
 
 func RedirectToRoot(w http.ResponseWriter, r *http.Request) {
@@ -48,7 +53,7 @@ func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 		return
 	}
 
-	featured, err := api.FetchFeaturedServices()
+	featured, err := api.FetchFeaturedServices(apiBaseURL)
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to fetch featured services")
 		return
@@ -172,7 +177,7 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Fetch service data from API
-	service, err := api.FetchService(serviceID)
+	service, err := api.FetchService(apiBaseURL, serviceID)
 	if err != nil {
 		RenderErrorPage(w, http.StatusNotFound, "Service not found")
 		return
@@ -225,7 +230,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Fetch search results from API
-	searchResults, err := api.SearchServices(searchTerm)
+	searchResults, err := api.SearchServices(apiBaseURL, searchTerm)
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to fetch search results\n"+err.Error())
 		return

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -10,6 +11,16 @@ import (
 )
 
 var IsBeta = true
+var apiBaseURL string
+var serverPort int
+
+func init() {
+	if err := LoadConfig(); err != nil {
+		log.Fatalf("Failed to load configuration: %v", err)
+	}
+	apiBaseURL = AppConfig.APIBaseURL
+	serverPort = AppConfig.ServerPort
+}
 
 func setCSSContentType(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +57,9 @@ func main() {
 	//goland:noinspection GoBoolExpressions
 	handlers.SetIsBeta(IsBeta)
 
+	handlers.SetAPIBaseURL(apiBaseURL)
+
 	// Start the server
-	log.Println("Server starting on :8085")
-	log.Fatal(http.ListenAndServe(":8085", r))
+	log.Printf("Server starting on :%d", serverPort)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", serverPort), r))
 }
