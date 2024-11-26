@@ -61,7 +61,7 @@ nav {
     top: 100%;
     left: 0;
     padding: 10px;
-    border-radius: var(--border-radius);
+    border-radius: 1rem;
     background-color: var(--header-bg);
     min-width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);

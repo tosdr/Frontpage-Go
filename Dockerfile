@@ -35,3 +35,5 @@ EXPOSE 8085
 
 # Run the binary
 CMD ["./main"]
+
+# Note: to run, map a settings.yaml to /app/settings.yaml!
