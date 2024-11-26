@@ -45,10 +45,6 @@ func SetSearchResults(term string, results []models.SearchResult) {
 	c.Set(getSearchKey(term), results, cache.DefaultExpiration)
 }
 
-func ClearCache() {
-	c.Flush()
-}
-
 func getServiceKey(id int) string {
 	return fmt.Sprintf("service_%d", id)
 }

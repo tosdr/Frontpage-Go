@@ -18,17 +18,12 @@ import (
 )
 
 var (
-	pageCache  = cache.New(4*time.Hour, 10*time.Minute)
-	isBeta     bool
-	apiBaseURL string
+	pageCache = cache.New(4*time.Hour, 10*time.Minute)
+	isBeta    bool
 )
 
 func SetIsBeta(value bool) {
 	isBeta = value
-}
-
-func SetAPIBaseURL(value string) {
-	apiBaseURL = value
 }
 
 func RedirectToRoot(w http.ResponseWriter, r *http.Request) {
