@@ -135,6 +135,12 @@ p {
     font-size: 0.9rem;
 }
 
+.grade-E { background-color: var(--grade-e-bg); color: var(--grade-text); }
+.grade-D { background-color: var(--grade-d-bg); color: var(--grade-text); }
+.grade-C { background-color: var(--grade-c-bg); color: var(--grade-text); }
+.grade-B { background-color: var(--grade-b-bg); color: var(--grade-text); }
+.grade-A { background-color: var(--grade-a-bg); color: var(--grade-text); }
+
 .service-points {
     list-style: none;
     padding: 0;
@@ -142,15 +148,39 @@ p {
     flex: 1;
 }
 
+.service-points li:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.service-points li:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom: none;
+}
+
 .service-points li {
-    padding: 0.5rem 0;
+    padding: 0.5rem;
     font-size: 0.95rem;
     color: var(--text-color);
     border-bottom: 1px solid var(--card-border);
 }
 
-.service-points li:last-child {
-    border-bottom: none;
+.point-good {
+    background-color: var(--point-good-bg);
+    color: var(--point-good-text);
+}
+.point-neutral {
+    background-color: var(--point-neutral-bg);
+    color: var(--point-neutral-text);
+}
+.point-bad {
+    background-color: var(--point-bad-bg);
+    color: var(--point-bad-text);
+}
+.point-blocker {
+    background-color: var(--point-blocker-bg);
+    color: var(--point-blocker-text);
 }
 
 .service-footer {
