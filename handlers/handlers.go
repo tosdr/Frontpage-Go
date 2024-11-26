@@ -18,8 +18,20 @@ import (
 )
 
 var (
-	pageCache = cache.New(4*time.Hour, 10*time.Minute)
-	isBeta    bool
+	pageCache     = cache.New(4*time.Hour, 10*time.Minute)
+	isBeta        bool
+	baseTemplates = []string{
+		"templates/layout.gohtml",
+		"templates/header.gohtml",
+		"templates/footer.gohtml",
+	}
+)
+
+const (
+	ContentType = "Content-Type"
+
+	ContentTypeHtml = "text/html"
+	ContentTypeJson = "application/json"
 )
 
 func SetIsBeta(value bool) {
@@ -30,20 +42,21 @@ func RedirectToRoot(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
+func parseTemplates(contentTemplate string) (*template.Template, error) {
+	templates := append([]string{}, baseTemplates...)
+	templates = append(templates, contentTemplate)
+	return template.ParseFiles(templates...)
+}
+
 func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 	// Check if the page is in cache
 	if cachedPage, found := pageCache.Get("home"); found {
-		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set(ContentType, ContentTypeHtml)
 		_, _ = w.Write(cachedPage.([]byte))
 		return
 	}
 
-	tmpl, err := template.ParseFiles(
-		"templates/layout.gohtml",
-		"templates/header.gohtml",
-		"templates/footer.gohtml",
-		"templates/contents/home.gohtml",
-	)
+	tmpl, err := parseTemplates("templates/contents/home.gohtml")
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load the home page")
 		return
@@ -77,7 +90,7 @@ func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 	// Cache the rendered page
 	pageCache.Set("home", buf.Bytes(), cache.DefaultExpiration)
 
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set(ContentType, ContentTypeHtml)
 	_, _ = w.Write(buf.Bytes())
 }
 
@@ -96,17 +109,12 @@ func SiteHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the page is in cache
 	if cachedPage, found := pageCache.Get("view_" + site); found {
-		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set(ContentType, ContentTypeHtml)
 		_, _ = w.Write(cachedPage.([]byte))
 		return
 	}
 
-	tmpl, err := template.ParseFiles(
-		"templates/layout.gohtml",
-		"templates/header.gohtml",
-		"templates/footer.gohtml",
-		"templates/contents/markdown.gohtml",
-	)
+	tmpl, err := parseTemplates("templates/contents/markdown.gohtml")
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load the page")
 		return
@@ -153,7 +161,7 @@ func SiteHandler(w http.ResponseWriter, r *http.Request) {
 	// Cache the rendered page
 	pageCache.Set("view_"+site, buf.Bytes(), cache.DefaultExpiration)
 
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set(ContentType, ContentTypeHtml)
 	_, _ = w.Write(buf.Bytes())
 }
 
@@ -161,12 +169,7 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	serviceID := vars["serviceID"]
 
-	tmpl, err := template.ParseFiles(
-		"templates/layout.gohtml",
-		"templates/header.gohtml",
-		"templates/footer.gohtml",
-		"templates/contents/service.gohtml",
-	)
+	tmpl, err := parseTemplates("templates/contents/service.gohtml")
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load the service page")
 		return
@@ -206,7 +209,7 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 	// Cache the rendered page
 	pageCache.Set("service_"+serviceID, buf.Bytes(), cache.DefaultExpiration)
 
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set(ContentType, ContentTypeHtml)
 	_, _ = w.Write(buf.Bytes())
 }
 
@@ -216,17 +219,12 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the page is in cache
 	if cachedPage, found := pageCache.Get("search_" + searchTerm); found {
-		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set(ContentType, ContentTypeHtml)
 		_, _ = w.Write(cachedPage.([]byte))
 		return
 	}
 
-	tmpl, err := template.ParseFiles(
-		"templates/layout.gohtml",
-		"templates/header.gohtml",
-		"templates/footer.gohtml",
-		"templates/contents/search.gohtml",
-	)
+	tmpl, err := parseTemplates("templates/contents/search.gohtml")
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load the search page")
 		return
@@ -261,17 +259,12 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	// Cache the rendered page
 	pageCache.Set("search_"+searchTerm, buf.Bytes(), cache.DefaultExpiration)
 
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set(ContentType, ContentTypeHtml)
 	_, _ = w.Write(buf.Bytes())
 }
 
 func RenderErrorPage(w http.ResponseWriter, errorCode int, errorMessage string) {
-	tmpl, err := template.ParseFiles(
-		"templates/layout.gohtml",
-		"templates/header.gohtml",
-		"templates/footer.gohtml",
-		"templates/contents/error.gohtml",
-	)
+	tmpl, err := parseTemplates("templates/contents/error.gohtml")
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
@@ -300,13 +293,13 @@ func HealthCheckHandler(w http.ResponseWriter, _ *http.Request) {
 	// Check DB connection
 	err := db.DB.Ping()
 	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set(ContentType, ContentTypeJson)
 		w.WriteHeader(http.StatusServiceUnavailable)
 		_, _ = w.Write([]byte(`{"status": "unhealthy", "message": "database connection failed"}`))
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(ContentType, ContentTypeJson)
 	w.WriteHeader(http.StatusOK)
 	_, _ = w.Write([]byte(`{"status": "healthy"}`))
 }

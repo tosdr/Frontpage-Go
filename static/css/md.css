@@ -1,5 +1,119 @@
 main {
     padding: 2rem;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
+}
+
+.markdown-content {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+.markdown-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--card-border);
+    padding-bottom: 0.5rem;
+}
+
+.markdown-content h2 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: var(--text-color);
+}
+
+.markdown-content h3 {
+    font-size: 1.4rem;
+    margin: 1.5rem 0 0.8rem;
+    color: var(--text-color);
+}
+
+/* Text content */
+.markdown-content p {
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Links */
+.markdown-content a {
+    color: var(--link-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.markdown-content a:hover {
+    color: var(--link-hover-color);
+    border-bottom-color: var(--link-hover-color);
+}
+
+/* Lists */
+.markdown-content ul, 
+.markdown-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.markdown-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+/* Blockquotes */
+.markdown-content blockquote {
+    border-left: 4px solid var(--link-color);
+    margin: 1.5rem 0;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    background: var(--point-neutral-bg);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+/* Code blocks */
+.markdown-content pre {
+    background: var(--header-bg);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.markdown-content code {
+    background: var(--header-bg);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Horizontal rule */
+.markdown-content hr {
+    border: none;
+    border-top: 2px solid var(--card-border);
+    margin: 2rem 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
+    }
+
+    .markdown-content {
+        padding: 1.5rem;
+    }
+
+    .markdown-content h1 {
+        font-size: 2rem;
+    }
+
+    .markdown-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .markdown-content h3 {
+        font-size: 1.2rem;
+    }
 }

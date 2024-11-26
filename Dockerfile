@@ -35,7 +35,7 @@ EXPOSE 80
 
 # Add after EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:80/v1/health || exit 1
+    CMD ["wget", "-q", "--spider", "http://localhost:80/v1/health"]
 
 # Run the binary
 CMD ["./main"]

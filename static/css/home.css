@@ -30,6 +30,10 @@ p {
     animation: scaleIn 0.4s ease-out;
 }
 
+.logo-display .logo {
+    content: url("/static/svg/logolight.svg");
+}
+
 .tagline {
     text-align: center;
     font-size: 1.8rem;
@@ -300,5 +304,11 @@ p {
 
     .service-footer {
         gap: 0.75rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .logo-display .logo {
+        content: url("/static/svg/logodark.svg");
     }
 }
