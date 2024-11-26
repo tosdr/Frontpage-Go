@@ -36,6 +36,9 @@ func main() {
 
 	r := mux.NewRouter()
 
+	// Health check endpoint
+	r.HandleFunc("/v1/health", handlers.HealthCheckHandler).Methods("GET")
+
 	// Serve static files with content type middleware and minification for CSS
 	r.PathPrefix("/static/css/").Handler(handlers.MinifyMiddlewareHandler(
 		setCSSContentType(http.StripPrefix("/static/css/", http.FileServer(http.Dir("static/css"))))))

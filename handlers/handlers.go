@@ -295,3 +295,18 @@ func RenderErrorPage(w http.ResponseWriter, errorCode int, errorMessage string) 
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 }
+
+func HealthCheckHandler(w http.ResponseWriter, _ *http.Request) {
+	// Check DB connection
+	err := db.DB.Ping()
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusServiceUnavailable)
+		_, _ = w.Write([]byte(`{"status": "unhealthy", "message": "database connection failed"}`))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write([]byte(`{"status": "healthy"}`))
+}
