@@ -12,6 +12,7 @@ stages:
   - sonarqube-vulnerability-report
   - build
   - deploy
+  - notify
 
 sonarqube-check:
   stage: sonarqube-check
@@ -59,5 +60,17 @@ deploy:
   image: curlimages/curl:latest
   script:
     - curl -X POST $REDEPLOY_WEBHOOK
+  only:
+    - master
+
+notify:
+  stage: notify
+  image: curlimages/curl:latest
+  script:
+    - |
+      curl -H "Content-Type: application/json" -X POST $DISCORD_WEBHOOK \
+        -d "{
+          \"content\": \"🚀 New deployment to $EXTERNAL_SERVER_URL\n\nCommit: \`$CI_COMMIT_SHA\`\nMessage: \`$CI_COMMIT_MESSAGE\`\nBranch: \`$CI_COMMIT_BRANCH\`\"
+        }"
   only:
     - master
