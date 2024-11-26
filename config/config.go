@@ -15,9 +15,6 @@ type Config struct {
 		DBName   string `yaml:"dbname"`
 		SSLMode  string `yaml:"sslmode"`
 	} `yaml:"database"`
-	Server struct {
-		Port int `yaml:"port"`
-	} `yaml:"server"`
 	FeaturedServices []int `yaml:"featured_services"`
 }
 

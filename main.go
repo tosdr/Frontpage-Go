@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -61,6 +60,6 @@ func main() {
 	handlers.SetIsBeta(IsBeta)
 
 	// Start the server
-	log.Printf("Server starting on :%d", config.AppConfig.Server.Port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.AppConfig.Server.Port), r))
+	log.Printf("Server starting on 0.0.0.0:80")
+	log.Fatal(http.ListenAndServe("0.0.0.0:80", r))
 }

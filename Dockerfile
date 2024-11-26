@@ -31,9 +31,7 @@ COPY --from=builder /app/templates ./templates
 COPY --from=builder /app/md ./md
 
 # Expose the port the app runs on
-EXPOSE 8085
+EXPOSE 80
 
 # Run the binary
 CMD ["./main"]
-
-# Note: to run, map a settings.yaml to /app/settings.yaml!
