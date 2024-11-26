@@ -9,12 +9,19 @@ import (
 	"tosdrgo/models"
 )
 
+const (
+	maxResults   = 20
+	minSearchLen = 3
+)
+
 func SearchServices(term string) ([]models.SearchResult, error) {
-	if len(term) < 3 {
+	if len(term) < minSearchLen {
 		return nil, errors.New("search term must be at least 3 characters long")
 	}
 
-	if cachedResults, found := cache.GetSearchResults(term); found {
+	normalizedTerm := strings.ToLower(strings.TrimSpace(term))
+
+	if cachedResults, found := cache.GetSearchResults(normalizedTerm); found {
 		return cachedResults, nil
 	}
 
@@ -22,15 +29,16 @@ func SearchServices(term string) ([]models.SearchResult, error) {
 		SELECT id, name, slug, rating, is_comprehensively_reviewed, url
 		FROM services
 		WHERE LOWER(name) LIKE $1 OR url LIKE $1
+		LIMIT 100
 	`
 
-	rows, err := DB.Query(query, "%"+strings.ToLower(term)+"%")
+	rows, err := DB.Query(query, "%"+normalizedTerm+"%")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var results []models.SearchResult
+	results := make([]models.SearchResult, 0, 100)
 	for rows.Next() {
 		var result models.SearchResult
 		var urls string
@@ -40,26 +48,25 @@ func SearchServices(term string) ([]models.SearchResult, error) {
 		}
 		result.Image = "https://s3.tosdr.org/logos/" + result.ID + ".png"
 
-		// Calculate match percentage
-		nameMatch := calculateSimilarity(strings.ToLower(term), strings.ToLower(result.Name))
-		urlMatches := calculateURLMatches(term, strings.Split(urls, ","))
+		urlList := strings.Split(urls, ",")
+
+		nameMatch := calculateSimilarity(normalizedTerm, strings.ToLower(result.Name))
+		urlMatches := calculateURLMatches(normalizedTerm, urlList)
 		result.MatchPercentage = max(nameMatch, urlMatches)
 
 		results = append(results, result)
 	}
 
-	// Sort results by match percentage
-	sort.Slice(results, func(i, j int) bool {
-		return results[i].MatchPercentage > results[j].MatchPercentage
-	})
-
-	// Return top 20 results
-	if len(results) > 20 {
-		results = results[:20]
+	if len(results) > maxResults {
+		partialSort(results, maxResults)
+		results = results[:maxResults]
+	} else {
+		sort.Slice(results, func(i, j int) bool {
+			return results[i].MatchPercentage > results[j].MatchPercentage
+		})
 	}
 
-	cache.SetSearchResults(term, results)
-
+	cache.SetSearchResults(normalizedTerm, results)
 	return results, nil
 }
 
@@ -105,4 +112,16 @@ func levenshteinDistance(s1, s2 string) int {
 		}
 	}
 	return d[m][n]
+}
+
+func partialSort(results []models.SearchResult, k int) {
+	for i := 0; i < k; i++ {
+		maxIdx := i
+		for j := i + 1; j < len(results); j++ {
+			if results[j].MatchPercentage > results[maxIdx].MatchPercentage {
+				maxIdx = j
+			}
+		}
+		results[i], results[maxIdx] = results[maxIdx], results[i]
+	}
 }
