@@ -4,16 +4,17 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
+	"tosdrgo/db"
+	"tosdrgo/models"
 
 	"github.com/gorilla/mux"
 	"github.com/patrickmn/go-cache"
 	"github.com/yuin/goldmark"
-
-	"tosdrgo/api"
-	"tosdrgo/api/structs"
 )
 
 var (
@@ -53,7 +54,7 @@ func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 		return
 	}
 
-	featured, err := api.FetchFeaturedServices(apiBaseURL)
+	featured, err := db.FetchFeaturedServicesData()
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to fetch featured services")
 		return
@@ -63,7 +64,7 @@ func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 		Title           string
 		Beta            bool
 		LastFetchedTime string
-		Featured        []structs.FeaturedService
+		Featured        []models.FeaturedService
 	}{
 		Title:           "Home Page",
 		Beta:            isBeta,
@@ -176,8 +177,15 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	intServiceID, err := strconv.Atoi(serviceID)
+	if err != nil {
+		log.Printf("Error parsing service ID: %v", err)
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to parse service ID")
+		return
+	}
+
 	// Fetch service data from API
-	service, err := api.FetchService(apiBaseURL, serviceID)
+	service, err := db.FetchServiceData(intServiceID)
 	if err != nil {
 		RenderErrorPage(w, http.StatusNotFound, "Service not found")
 		return
@@ -186,7 +194,7 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Title   string
 		Beta    bool
-		Service structs.Service
+		Service models.Service
 	}{
 		Title:   service.Name + " - ToS;DR",
 		Beta:    isBeta,
@@ -230,7 +238,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Fetch search results from API
-	searchResults, err := api.SearchServices(apiBaseURL, searchTerm)
+	searchResults, err := db.SearchServices(searchTerm)
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to fetch search results\n"+err.Error())
 		return
@@ -240,7 +248,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		Title         string
 		Beta          bool
 		SearchTerm    string
-		SearchResults []structs.SearchResult
+		SearchResults []models.SearchResult
 	}{
 		Title:         "Search Results - ToS;DR",
 		Beta:          isBeta,

@@ -5,21 +5,19 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"tosdrgo/config"
+	"tosdrgo/db"
 	"tosdrgo/handlers"
 
 	"github.com/gorilla/mux"
 )
 
 var IsBeta = true
-var apiBaseURL string
-var serverPort int
 
 func init() {
-	if err := LoadConfig(); err != nil {
+	if err := config.LoadConfig(); err != nil {
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
-	apiBaseURL = AppConfig.APIBaseURL
-	serverPort = AppConfig.ServerPort
 }
 
 func setCSSContentType(next http.Handler) http.Handler {
@@ -32,6 +30,11 @@ func setCSSContentType(next http.Handler) http.Handler {
 }
 
 func main() {
+	if err := db.InitDB(); err != nil {
+		log.Fatalf("Failed to initialize database: %v", err)
+	}
+	defer db.CloseDB()
+
 	r := mux.NewRouter()
 
 	// Serve static files with content type middleware and minification for CSS
@@ -57,9 +60,7 @@ func main() {
 	//goland:noinspection GoBoolExpressions
 	handlers.SetIsBeta(IsBeta)
 
-	handlers.SetAPIBaseURL(apiBaseURL)
-
 	// Start the server
-	log.Printf("Server starting on :%d", serverPort)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", serverPort), r))
+	log.Printf("Server starting on :%d", config.AppConfig.Server.Port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.AppConfig.Server.Port), r))
 }

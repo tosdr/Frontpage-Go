@@ -1,8 +1,6 @@
-package structs
+package models
 
-import (
-	"time"
-)
+import "time"
 
 type Service struct {
 	ID                      int        `json:"id"`
@@ -47,12 +45,4 @@ type Case struct {
 	CreatedAt      time.Time `json:"created_at"`
 	TopicID        int       `json:"topic_id"`
 	Classification string    `json:"classification"`
-}
-
-type Response struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-	Data    struct {
-		Service Service `json:"service"`
-	} `json:"data"`
 }
