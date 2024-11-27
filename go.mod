@@ -7,18 +7,12 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/lib/pq v1.10.9
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c
-	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef
 	github.com/tdewolff/minify/v2 v2.21.0
 	github.com/yuin/goldmark v1.7.6
 	github.com/yuin/goldmark-meta v1.1.0
 )
 
-require (
-	golang.org/x/image v0.22.0 // indirect
-	golang.org/x/net v0.0.0-20211118161319-6a13c67c3ce4 // indirect
-	golang.org/x/text v0.20.0 // indirect
-)
+require golang.org/x/image v0.22.0 // indirect
 
 require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect

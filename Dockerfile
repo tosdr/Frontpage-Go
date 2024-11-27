@@ -29,6 +29,7 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/static ./static
 COPY --from=builder /app/templates ./templates
 COPY --from=builder /app/md ./md
+COPY --from=builder /app/assets ./assets
 
 # Expose the port the app runs on
 EXPOSE 80
