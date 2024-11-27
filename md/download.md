@@ -1,4 +1,7 @@
-[//]: <> (TITLE: "Download")
+---
+Title: Download
+---
+
 # Download Our Browser Extension
 
 Choose your preferred browser to download and install our extension:

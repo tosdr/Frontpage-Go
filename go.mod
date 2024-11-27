@@ -8,6 +8,7 @@ require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/tdewolff/minify/v2 v2.21.0
 	github.com/yuin/goldmark v1.7.6
+	github.com/yuin/goldmark-meta v1.1.0
 )
 
 require (

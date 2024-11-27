@@ -1,4 +1,7 @@
-[//]: <> (TITLE: "Classifications")
+---
+Title: Classifications
+---
+
 # ToS;DR Classifications
 ToS;DR aims at creating a transparent and peer-reviewed process to rate and analyse Terms of Service and Privacy Policies in order to create a rating from Grade A to Grade E.
 

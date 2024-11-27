@@ -1,4 +1,7 @@
-[//]: <> (TITLE: "Donate")
+---
+Title: Donate
+---
+
 # Donate to ToS;DR
 
 Please donate to us using our [OpenCollective](https://opencollective.com/tosdr).

@@ -1,4 +1,7 @@
-[//]: <> (TITLE: "Communities")
+---
+Title: Communities
+---
+
 # ToS;DR Communities
 
 ## Official ToS;DR Discord

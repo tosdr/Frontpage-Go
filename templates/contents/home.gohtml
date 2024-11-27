@@ -27,7 +27,12 @@
                 </div>
                 <ul class="service-points">
                     {{ range .Points }}
-                        <li class="point-{{ .Case.Classification }}">{{.Title}}</li>
+                        <li class="point-{{ .Case.Classification }}">
+                            <div class="point-content">
+                                <img src="/static/svg/{{ .Case.Classification }}.svg" alt="{{ .Case.Classification }} icon" class="point-icon">
+                                {{.Title}}
+                            </div>
+                        </li>
                     {{ end }}
                 </ul>
                 <div class="service-footer">

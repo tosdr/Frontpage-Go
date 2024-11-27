@@ -1,4 +1,7 @@
-[//]: <> (TITLE: "Add a new service")
+---
+Title: Add a new service
+---
+
 # Adding new Services
 
 We appreciate that you want to contribute to ToS;DR by adding new services. However, we have decided to temporarily restrict the ability to add services behind Phoenix [(edit.tosdr.org)](https://edit.tosdr.org), which requires an account. This decision was made to reduce the amount of spam and to simplify our stack.

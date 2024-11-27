@@ -167,6 +167,18 @@ p {
     border-bottom: 1px solid var(--card-border);
 }
 
+.point-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.point-icon {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-invert)) sepia(var(--icon-sepia)) saturate(var(--icon-saturate)) hue-rotate(var(--icon-hue-rotate)) brightness(var(--icon-brightness)) contrast(var(--icon-contrast));
+}
+
 .point-good {
     background-color: var(--point-good-bg);
     color: var(--point-good-text);
@@ -182,6 +194,43 @@ p {
 .point-blocker {
     background-color: var(--point-blocker-bg);
     color: var(--point-blocker-text);
+}
+
+
+.point-good .point-icon {
+    --icon-invert: 23%;
+    --icon-sepia: 91%;
+    --icon-saturate: 1041%;
+    --icon-hue-rotate: 95deg;
+    --icon-brightness: 109%;
+    --icon-contrast: 105%;
+}
+
+.point-neutral .point-icon {
+    --icon-invert: 50%;
+    --icon-sepia: 0%;
+    --icon-saturate: 100%;
+    --icon-hue-rotate: 0deg;
+    --icon-brightness: 100%;
+    --icon-contrast: 100%;
+}
+
+.point-bad .point-icon {
+    --icon-invert: 14%;
+    --icon-sepia: 92%;
+    --icon-saturate: 3206%;
+    --icon-hue-rotate: 343deg;
+    --icon-brightness: 94%;
+    --icon-contrast: 94%;
+}
+
+.point-blocker .point-icon {
+    --icon-invert: 9%;
+    --icon-sepia: 100%;
+    --icon-saturate: 5952%;
+    --icon-hue-rotate: 359deg;
+    --icon-brightness: 97%;
+    --icon-contrast: 104%;
 }
 
 .service-footer {

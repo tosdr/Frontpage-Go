@@ -1,4 +1,7 @@
-[//]: <> (TITLE: "Beta Feedback")
+---
+Title: Beta Feedback
+---
+
 # Beta Feedback
 Thank you for using the new ToS;DR Beta Frontpage! As we are actively developing it, we need YOUR help to shape it to be a worthy replacement of the frontpage.
 

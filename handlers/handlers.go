@@ -15,6 +15,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/patrickmn/go-cache"
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
 )
 
 var (
@@ -75,6 +77,12 @@ func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 		return
 	}
 
+	rendered, err := RenderMarkdown(classificationContent)
+
+	if err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load the classification page")
+	}
+
 	data := struct {
 		Title           string
 		Beta            bool
@@ -86,7 +94,7 @@ func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 		Beta:            isBeta,
 		LastFetchedTime: time.Now().Format(time.RFC850),
 		Featured:        featured.Services,
-		Classification:  RenderMarkdown(string(classificationContent)),
+		Classification:  rendered,
 	}
 
 	var buf bytes.Buffer
@@ -103,13 +111,19 @@ func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 	_, _ = w.Write(buf.Bytes())
 }
 
-func RenderMarkdown(description string) template.HTML {
-	md := goldmark.New()
+func RenderMarkdown(content []byte) (template.HTML, error) {
+	md := goldmark.New(
+		goldmark.WithExtensions(
+			meta.Meta,
+		),
+	)
+	context := parser.NewContext()
 	var buf bytes.Buffer
-	if err := md.Convert([]byte(description), &buf); err != nil {
-		return ""
+
+	if err := md.Convert(content, &buf, parser.WithContext(context)); err != nil {
+		return "", err
 	}
-	return template.HTML(buf.String())
+	return template.HTML(buf.String()), nil
 }
 
 func SiteHandler(w http.ResponseWriter, r *http.Request) {
@@ -139,14 +153,28 @@ func SiteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Extract title from the comment
+	// Create markdown parser with YAML support
+	markdown := goldmark.New(
+		goldmark.WithExtensions(
+			meta.Meta,
+		),
+	)
+
+	// Create a new context
+	context := parser.NewContext()
+	var buf bytes.Buffer
+
+	if err := markdown.Convert(content, &buf, parser.WithContext(context)); err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to parse markdown")
+		return
+	}
+
+	// Get metadata
+	metaData := meta.Get(context)
 	title := ""
-	lines := bytes.Split(content, []byte("\n"))
-	if len(lines) > 0 && bytes.HasPrefix(lines[0], []byte("[//]: <> (TITLE:")) {
-		titleStart := bytes.Index(lines[0], []byte("TITLE:")) + 6
-		titleEnd := bytes.LastIndex(lines[0], []byte(")"))
-		if titleStart < titleEnd {
-			title = string(bytes.Trim(lines[0][titleStart:titleEnd], " \""))
+	if metaData != nil {
+		if t, ok := metaData["Title"].(string); ok {
+			title = t
 		}
 	}
 
@@ -155,23 +183,23 @@ func SiteHandler(w http.ResponseWriter, r *http.Request) {
 		Title   string
 		Beta    bool
 	}{
-		Content: RenderMarkdown(string(content)),
+		Content: template.HTML(buf.String()),
 		Title:   title,
 		Beta:    isBeta,
 	}
 
-	var buf bytes.Buffer
-	err = tmpl.ExecuteTemplate(&buf, "layout", data)
+	var pageBuf bytes.Buffer
+	err = tmpl.ExecuteTemplate(&pageBuf, "layout", data)
 	if err != nil {
 		RenderErrorPage(w, http.StatusInternalServerError, "Failed to render the page")
 		return
 	}
 
 	// Cache the rendered page
-	pageCache.Set("view_"+site, buf.Bytes(), cache.DefaultExpiration)
+	pageCache.Set("view_"+site, pageBuf.Bytes(), cache.DefaultExpiration)
 
 	w.Header().Set(ContentType, ContentTypeHtml)
-	_, _ = w.Write(buf.Bytes())
+	_, _ = w.Write(pageBuf.Bytes())
 }
 
 func ServiceHandler(w http.ResponseWriter, r *http.Request) {
