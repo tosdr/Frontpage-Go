@@ -68,16 +68,25 @@ func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 		return
 	}
 
+	classificationContent, err := os.ReadFile("md/classification.md")
+
+	if err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load the classification page")
+		return
+	}
+
 	data := struct {
 		Title           string
 		Beta            bool
 		LastFetchedTime string
 		Featured        []models.FeaturedService
+		Classification  template.HTML
 	}{
 		Title:           "Home Page",
 		Beta:            isBeta,
 		LastFetchedTime: time.Now().Format(time.RFC850),
 		Featured:        featured.Services,
+		Classification:  RenderMarkdown(string(classificationContent)),
 	}
 
 	var buf bytes.Buffer

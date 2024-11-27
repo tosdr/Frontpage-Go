@@ -1,4 +1,4 @@
-main {
+.resources-section {
     padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
@@ -97,7 +97,7 @@ main {
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-    main {
+    .resources-section {
         padding: 1rem;
     }
 
