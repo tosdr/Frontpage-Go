@@ -54,6 +54,10 @@ func main() {
 	r.HandleFunc("/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler))
 	r.HandleFunc("/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
 	r.HandleFunc("/search/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))
+	r.HandleFunc("/shield/{serviceID}", handlers.ShieldHandler).Methods("GET")
+
+	// legacy shield -> we route shields.tosdr.org/en_XYZ.svg to here
+	r.HandleFunc("/legacyshield/en_{serviceID}.svg", handlers.ShieldHandler).Methods("GET")
 
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		handlers.RenderErrorPage(w, http.StatusNotFound, "The requested page was not found")
