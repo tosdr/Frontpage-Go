@@ -62,14 +62,3 @@ deploy:
     - curl -X POST $REDEPLOY_WEBHOOK
   only:
     - master
-
-notify:
-  stage: notify
-  image: curlimages/curl:latest
-  script:
-    - |
-      curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data '{
-          "content": "🚀 New deployment to '"$EXTERNAL_SERVER_URL"'\n\nCommit: `'"$CI_COMMIT_SHA"'`\nMessage: `'"$CI_COMMIT_MESSAGE"'`\nBranch: `'"$CI_COMMIT_BRANCH"'`"
-        }' $DISCORD_WEBHOOK
-  only:
-    - master
