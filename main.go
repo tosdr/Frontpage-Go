@@ -51,6 +51,7 @@ func main() {
 		vars := mux.Vars(r)
 		http.Redirect(w, r, "/"+vars["path"], http.StatusSeeOther)
 	})
+	r.HandleFunc("/about", handlers.MinifyMiddleware(handlers.AboutHandler))
 	r.HandleFunc("/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler))
 	r.HandleFunc("/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
 	r.HandleFunc("/search/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))

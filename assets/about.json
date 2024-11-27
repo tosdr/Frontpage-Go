@@ -1,0 +1,206 @@
+{
+    "current": [
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/6.jpg",
+            "name": "Michiel de Jong",
+            "title": "Code Communist",
+            "description": "Michiel de Jong is an independent freedom hacker, travelling the world while programming for the revolution from his laptop. Apart from ToS;DR he is also involved in The [Unhosted Unconference](https://unhosted.org/) and he is a co-author of the [remoteStorage protocol](https://datatracker.ietf.org/doc/id/draft-dejong-remotestorage-00.txt).",
+            "links": {
+                "twitter": "https://x.com/michielbdejong",
+                "website": "https://michielbdejong.com/",
+                "github": "https://github.com/michielbdejong",
+                "email": "michiel.dejong@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/jan.jpg",
+            "name": "Jan-Christoph Borchardt",
+            "title": "Design Dictator",
+            "description": "Jan-Christoph Borchardt is a free culture interaction designer, advisor & educator. He curates [open source web projects](http://libreprojects.net/), designs [unhosted web apps](http://unhosted.org/) & [NextCloud](http://nextcloud.com/) and [teaches better usability](http://jancborchardt.net/usability-in-free-software).",
+            "links": {
+                "twitter": "https://x.com/jancborchardt",
+                "mastodon": "https://mastodon.social/@jancborchardt",
+                "website": "https://jancborchardt.net/",
+                "github": "https://github.com/jancborchardt",
+                "email": "team@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/2552.jpg",
+            "name": "Hugo Roy",
+            "title": "Legal Liberator",
+            "description": "Hugo is an [attorney](https://attorney.hroy.eu) at the Paris bar, and a volunteer at the [Free Software Foundation Europe](http://fsfe.org). He currently lives in Paris, where he is often referred to as a Zappa Freak.",
+            "links": {
+                "twitter": "https://x.com/hugoroyd",
+                "website": "http://hugoroy.eu/index.en.html",
+                "email": "hugo.roy@team.tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/ian.jpg",
+            "name": "Ian McGowan",
+            "title": "",
+            "description": "Ian received his MA in Forensic Linguistics, the study of language within a legal context, from Cardiff University, investigating consumer motivation behind reading, or not reading, online Terms & Conditions. He is currently living and teaching English in Seville, Spain in addition to contributing to ToS;DR.",
+            "links": {
+                "email": "ian.mcgowan@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/jimm.jpg",
+            "name": "Jimm Stout",
+            "title": "",
+            "description": "Jimm is traveling and working from 'offices' around the world. Most of his time is going to developing a new version of ToSBack, but he also likes to act like a photographer.",
+            "links": {
+                "twitter": "https://x.com/jimmstout",
+                "website": "http://jimmstout.com/",
+                "github": "https://github.com/jimmstout",
+                "email": "jimm.stout@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/suzanne.jpg",
+            "name": "Suzanne Azmayesh",
+            "title": "Analysis Anarchist",
+            "description": "Suzanne does not know what she wants to do with her life, so until then she reads terms of service. (Oh, and she has a law degree.)",
+            "links": {
+                "email": "suzanne.azmayesh@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/133.jpg",
+            "name": "Madeline O'Leary",
+            "title": "Developer",
+            "description": "When not developing the Edit Tool for ToS;DR, Madeline O'Leary is a software developer for the International Consortium of Investigative Journalists. She also spends considerable time making weird music.",
+            "links": {
+                "github": "https://github.com/madoleary",
+                "email": "madeline.oleary@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/vincent.png",
+            "name": "Vincent Tunru",
+            "title": "Developer",
+            "description": "Vincent is a front-end engineer from the Netherlands focused on civil rights. If he has the time and energy, he occasionally does some coding work for ToS;DR.",
+            "links": {
+                "twitter": "https://x.com/VincentTunru",
+                "email": "vincent.tunru@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/7.jpg",
+            "name": "Christopher Talib",
+            "description": "Working for a better Internet everyday.",
+            "links": {
+                "github": "https://github.com/christalib",
+                "email": "chris.talib@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/2527.jpg",
+            "name": "Evan Mullen",
+            "title": "Privacy Philanthropist",
+            "description": "Evan is dedicated to making the world a better place by giving consumers more information about what they agree to in the fine print. He currently resides in San Antonio, Texas.",
+            "links": {
+                "github": "https://github.com/Peepo1",
+                "email": "evan.mullen@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/1764_1.jpg",
+            "name": "Justin René Back",
+            "title": "System Administrator",
+            "description": "Software Developer and System Administrator at ToS;DR! I am responsible to get things going. E-Mail me Dog pics, you'll get one back, I promise!",
+            "links": {
+                "twitter": "https://x.com/justinrene_back",
+                "website": "https://justinback.de",
+                "github": "https://github.com/justinback",
+                "email": "justin.back@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/20149.jpg",
+            "name": "Guennadi Maximov Cortés",
+            "title": "Self Taught",
+            "description": "19 year-old Guennadi (AKA 'Dr.Jeff') has yet a lot to learn, but is determined to help in any way he can. He currently resides in Mexico, and is barely starting his career on Philosophy, expecting to someday focus his research on Privacy. Also learning to code.",
+            "links": {
+                "twitter": "https://x.com/jeffsamonarch",
+                "github": "https://github.com/DrKJeff16",
+                "email": "guennadi.cortes@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/2130.jpg",
+            "name": "Dmitri Pedersen",
+            "title": "Privacy Philanthropist",
+            "description": "Dmitri is dedicated to making the world a better place, giving people advice, and helping people. He currently resides in Washington.",
+            "links": {
+                "github": "https://github.com/pederdm000",
+                "email": "dmitri.pedersen@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/20760.jpg",
+            "name": "Inés Rubio",
+            "title": "Phoenix Contributor",
+            "description": "Inés Rubio (alias Agnes de Lion) is a teenage girl committed to informing people about their rights online. Strangely enough, she enjoys spending time reading long and tortuous terms of service. She currently resides in France.",
+            "links": {
+                "email": "ines.rubio@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/2390.jpg",
+            "name": "Arlo James Barnes",
+            "title": "Tautogrammatic Telecommunicator",
+            "description": "Arlo is a netizen who has been involved in the free culture movement for around a decade, and who discovered the wonderful world of ToS;DR indirectly through volunteering at Wikidata...and now can be found tooling about the discussion community in the hopes of helping others to add to the ratings database and also to find new and exciting uses for the data. IRL Arlo has a career at a public utility in a desert, but spends much time on the web nonetheless. Arlo is agender and may be referred to by whichever pronoun system you wish to use.",
+            "links": {
+                "website": "https://b.arn.es",
+                "email": "arlo.james.barnes@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/32634.JPG",
+            "name": "Erik Hering",
+            "title": "Lead-ish Developer*",
+            "description": "A young, sarcastic person from Germany with keen interest in any kind of Development you can see with your eyes. Feel free to e-mail me cat and dog pics.\n\n*not responsible for Phoenix or AI, so uhh, don't count on it.",
+            "links": {
+                "website": "https://ptgms.space",
+                "github": "https://github.com/p8tgms",
+                "email": "erik.hering@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/24658.JPG",
+            "name": "Evan Radkoff",
+            "title": "AI Lead Developer",
+            "description": "Evan dreams up ways to utilize AI at ToS;DR. For work he freelances as a data scientist and ML engineer. For fun he travels the world and makes music.",
+            "links": {
+                "website": "https://www.soundsandwords.io/consulting/",
+                "email": "evan.radkoff@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/28460.jpg",
+            "name": "Moritz Beneke",
+            "title": "Lead Community Manager",
+            "description": "TBD",
+            "links": {
+                "website": "https://codeberg.org/shadowwwind",
+                "github": "https://github.com/shadowwwind",
+                "email": "moritz.beneke@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://tosdr-assets.s3.jrbit.de/team-assets/31366.png",
+            "name": "Tomasz Gębarski",
+            "title": "Phoenix- and Community Manager",
+            "description": "Tomasz is a talented and passionate Python programmer with a strong interest in AI. He is also a dedicated reader of fiction and enjoys creating random programs and Discord bots. In his spare time, Tech enjoys doing some light translation work for open source projects. This allows him to use his skills and knowledge to help others and make a positive impact on the world.",
+            "links": {
+                "github": "https://github.com/Tech-TTGames",
+                "email": "tomasz.gebarski@tosdr.org"
+            }
+        }
+    ],
+    "past": [
+        
+    ]
+}

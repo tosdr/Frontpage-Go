@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -15,7 +16,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/patrickmn/go-cache"
 	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark-meta"
+	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
 )
 
@@ -339,4 +340,89 @@ func HealthCheckHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set(ContentType, ContentTypeJson)
 	w.WriteHeader(http.StatusOK)
 	_, _ = w.Write([]byte(`{"status": "healthy"}`))
+}
+
+func AboutHandler(w http.ResponseWriter, _ *http.Request) {
+	// Check if the page is in cache
+	if cachedPage, found := pageCache.Get("about"); found {
+		w.Header().Set(ContentType, ContentTypeHtml)
+		_, _ = w.Write(cachedPage.([]byte))
+		return
+	}
+
+	tmpl, err := parseTemplates("templates/contents/about.gohtml")
+	if err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load the about page")
+		return
+	}
+
+	// Read the about.json file
+	jsonData, err := os.ReadFile("assets/about.json")
+	if err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load team data")
+		return
+	}
+
+	var team models.Team
+	if err := json.Unmarshal(jsonData, &team); err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to parse team data")
+		return
+	}
+
+	// Render markdown descriptions for each team member
+	for i := range team.Current {
+		rendered, err := RenderMarkdown([]byte(team.Current[i].Description))
+		if err != nil {
+			RenderErrorPage(w, http.StatusInternalServerError, "Failed to render team member description")
+			return
+		}
+		team.Current[i].Description = rendered
+	}
+
+	for i := range team.Past {
+		rendered, err := RenderMarkdown([]byte(team.Past[i].Description))
+		if err != nil {
+			RenderErrorPage(w, http.StatusInternalServerError, "Failed to render team member description")
+			return
+		}
+		team.Past[i].Description = rendered
+	}
+
+	// Read and parse the about.md file
+	mdContent, err := os.ReadFile("assets/about.md")
+	if err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to load about content")
+		return
+	}
+
+	rendered, err := RenderMarkdown(mdContent)
+	if err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to render about content")
+		return
+	}
+
+	data := struct {
+		Title   string
+		Beta    bool
+		Team    models.Team
+		Content template.HTML
+	}{
+		Title:   "About Us - ToS;DR",
+		Beta:    isBeta,
+		Team:    team,
+		Content: rendered,
+	}
+
+	var buf bytes.Buffer
+	err = tmpl.ExecuteTemplate(&buf, "layout", data)
+	if err != nil {
+		RenderErrorPage(w, http.StatusInternalServerError, "Failed to render the about page")
+		return
+	}
+
+	// Cache the rendered page
+	pageCache.Set("about", buf.Bytes(), cache.DefaultExpiration)
+
+	w.Header().Set(ContentType, ContentTypeHtml)
+	_, _ = w.Write(buf.Bytes())
 }
