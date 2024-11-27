@@ -52,6 +52,9 @@ func main() {
 		http.Redirect(w, r, "/"+vars["path"], http.StatusSeeOther)
 	})
 	r.HandleFunc("/about", handlers.MinifyMiddleware(handlers.AboutHandler))
+	r.HandleFunc("/thanks", handlers.MinifyMiddleware(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("TBD"))
+	}))
 	r.HandleFunc("/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler))
 	r.HandleFunc("/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
 	r.HandleFunc("/search/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))

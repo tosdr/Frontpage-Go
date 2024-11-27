@@ -108,7 +108,7 @@
 }
 
 .member-links a:hover {
-    color: var(--primary-color);
+    color: var(--link-color);
 }
 
 .member-links svg {
