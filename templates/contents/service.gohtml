@@ -16,14 +16,14 @@
             {{ range .Service.Points }}
             <li class="point-{{ .Case.Classification }}">
                 <div class="point-content">
-                    <img class="point-icon" src="/static/svg/{{ .Case.Classification }}.svg" alt="{{ .Case.Classification }} icon" class="point-icon">
+                    <img src="/static/svg/{{ .Case.Classification }}.svg" alt="{{ .Case.Classification }} icon" class="point-icon">
                     <h3>{{ .Title }}</h3>
                 </div>
                 <div class="point-actions">
                     <span class="updated-on" title="Last updated: {{ .UpdatedAt.Format "2006-01-02 15:04:05" }}">
                         <img src="/static/svg/schedule.svg" alt="Last updated">
                     </span>
-                    <a href="https://edit.tosdr.org/cases/{{ .Case.ID }}" target="_blank" class="edit-icon" title="Edit">
+                    <a href="https://edit.tosdr.org/points/{{ .Case.Point.ID }}" target="_blank" class="edit-icon" title="Edit">
                         <img src="/static/svg/edit.svg" alt="Edit">
                     </a>
                 </div>

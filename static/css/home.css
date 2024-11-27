@@ -24,14 +24,11 @@ p {
     margin: 2rem 0;
 }
 
-.logo {
-    max-width: 100%;
-    height: auto;
-    animation: scaleIn 0.4s ease-out;
-}
-
 .logo-display .logo {
     content: url("/static/svg/logolight.svg");
+    max-width: 70%;
+    height: auto;
+    animation: scaleIn 0.4s ease-out;
 }
 
 .tagline {
@@ -258,6 +255,9 @@ p {
 
 
 @media (max-width: 768px) {
+    .logo-display .logo {
+        max-width: 90%;
+    }
     .container {
         padding: 1rem;
     }

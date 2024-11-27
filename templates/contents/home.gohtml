@@ -28,11 +28,10 @@
                     {{ range .Points }}
                         <li class="point-{{ .Case.Classification }}">{{.Title}}</li>
                     {{ end }}
-                    <li class="point-neutral"><a class="follow" href="https://edit.tosdr.org/services/182">View more on Phoenix</a></li>
                 </ul>
                 <div class="service-footer">
-                    <a href="https://edit.tosdr.org/services/{{.ID}}/annotate/" class="btn btn-primary">View Documents</a>
-                    <a href="/service/{{.ID}}" class="btn btn-secondary">View Details</a>
+                    <a href="/service/{{.ID}}" class="btn btn-primary">View Details</a>
+                    <a href="https://edit.tosdr.org/services/{{.ID}}/annotate/" class="btn btn-secondary">View and Help Analyze Documents</a>
                 </div>
             </div>
         {{ end }}
@@ -40,6 +39,30 @@
     
     <div class="last-fetched-info">
         <p>Data last fetched: <span id="lastFetchedTime">{{ .LastFetchedTime }}</span></p>
+    </div>
+
+    <div class="classifications-section markdown-content">
+        <h1>ToS;DR Classifications</h1>
+        <p>ToS;DR aims at creating a transparent and peer-reviewed process to rate and analyse Terms of Service and Privacy Policies in order to create a rating from Grade A to Grade E.</p>
+        
+        <hr>
+        
+        <p>Terms of service are reviewed by contributors and divided into small points that we can discuss, compare and ultimately assign a score with a badge:</p>
+        <p>(<span class="badge-good">Good</span>), (<span class="badge-bad">Bad</span>), (<span class="badge-blocker">Blocker</span>) or (<span class="badge-neutral">Neutral</span>)</p>
+        <p>Once a service has enough badges to assess the fairness of their terms for users, a class is assigned automatically by pondering the average scores.</p>
+        
+        <ul>
+            <li>(<span class="grade-A">Grade A</span>) are the best terms of services: they treat you fairly, respect your rights and will not abuse your data.</li>
+            <li>(<span class="grade-B">Grade B</span>) The terms of services are fair towards the user but they could be improved.</li>
+            <li>(<span class="grade-C">Grade C</span>) The terms of service are okay but some issues need your consideration.</li>
+            <li>(<span class="grade-D">Grade D</span>) The terms of service are very uneven or there are some important issues that need your attention.</li>
+            <li>(<span class="grade-E">Grade E</span>) The terms of service raise very serious concerns.</li>
+            <li>(<span class="grade-None">No Grade Yet</span>) Not enough information exists to accurately grade this service yet.</li>
+        </ul>
+        
+        <hr>
+        
+        <p>Right now, you will notice that not many services have a class assigned. That is because we need more data and more reviews before we can start assigning them. Moreover, we are still experimenting with how to apply classes.</p>
     </div>
 </div>
 <script>
