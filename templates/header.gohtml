@@ -8,7 +8,7 @@
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/sites/feedback">Feedback</a></li>
-                <li><a href="/sites/about">About</a></li>
+                <li><a href="/about">About</a></li>
                 <li><a href="/sites/download">Download</a></li>
                 <li><a href="/sites/communities">Communities</a></li>
                 <li class="dropdown">
@@ -41,10 +41,26 @@
         const navLinks = document.querySelector('.nav-links');
         const rightNav = document.querySelector('.right-nav');
 
+        // Add dropdown handling
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('a');
+            link.addEventListener('click', (e) => {
+                // Only handle click on mobile
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                }
+            });
+        });
+
         hamburger.addEventListener('click', () => {
             logoAndLinks.classList.toggle('active');
             navLinks.classList.toggle('active');
             rightNav.classList.toggle('active');
+            // Reset dropdowns when closing menu
+            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
         });
     });
 </script>

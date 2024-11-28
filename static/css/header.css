@@ -35,6 +35,8 @@ nav {
     margin: 0;
     padding: 0;
     height: 100%;
+    max-height: 1000px;
+    transition: max-height 0.3s ease-in-out;
 }
 
 .nav-links li {
@@ -83,8 +85,8 @@ nav {
     padding: 0.5rem 1rem;
     margin-left: 1rem;
     text-decoration: none;
-    color: var(--btn-primary-text);
-    background-color: var(--btn-primary-bg);
+    color: var(--btn-tertiary-text);
+    background-color: var(--btn-tertiary-bg);
     border-radius: var(--border-radius);
     display: flex;
     align-items: center;
@@ -123,30 +125,43 @@ nav {
     .nav-links {
         flex-direction: column;
         width: 100%;
-        display: none;
+        max-height: 0;
+        overflow: hidden;
     }
 
     .nav-links.active {
-        display: flex;
+        max-height: 500px;
     }
 
     .nav-links li {
-        margin: 0.5rem 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .nav-links a {
+        width: 100%;
+        padding: 0.5rem 0;
+        justify-content: flex-start;
     }
 
     .right-nav {
         display: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
     }
 
     .right-nav.active {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
         width: 100%;
         margin-top: 1rem;
+        max-height: 100px;
     }
 
     .right-nav a {
-        margin: 0.5rem 0;
+        margin: 0.5rem 0.5rem;
     }
 
     .hamburger {
@@ -159,5 +174,38 @@ nav {
     .logo-and-links.active .nav-links,
     .right-nav.active {
         display: flex;
+    }
+
+    .dropdown {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        width: 100%;
+        padding-left: 1rem;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+        background-color: var(--header-bg);
+        opacity: 0.8;
+        margin-top: 0;
+    }
+
+    .dropdown > a {
+        width: 100%;
+    }
+
+    .dropdown-content a {
+        width: 100%;
+        padding: 0.5rem 0;
+    }
+
+    .dropdown.active .dropdown-content {
+        max-height: 200px;
     }
 }

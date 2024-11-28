@@ -164,7 +164,8 @@ p {
     padding: 0.5rem;
     font-size: 0.95rem;
     color: var(--text-color);
-    border-bottom: 1px solid var(--card-border);
+    border-bottom: 2px solid var(--card-bg);
+    border-radius: 4px;
 }
 
 .point-content {
@@ -302,6 +303,78 @@ p {
     color: var(--text-color);
 }
 
+.featured-on {
+    margin: 2rem auto;
+    max-width: 800px;
+    overflow: hidden;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.featured-on-label {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.featured-on::before,
+.featured-on::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 2;
+}
+
+.featured-on::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-color), transparent);
+}
+
+.featured-on::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-color), transparent);
+}
+
+.featured-on-container {
+    display: flex;
+    width: fit-content;
+}
+
+.featured-on-scroll {
+    display: flex;
+    gap: 3rem;
+    padding: 0 1.5rem;
+    animation: scroll 30s linear infinite;
+}
+
+.featured-on-scroll a {
+    color: var(--text-color);
+    opacity: 0.6;
+    text-decoration: none;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.featured-on-scroll a:hover {
+    opacity: 1;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
 
 @media (max-width: 768px) {
     .logo-display .logo {
@@ -353,6 +426,23 @@ p {
 
     .service-footer {
         gap: 0.75rem;
+    }
+
+    .featured-on {
+        margin: 1rem auto;
+    }
+    
+    .featured-on-scroll {
+        gap: 2rem;
+    }
+    
+    .featured-on-scroll a {
+        font-size: 1rem;
+    }
+
+    .featured-on-label {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
     }
 }
 

@@ -2,6 +2,7 @@
 :root {
     --bg-color: #ffffff;
     --text-color: #333333;
+    --secondary-text: #6c757d;
     --link-color: #007bff;
     --link-hover-color: #0056b3;
     --header-bg: #f4f4f4;
@@ -11,6 +12,8 @@
     --btn-primary-text: #ffffff;
     --btn-secondary-bg: #6c757d;
     --btn-secondary-text: #ffffff;
+    --btn-tertiary-bg: #ac31b0;
+    --btn-tertiary-text: #ffffff;
     --card-bg: #ffffff;
     --card-border: #e0e0e0;
     --input-border: #cccccc;
@@ -36,6 +39,7 @@
     :root {
         --bg-color: #1a1a1a;
         --text-color: #e0e0e0;
+        --secondary-text: #b9bbbe;
         --link-color: #3a9fff;
         --link-hover-color: #70b8ff;
         --header-bg: #2a2a2a;
