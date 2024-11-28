@@ -9,10 +9,10 @@
         <img class="logo" alt="Logo">
     </div>
     
-    <h1 class="tagline">"I have read and agree to the Terms" is the biggest lie on the web. We aim to fix that.</h1>
+    <h1 class="tagline">{{ t "home.tagline" }}</h1>
     
     <div class="featured-on">
-        <div class="featured-on-label">As featured on</div>
+        <div class="featured-on-label">{{ t "home.featured_on" }}</div>
         <div class="featured-on-container">
             <div class="featured-on-scroll">
                 <a href="https://business.time.com/2012/08/10/new-site-grades-those-pesky-terms-of-service-agreements-you-never-read/" target="_blank" rel="noopener">
@@ -66,38 +66,39 @@
     
     <div class="search-container">
         <!--suppress HtmlFormInputWithoutLabel -->
-        <input type="text" id="searchInput" placeholder="Search for a service..." class="search-input">
+        <input type="text" id="searchInput" placeholder="{{ t "home.search_placeholder" }}" class="search-input">
         <button id="searchButton" class="search-button">Search</button>
     </div>
     
     <div class="services-grid">
+        {{ $lang := .Lang }}
         {{ range .Featured }}
             <div class="service-card">
                 <div class="service-header">
-                    <img src="{{.Icon}}" alt="{{.Name}} Service Icon" class="service-icon">
-                    <h2 class="service-name"><a href="/service/{{.ID}}">{{.Name}}</a></h2>
-                    <span class="service-grade grade-{{.Grade}}">Grade {{.Grade}}</span>
+                    <img src="{{.Icon}}" alt='{{ t "home.service_icon_alt" .Name }}' class="service-icon">
+                    <h2 class="service-name"><a href="/{{ $lang }}/service/{{.ID}}">{{.Name}}</a></h2>
+                    <span class="service-grade grade-{{.Grade}}">{{ t "home.grade" .Grade }}</span>
                 </div>
                 <ul class="service-points">
                     {{ range .Points }}
                         <li class="point-{{ .Case.Classification }}">
                             <div class="point-content">
-                                <img src="/static/svg/{{ .Case.Classification }}.svg" alt="{{ .Case.Classification }} icon" class="point-icon">
+                                <img src="/static/svg/{{ .Case.Classification }}.svg" alt='{{ t "home.classification_icon_alt" .Case.Classification }}' class="point-icon">
                                 {{.Title}}
                             </div>
                         </li>
                     {{ end }}
                 </ul>
                 <div class="service-footer">
-                    <a href="/service/{{.ID}}" class="btn btn-primary">View Details</a>
-                    <a href="https://edit.tosdr.org/services/{{.ID}}/annotate/" class="btn btn-secondary">Help Analyze Documents</a>
+                    <a href="/{{ $lang }}/service/{{.ID}}" class="btn btn-primary">{{ t "home.view_details_button" }}</a>
+                    <a href="https://edit.tosdr.org/services/{{.ID}}/annotate/" class="btn btn-secondary">{{ t "home.help_analyze_button" }}</a>
                 </div>
             </div>
         {{ end }}
     </div>
     
     <div class="last-fetched-info">
-        <p>Data last fetched: <span id="lastFetchedTime">{{ .LastFetchedTime }}</span></p>
+        <p>{{ t "home.data_last_fetched" }} <span id="lastFetchedTime">{{ .LastFetchedTime }}</span></p>
     </div>
 
     <div class="classifications-section markdown-content">

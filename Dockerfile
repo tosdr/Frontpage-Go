@@ -28,6 +28,7 @@ COPY --from=builder /app/main .
 # Copy the static files and templates
 COPY --from=builder /app/static ./static
 COPY --from=builder /app/templates ./templates
+COPY --from=builder /app/locales ./locales
 COPY --from=builder /app/md ./md
 COPY --from=builder /app/assets ./assets
 

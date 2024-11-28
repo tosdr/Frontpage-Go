@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"tosdrgo/config"
+	"tosdrgo/logger"
 
 	_ "github.com/lib/pq"
 )
@@ -23,7 +24,8 @@ func InitDB() error {
 	var err error
 	DB, err = sql.Open("postgres", connStr)
 	if err != nil {
-		return fmt.Errorf("failed to open database: %v", err)
+		logger.LogError(err, "Failed to open database connection")
+		return err
 	}
 
 	// Set connection pool settings
@@ -31,9 +33,11 @@ func InitDB() error {
 	DB.SetMaxIdleConns(25)
 
 	if err = DB.Ping(); err != nil {
-		return fmt.Errorf("failed to ping database: %v", err)
+		logger.LogError(err, "Failed to ping database")
+		return err
 	}
 
+	logger.LogDebug("Database connection established successfully")
 	return nil
 }
 

@@ -2,22 +2,30 @@
 <footer>
     <div class="footer-content">
         <div class="about-text">
-            <h3>About Us</h3>
-            <p>“Terms of Service; Didn't Read” (short: ToS;DR) is a project started in June 2012 to help fix the “biggest lie on the web”: almost no one really reads the terms of service we agree to all the time.</p>
+            <h3>{{ t "footer.about_title" }}</h3>
+            <p>{{ t "footer.about_text" }}</p>
         </div>
         <div class="footer-links">
             <ul>
-                <li><a href="https://developers.tosdr.org/dev/">API</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="mailto:team@tosdr.org">Contact</a></li>
-                <li><a href="/sites/legal">Privacy Policy</a></li>
-                <li><a href="/sites/legal">Terms of Use</a></li>
-                <li><a href="/sites/imprint">Imprint</a></li>
-                <li><a href="https://to.tosdr.org/branding">Branding</a></li>
-                <li><a href="/sites/classification">Classification</a></li>
-                <li><a href="https://thanks.tosdr.org/">Thanks</a></li>
+                <li><a href="https://developers.tosdr.org/dev/">{{ t "footer.links.api" }}</a></li>
+                <li><a href="/{{ .Lang }}/about">{{ t "footer.links.about" }}</a></li>
+                <li><a href="mailto:team@tosdr.org">{{ t "footer.links.contact" }}</a></li>
+                <li><a href="/{{ .Lang }}/sites/legal">{{ t "footer.links.privacy" }}</a></li>
+                <li><a href="/{{ .Lang }}/sites/legal">{{ t "footer.links.terms" }}</a></li>
+                <li><a href="https://to.tosdr.org/branding">{{ t "footer.links.branding" }}</a></li>
+                <li><a href="/{{ .Lang }}/sites/classification">{{ t "footer.links.classification" }}</a></li>
+                <li><a href="/{{ .Lang }}/thanks">{{ t "footer.links.thanks" }}</a></li>
             </ul>
         </div>
+    </div>
+    <div class="language-selector">
+        <select onchange="window.location.href=this.value">
+            {{ range $code, $name := .Languages }}
+                <option value="{{ langURL $code }}" {{ if eq $.Lang $code }}selected{{ end }}>
+                    {{ $name }}
+                </option>
+            {{ end }}
+        </select>
     </div>
     <div class="social-media">
         <a href="https://mastodon.indie.host/@ToSDR" class="social-icon" rel="me"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54a102.5 102.5 0 0 1 -.9-13.9c85.6 20.9 158.7 9.1 178.8 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.3V197c0-58.5-64-56.6-64-6.9v114.2H90.2c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175z"/></svg></a>

@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"tosdrgo/db"
+	"tosdrgo/logger"
 
 	"github.com/essentialkaos/go-badge"
 	"github.com/gorilla/mux"
@@ -37,7 +38,10 @@ func ShieldHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse service ID and fetch data
 	intServiceID, err := strconv.Atoi(serviceID)
 	if err != nil {
-		http.Error(w, "Invalid service ID", http.StatusBadRequest)
+		logger.LogError(err, "Invalid service ID in shield handler")
+		svg, _ := returnShield("Error", "Service not found!", gradeToHexColor("E"))
+		w.Header().Set(contentType, svgType)
+		_, _ = w.Write(svg)
 		return
 	}
 

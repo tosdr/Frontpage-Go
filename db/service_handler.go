@@ -8,9 +8,8 @@ import (
 	"strings"
 
 	"tosdrgo/cache"
+	"tosdrgo/logger"
 	"tosdrgo/models"
-
-	"log"
 )
 
 func FetchServiceData(serviceID int) (*models.Service, error) {
@@ -20,6 +19,7 @@ func FetchServiceData(serviceID int) (*models.Service, error) {
 
 	service, err := fetchBaseServiceData(serviceID)
 	if err != nil {
+		logger.LogError(err, fmt.Sprintf("Error fetching base service data for ID %d", serviceID))
 		return nil, err
 	}
 
@@ -46,7 +46,7 @@ func fetchBaseServiceData(serviceID int) (*models.Service, error) {
 		&service.Slug, &service.Rating, &service.ComprehensivelyReviewed, &urlString,
 	)
 	if err != nil {
-		log.Printf("Error fetching service data for ID %d: %v", serviceID, err)
+		logger.LogError(err, fmt.Sprintf("Error fetching base service data for ID %d", serviceID))
 		return nil, err
 	}
 
@@ -71,6 +71,7 @@ func fetchRelatedData(service *models.Service) error {
 	err2 = <-errChan
 
 	if err1 != nil || err2 != nil {
+		logger.LogError(fmt.Errorf("error fetching data: %v, %v", err1, err2), fmt.Sprintf("Error fetching related data for service ID %d", service.ID))
 		return fmt.Errorf("error fetching data: %v, %v", err1, err2)
 	}
 	return nil
@@ -82,6 +83,7 @@ func fetchDocuments(serviceID int, docChan chan<- []models.Document, errChan cha
 		FROM documents WHERE service_id = $1
 	`, serviceID)
 	if err != nil {
+		logger.LogError(err, fmt.Sprintf("Error fetching documents for service ID %d", serviceID))
 		errChan <- err
 		return
 	}
@@ -111,6 +113,7 @@ func fetchPoints(serviceID int, pointsChan chan<- []models.Point, errChan chan<-
 		ORDER BY c.score DESC
 	`, serviceID)
 	if err != nil {
+		logger.LogError(err, fmt.Sprintf("Error fetching points for service ID %d", serviceID))
 		errChan <- err
 		return
 	}

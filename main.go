@@ -4,9 +4,11 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 	"tosdrgo/config"
 	"tosdrgo/db"
 	"tosdrgo/handlers"
+	"tosdrgo/logger"
 
 	"github.com/gorilla/mux"
 )
@@ -28,6 +30,14 @@ func setCSSContentType(next http.Handler) http.Handler {
 	})
 }
 
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		next.ServeHTTP(w, r)
+		logger.LogRequest(r, time.Since(start))
+	})
+}
+
 func main() {
 	if err := db.InitDB(); err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
@@ -35,6 +45,9 @@ func main() {
 	defer db.CloseDB()
 
 	r := mux.NewRouter()
+
+	// Add logging middleware to all routes
+	r.Use(loggingMiddleware)
 
 	// Health check endpoint
 	r.HandleFunc("/v1/health", handlers.HealthCheckHandler).Methods("GET")
@@ -44,27 +57,26 @@ func main() {
 		setCSSContentType(http.StripPrefix("/static/css/", http.FileServer(http.Dir("static/css"))))))
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
 
-	// Define routes with minify middleware
-	r.HandleFunc("/", handlers.MinifyMiddleware(handlers.HomeHandler))
-	r.HandleFunc("/{lang:[a-z]{2}}", handlers.RedirectToRoot)
-	r.HandleFunc("/{lang:[a-z]{2}}/{path:.*}", func(w http.ResponseWriter, r *http.Request) {
-		vars := mux.Vars(r)
-		http.Redirect(w, r, "/"+vars["path"], http.StatusSeeOther)
-	})
-	r.HandleFunc("/about", handlers.MinifyMiddleware(handlers.AboutHandler))
-	r.HandleFunc("/thanks", handlers.MinifyMiddleware(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("TBD"))
-	}))
-	r.HandleFunc("/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler))
-	r.HandleFunc("/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
-	r.HandleFunc("/search/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))
+	// Shield endpoints (without language prefix)
 	r.HandleFunc("/shield/{serviceID}", handlers.ShieldHandler).Methods("GET")
-
-	// legacy shield -> we route shields.tosdr.org/en_XYZ.svg to here
 	r.HandleFunc("/legacyshield/en_{serviceID}.svg", handlers.ShieldHandler).Methods("GET")
 
+	// Root redirect to browser language
+	r.HandleFunc("/", handlers.DetectLanguageAndRedirect)
+
+	// Language-prefixed routes
+	r.HandleFunc("/{lang:[a-z]{2}}", handlers.MinifyMiddleware(handlers.HomeHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/", handlers.MinifyMiddleware(handlers.HomeHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/about", handlers.MinifyMiddleware(handlers.AboutHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/thanks", handlers.MinifyMiddleware(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("TBD"))
+	}))
+	r.HandleFunc("/{lang:[a-z]{2}}/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/search/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))
+
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		handlers.RenderErrorPage(w, http.StatusNotFound, "The requested page was not found")
+		handlers.RenderErrorPage(w, "en", http.StatusNotFound, "The requested page was not found", nil)
 	})
 
 	//goland:noinspection GoBoolExpressions

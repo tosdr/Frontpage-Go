@@ -4,6 +4,7 @@ import (
 	"errors"
 	"sort"
 	"strings"
+	"tosdrgo/logger"
 
 	"tosdrgo/cache"
 	"tosdrgo/models"
@@ -34,6 +35,7 @@ func SearchServices(term string) ([]models.SearchResult, error) {
 
 	rows, err := DB.Query(query, "%"+normalizedTerm+"%")
 	if err != nil {
+		logger.LogError(err, "Error executing search query")
 		return nil, err
 	}
 	defer rows.Close()
@@ -44,6 +46,7 @@ func SearchServices(term string) ([]models.SearchResult, error) {
 		var urls string
 		err := rows.Scan(&result.ID, &result.Name, &result.Slug, &result.Rating, &result.ComprehensivelyReviewed, &urls)
 		if err != nil {
+			logger.LogError(err, "Error scanning search query results")
 			return nil, err
 		}
 		result.Image = "https://s3.tosdr.org/logos/" + result.ID + ".png"

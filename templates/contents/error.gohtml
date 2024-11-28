@@ -4,11 +4,11 @@
 
 {{ define "content" }}
 <div class="error-container">
-    <h1>Error {{ .ErrorCode }}</h1>
+    <h1>{{ t "error.title" .ErrorCode }}</h1>
     <p class="error-message">{{ .ErrorMessage }}</p>
     <div class="error-actions">
-        <a href="/" class="btn btn-primary">Back to Home</a>
-        <a href="mailto:team@tosdr.org" class="btn btn-secondary">Contact Us</a>
+        <a href="/" class="btn btn-primary">{{ t "error.back_home" }}</a>
+        <a href="mailto:team@tosdr.org" class="btn btn-secondary">{{ t "error.contact_us" }}</a>
     </div>
 </div>
 {{ end }}

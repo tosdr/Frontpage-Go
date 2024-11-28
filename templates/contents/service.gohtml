@@ -5,13 +5,13 @@
 {{ define "content" }}
 <div class="service-container">
     <div class="service-header">
-        <img src="{{ .Service.Image }}" alt="{{ .Service.Name }} logo" class="service-logo">
+        <img src="{{ .Service.Image }}" alt="{{ t "service.logo_alt" .Service.Name }}" class="service-logo">
         <h1>{{ .Service.Name }}</h1>
-        <span class="service-grade grade-{{ .Service.Rating }}">Grade {{ .Service.Rating }}</span>
+        <span class="service-grade grade-{{ .Service.Rating }}">{{ t "service.grade_prefix" }} {{ .Service.Rating }}</span>
     </div>
 
     <div class="service-details">
-        <h2>Points</h2>
+        <h2>{{ t "service.points_title" }}</h2>
         <ul class="service-points">
             {{ range .Service.Points }}
             <li class="point-{{ .Case.Classification }}">
@@ -20,18 +20,18 @@
                     <h3>{{ .Title }}</h3>
                 </div>
                 <div class="point-actions">
-                    <span class="updated-on" title="Last updated: {{ .UpdatedAt.Format "2006-01-02 15:04:05" }}">
-                        <img src="/static/svg/schedule.svg" alt="Last updated">
+                    <span class="updated-on" title="{{ t "service.point_updated" (.UpdatedAt.Format "2006-01-02 15:04:05") }}">
+                        <img src="/static/svg/schedule.svg" alt="{{ t "service.point_updated_alt" }}">
                     </span>
-                    <a href="https://edit.tosdr.org/points/{{ .ID }}" target="_blank" class="edit-icon" title="Edit">
-                        <img src="/static/svg/edit.svg" alt="Edit">
+                    <a href="https://edit.tosdr.org/points/{{ .ID }}" target="_blank" class="edit-icon" title="{{ t "service.point_edit" }}">
+                        <img src="/static/svg/edit.svg" alt="{{ t "service.point_edit" }}">
                     </a>
                 </div>
             </li>
             {{ end }}
         </ul>
 
-        <h2>Documents</h2>
+        <h2>{{ t "service.documents_title" }}</h2>
         <ul class="service-documents">
             {{ range .Service.Documents }}
             <li>

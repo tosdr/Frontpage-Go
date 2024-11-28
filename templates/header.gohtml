@@ -6,24 +6,24 @@
                 <img src="https://s3.tosdr.org/branding/tosdr-icon-32.svg" alt="Logo">
             </a>
             <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/sites/feedback">Feedback</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/sites/download">Download</a></li>
-                <li><a href="/sites/communities">Communities</a></li>
+                <li><a href="/{{ .Lang }}/">{{ t "nav.home" }}</a></li>
+                <li><a href="/{{ .Lang }}/sites/feedback">{{ t "nav.feedback" }}</a></li>
+                <li><a href="/{{ .Lang }}/about">{{ t "nav.about" }}</a></li>
+                <li><a href="/{{ .Lang }}/sites/download">{{ t "nav.download" }}</a></li>
+                <li><a href="/{{ .Lang }}/sites/communities">{{ t "nav.communities" }}</a></li>
                 <li class="dropdown">
-                    <a href="#">Contribute</a>
+                    <a href="#">{{ t "nav.contribute" }}</a>
                     <ul class="dropdown-content">
-                        <li><a href="https://edit.tosdr.org/">Contribute Analysis</a></li>
-                        <li><a href="/sites/add-service">Add new Service</a></li>
+                        <li><a href="https://edit.tosdr.org/">{{ t "nav.contribute_analysis" }}</a></li>
+                        <li><a href="/{{ .Lang }}/sites/add-service">{{ t "nav.add_service" }}</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
         <div class="right-nav">
-            <a href="/sites/donate" class="donate-btn">Donate</a>
+            <a href="/{{ .Lang }}/sites/donate" class="donate-btn">{{ t "nav.donate" }}</a>
             {{if .Beta}}
-            <a href="https://tosdr.org/" class="leave-beta-btn">Leave Beta</a>
+            <a href="https://tosdr.org/" class="leave-beta-btn">{{ t "nav.leave_beta" }}</a>
             {{end}}
         </div>
         <div class="hamburger">

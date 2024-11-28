@@ -61,6 +61,33 @@ footer {
     color: #ddd;
 }
 
+.language-selector {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.language-selector select {
+    background-color: transparent;
+    color: var(--footer-text);
+    padding: 0.5rem 2rem;
+    border: 1px solid var(--footer-text);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.language-selector select:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.language-selector select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
 @media (max-width: 768px) {
     .footer-content {
         flex-direction: column;

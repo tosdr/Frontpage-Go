@@ -1,11 +1,12 @@
 package db
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"tosdrgo/cache"
 	"tosdrgo/config"
+	"tosdrgo/logger"
 	"tosdrgo/models"
 )
 
@@ -23,7 +24,7 @@ func FetchFeaturedServicesData() (*models.FeaturedServices, error) {
 	for _, serviceID := range config.AppConfig.FeaturedServices {
 		service, err := FetchServiceData(serviceID)
 		if err != nil {
-			log.Printf("Error fetching service data for ID %d: %v", serviceID, err)
+			logger.LogError(err, fmt.Sprintf("Error fetching service data for ID %d", serviceID))
 			continue
 		}
 
