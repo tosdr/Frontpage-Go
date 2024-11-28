@@ -15,11 +15,12 @@
     
     <div class="search-results">
         {{ if .SearchResults }}
+            {{ $lang := .Lang }}
             {{ range .SearchResults }}
                 <div class="search-result">
                     <img src="{{ .Image }}" alt="{{ .Name }} {{ t "search.logo_alt" }}" class="result-logo">
                     <div class="result-info">
-                        <h2><a href="/service/{{ .ID }}">{{ .Name }}</a></h2>
+                        <h2><a href="/{{ $lang }}/service/{{ .ID }}">{{ .Name }}</a></h2>
                         <span class="result-rating grade-{{ .Rating }}">{{ .Rating }}</span>
                         <span class="result-match">{{ t "search.match" .MatchPercentage }}</span>
                     </div>

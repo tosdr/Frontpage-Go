@@ -115,7 +115,7 @@
         function performSearch() {
             const searchTerm = encodeURIComponent(searchInput.value.trim());
             if (searchTerm) {
-                window.location.href = `/search/${searchTerm}`;
+                window.location.href = `/{{ .Lang }}/search/${searchTerm}`;
             }
         }
 
