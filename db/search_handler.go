@@ -34,6 +34,10 @@ func SearchServices(term string) ([]models.SearchResult, error) {
 		LIMIT 100
 	`
 
+	if strings.Count(normalizedTerm, "%") > 2 {
+		logger.LogWarn("Potentially expensive search query with multiple wildcards: %s", normalizedTerm)
+	}
+
 	rows, err := DB.Query(query, "%"+normalizedTerm+"%")
 	if err != nil {
 		logger.LogError(err, "Error executing search query")

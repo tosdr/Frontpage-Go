@@ -4,9 +4,17 @@ import (
 	"fmt"
 	"net/http"
 	"tosdrgo/logger"
+	"tosdrgo/metrics"
 )
 
 func RenderErrorPage(w http.ResponseWriter, lang string, errorCode int, errorMessage string, err error) {
+	metrics.ErrorCounter.WithLabelValues("render_error", errorMessage).Inc()
+	metrics.ErrorDetailsCounter.WithLabelValues(
+		"render_error",
+		fmt.Sprintf("%d", errorCode),
+		errorMessage,
+	).Inc()
+
 	logger.LogError(err, fmt.Sprintf("%s (HTTP %d)", errorMessage, errorCode))
 
 	tmpl, err := parseTemplates("templates/contents/error.gohtml", lang, nil)

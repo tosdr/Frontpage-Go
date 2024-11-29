@@ -3,7 +3,8 @@ package cache
 import (
 	"fmt"
 	"time"
-	"tosdrgo/models"
+	"tosdrgo/metrics"
+
 
 	"github.com/patrickmn/go-cache"
 )
@@ -14,8 +15,10 @@ var (
 
 func GetService(id int) (*models.Service, bool) {
 	if x, found := c.Get(getServiceKey(id)); found {
+		metrics.CacheHits.WithLabelValues("service").Inc()
 		return x.(*models.Service), true
 	}
+	metrics.CacheMisses.WithLabelValues("service").Inc()
 	return nil, false
 }
 
@@ -25,8 +28,10 @@ func SetService(id int, service *models.Service) {
 
 func GetFeaturedServices() (*models.FeaturedServices, bool) {
 	if x, found := c.Get("featured_services"); found {
+		metrics.CacheHits.WithLabelValues("featured").Inc()
 		return x.(*models.FeaturedServices), true
 	}
+	metrics.CacheMisses.WithLabelValues("featured").Inc()
 	return nil, false
 }
 

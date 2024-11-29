@@ -15,7 +15,9 @@ type Config struct {
 		DBName   string `yaml:"dbname"`
 		SSLMode  string `yaml:"sslmode"`
 	} `yaml:"database"`
-	FeaturedServices []int `yaml:"featured_services"`
+	FeaturedServices []int  `yaml:"featured_services"`
+	MetricsUsername  string `yaml:"metrics_username"`
+	MetricsPassword  string `yaml:"metrics_password"`
 }
 
 var AppConfig *Config

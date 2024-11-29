@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"os"
 	"sync"
+
+	"tosdrgo/logger"
 )
 
 var (
@@ -22,6 +24,7 @@ func LoadTranslations(lang string) error {
 	file, err := os.ReadFile("locales/" + lang + ".json")
 	if err != nil {
 		// If language file doesn't exist, load English as fallback
+		logger.LogWarn("Language file for %s not found, loading English as fallback", lang)
 		if lang != "en" {
 			file, err = os.ReadFile("locales/en.json")
 			if err != nil {

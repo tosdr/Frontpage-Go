@@ -9,8 +9,10 @@ import (
 	"tosdrgo/db"
 	"tosdrgo/handlers"
 	"tosdrgo/logger"
+	"tosdrgo/metrics"
 
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var IsBeta = true
@@ -38,6 +40,21 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+// Add basic auth middleware for metrics
+func basicAuthMiddleware(username, password string) mux.MiddlewareFunc {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			user, pass, ok := r.BasicAuth()
+			if !ok || user != username || pass != password {
+				w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
+				http.Error(w, "Unauthorized", http.StatusUnauthorized)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
 func main() {
 	if err := db.InitDB(); err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
@@ -46,11 +63,20 @@ func main() {
 
 	r := mux.NewRouter()
 
-	// Add logging middleware to all routes
+	// Add metrics middleware to all routes
+	r.Use(metrics.MetricsMiddleware)
 	r.Use(loggingMiddleware)
 
-	// Health check endpoint
-	r.HandleFunc("/v1/health", handlers.HealthCheckHandler).Methods("GET")
+	// Create a subrouter for metrics with authentication
+	metricsRouter := r.PathPrefix("/metrics").Subrouter()
+	metricsRouter.Use(basicAuthMiddleware(
+		config.AppConfig.MetricsUsername,
+		config.AppConfig.MetricsPassword,
+	))
+	metricsRouter.Handle("", promhttp.Handler())
+
+	// Add names to routes for better metrics
+	r.HandleFunc("/v1/health", handlers.HealthCheckHandler).Methods("GET").Name("health")
 
 	// Serve static files with content type middleware and minification for CSS
 	r.PathPrefix("/static/css/").Handler(handlers.MinifyMiddlewareHandler(
@@ -65,13 +91,13 @@ func main() {
 	r.HandleFunc("/", handlers.DetectLanguageAndRedirect)
 
 	// Language-prefixed routes
-	r.HandleFunc("/{lang:[a-z]{2}}", handlers.MinifyMiddleware(handlers.HomeHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}", handlers.MinifyMiddleware(handlers.HomeHandler)).Name("home")
 	r.HandleFunc("/{lang:[a-z]{2}}/", handlers.MinifyMiddleware(handlers.HomeHandler))
-	r.HandleFunc("/{lang:[a-z]{2}}/about", handlers.MinifyMiddleware(handlers.AboutHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/about", handlers.MinifyMiddleware(handlers.AboutHandler)).Name("about")
 	r.HandleFunc("/{lang:[a-z]{2}}/thanks", handlers.MinifyMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("TBD"))
 	}))
-	r.HandleFunc("/{lang:[a-z]{2}}/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler)).Name("service")
 	r.HandleFunc("/{lang:[a-z]{2}}/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
 	r.HandleFunc("/{lang:[a-z]{2}}/search/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))
 

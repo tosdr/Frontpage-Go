@@ -43,6 +43,6 @@ func InitDB() error {
 
 func CloseDB() {
 	if DB != nil {
-		DB.Close()
+		_ = DB.Close()
 	}
 }
