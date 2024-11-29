@@ -8,6 +8,15 @@ import (
 var SupportedLanguages = map[string]string{
 	"en": "English",
 	"de": "German",
+	"es": "Spanish",
+	"fr": "French",
+	"hi": "Hindi",
+	"id": "Indonesian",
+	"ja": "Japanese",
+	"pl": "Polish",
+	"pt": "Portuguese",
+	"ru": "Russian",
+	"zh": "Chinese",
 }
 
 func DetectLanguageAndRedirect(w http.ResponseWriter, r *http.Request) {

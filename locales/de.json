@@ -11,26 +11,22 @@
     "home.service_icon_alt": "%s Dienst-Symbol",
     "home.classification_icon_alt": "%s Symbol",
     "home.grade": "Note %s",
-
     "footer.about_title": "Über uns",
     "footer.about_text": "\"Terms of Service; Didn't Read\" (kurz: ToS;DR) ist ein Projekt, das im Juni 2012 gestartet wurde, um die \"größte Lüge im Internet\" zu bekämpfen: fast niemand liest wirklich die Nutzungsbedingungen, denen wir ständig zustimmen.",
-    
     "footer.links.api": "API",
     "footer.links.about": "Über uns",
     "footer.links.contact": "Kontakt",
     "footer.links.privacy": "Datenschutzerklärung",
     "footer.links.terms": "Nutzungsbedingungen",
-    "footer.links.branding": "Branding",
+    "footer.links.branding": "Markenauftritt",
     "footer.links.classification": "Klassifizierung",
     "footer.links.thanks": "Danksagung",
-    
     "search.results_for": "Suchergebnisse für \"%s\"",
     "search.no_results": "Keine Ergebnisse gefunden für \"%s\"",
     "search.match": "Übereinstimmung: %.2f%%",
     "search.placeholder": "Suche nach einem Dienst...",
     "search.button": "Suchen",
     "search.logo_alt": "Logo",
-    
     "nav.home": "Startseite",
     "nav.feedback": "Feedback",
     "nav.about": "Über uns",
@@ -41,18 +37,15 @@
     "nav.add_service": "Neuen Dienst hinzufügen",
     "nav.donate": "Spenden",
     "nav.leave_beta": "Beta verlassen",
-    
     "about.current_team": "Aktuelle Teammitglieder",
     "about.past_team": "Ehemalige Teammitglieder",
     "about.social.github": "GitHub",
     "about.social.twitter": "X (Twitter)",
     "about.social.website": "Webseite",
     "about.social.email": "E-Mail",
-    
     "error.title": "Fehler %d",
     "error.back_home": "Zurück zur Startseite",
     "error.contact_us": "Kontaktiere uns",
-    
     "service.points_title": "Punkte",
     "service.documents_title": "Dokumente",
     "service.grade_prefix": "Note",
