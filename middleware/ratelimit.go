@@ -13,8 +13,6 @@ func RateLimitMiddleware(next http.Handler) http.Handler {
 			ip = r.RemoteAddr
 		}
 
-		println("The IP is: ", ip)
-
 		if !ratelimit.Limiter.Allow(ip) {
 			metrics.RateLimitExceeded.WithLabelValues("search").Inc()
 			http.Error(w, "Rate limit exceeded. Please try again later.", http.StatusTooManyRequests)
