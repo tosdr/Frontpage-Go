@@ -4,7 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"strconv"
+	"time"
 	"tosdrgo/db"
+	"tosdrgo/metrics"
 	"tosdrgo/models"
 
 	"github.com/gorilla/mux"
@@ -29,11 +32,15 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	start := time.Now()
 	searchResults, err := db.SearchServices(searchTerm)
 	if err != nil {
 		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to fetch search results\n"+err.Error(), err)
 		return
 	}
+
+	searchDuration := time.Since(start).Seconds()
+	metrics.SearchLatency.WithLabelValues(strconv.Itoa(len(searchResults))).Observe(searchDuration)
 
 	data := struct {
 		Title         string

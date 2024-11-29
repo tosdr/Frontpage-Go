@@ -10,6 +10,7 @@ import (
 	"tosdrgo/handlers"
 	"tosdrgo/logger"
 	"tosdrgo/metrics"
+	"tosdrgo/middleware"
 
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -99,7 +100,10 @@ func main() {
 	}))
 	r.HandleFunc("/{lang:[a-z]{2}}/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler)).Name("service")
 	r.HandleFunc("/{lang:[a-z]{2}}/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
-	r.HandleFunc("/{lang:[a-z]{2}}/search/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))
+
+	searchRouter := r.PathPrefix("/{lang:[a-z]{2}}/search").Subrouter()
+	searchRouter.Use(middleware.RateLimitMiddleware)
+	searchRouter.HandleFunc("/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))
 
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		handlers.RenderErrorPage(w, "en", http.StatusNotFound, "The requested page was not found", nil)
