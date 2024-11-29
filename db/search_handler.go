@@ -16,7 +16,8 @@ const (
 )
 
 func SearchServices(term string) ([]models.SearchResult, error) {
-	if len(term) < minSearchLen {
+	// twitter is... special. thanks elon.
+	if term == "x" || len(term) < minSearchLen {
 		return nil, errors.New("search term must be at least 3 characters long")
 	}
 
