@@ -6,15 +6,12 @@ import (
 )
 
 var SupportedLanguages = map[string]string{
-	"en": "English",
 	"de": "German",
+	"en": "English",
 	"es": "Spanish",
 	"fr": "French",
-	"hi": "Hindi",
-	"id": "Indonesian",
 	"ja": "Japanese",
 	"pl": "Polish",
-	"pt": "Portuguese",
 	"ru": "Russian",
 	"zh": "Chinese",
 }
@@ -26,8 +23,7 @@ func DetectLanguageAndRedirect(w http.ResponseWriter, r *http.Request) {
 	if acceptLang != "" {
 		// Take the first language preference
 		prefLang := strings.Split(strings.Split(acceptLang, ",")[0], "-")[0]
-		// You might want to add validation here to ensure the language is supported
-		if len(prefLang) == 2 {
+		if len(prefLang) == 2 && SupportedLanguages[prefLang] != "" {
 			lang = strings.ToLower(prefLang)
 		}
 	}
