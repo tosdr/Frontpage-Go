@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Atlassian",
+        "logo": "https://s3.tosdr.org/logos-thanks/atlassian.png",
+        "link": "https://www.atlassian.com",
+        "description": "Jira, Confluence, Software Licenses"
+    },
+    {
+        "name": "JetBrains",
+        "logo": "https://s3.tosdr.org/logos-thanks/jetbrains.png",
+        "link": "https://www.jetbrains.com",
+        "description": "IDE Licenses"
+    },
+    {
+        "name": "Fastly",
+        "logo": "https://s3.tosdr.org/logos-thanks/fastly.svg",
+        "link": "https://fastly.com",
+        "description": "CDN"
+    },
+    {
+        "name": "BetterStack",
+        "logo": "https://s3.tosdr.org/logos-thanks/betterstack.png",
+        "link": "https://betterstack.com",
+        "description": "Monitoring & Status Page"
+    },
+    {
+        "name": "OpenCollective contributors",
+        "logo": "https://s3.tosdr.org/logos-thanks/opencollective.svg",
+        "link": "https://opencollective.com/tosdr",
+        "description": "Everyone around the world!"
+    }
+]

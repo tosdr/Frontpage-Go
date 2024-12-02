@@ -15,13 +15,13 @@ Une fois qu'un service a suffisamment de badges pour évaluer l'équité de ses 
 
 - (`Note A`) sont les meilleures conditions de service : elles vous traitent équitablement, respectent vos droits et n'abusent pas de vos données.
 
-- (`Note B`) Les conditions de service sont équitables envers l'utilisateur mais pourraient être améliorées.
+- (`Note B`) les conditions d'utilisation sont équitables envers l'utilisateur mais pourraient être améliorées.
 
-- (`Note C`) Les conditions de service sont acceptables mais certains problèmes nécessitent votre attention.
+- (`Note C`) les conditions d'utilisation sont acceptables mais certains problèmes nécessitent votre attention.
 
-- (`Note D`) Les conditions de service sont très inégales ou certains problèmes importants nécessitent votre attention.
+- (`Note D`) les conditions d'utilisation sont très inégales ou certains problèmes importants nécessitent votre attention.
 
-- (`Note E`) Les conditions de service soulèvent des préoccupations très sérieuses.
+- (`Note E`) les conditions d'utilisation soulèvent des préoccupations très sérieuses.
 
 - (`Aucune note pour le moment`) Il n'existe pas encore suffisamment d'informations pour évaluer précisément ce service.
 

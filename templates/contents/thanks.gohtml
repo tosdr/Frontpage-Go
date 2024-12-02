@@ -1,0 +1,46 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/thanks.css">
+<link rel="stylesheet" href="/static/css/md.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="thanks-container">
+    <h1>{{ t "thanks.thanks" }}</h1>
+    <p class="thanks-intro">{{ t "thanks.intro" }}</p>
+
+    <div class="sponsors-grid">
+        {{ range .Sponsors }}
+        <a href="{{ .Link }}" class="sponsor-card sponsor-{{ .ClassName }}" target="_blank" rel="noopener">
+            <div class="sponsor-logo">
+                <img src="{{ .Logo }}" alt="{{ .Name }} logo">
+            </div>
+            <div class="sponsor-info">
+                <h3 class="sponsor-name">{{ .Name }}</h3>
+                <p class="sponsor-description">{{ .Description }}</p>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+
+    <div class="opencollective-widget">
+        <script src='https://opencollective.com/tosdr/banner.js?style={
+            "body": {
+                "background": "transparent"
+            },
+            "h2": {
+                "fontFamily": "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif",
+                "fontSize": "1.5rem",
+                "fontWeight": "600",
+                "color": "var(--text-color)"
+            },
+            "p": {
+                "fontFamily": "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif",
+                "color": "var(--text-color)"
+            },
+            "a": {
+                "color": "var(--link-color)"
+            }
+        }'></script>
+    </div>
+</div>
+{{ end }}

@@ -4,7 +4,7 @@ Title: Descargar
 
 # Descargar nuestra extensión del navegador
 
-Elija su navegador preferido para descargar e instalar nuestra extensión:
+Elige tu navegador preferido para descargar e instalar nuestra extensión:
 
 ## Firefox
 
@@ -23,7 +23,7 @@ Elija su navegador preferido para descargar e instalar nuestra extensión:
 
 # Descargar nuestras aplicaciones
 
-¡También puedes usar ToS;DR en cualquier lugar! ¡Simplemente descargue nuestra aplicación para el sistema operativo de su elección!
+¡También puedes usar ToS;DR en cualquier lugar! ¡Simplemente descarga nuestra aplicación para el sistema operativo de su tu elección!
 
 ## iOS, iPadOS, macOS
 

@@ -95,9 +95,7 @@ func main() {
 	r.HandleFunc("/{lang:[a-z]{2}}", handlers.MinifyMiddleware(handlers.HomeHandler)).Name("home")
 	r.HandleFunc("/{lang:[a-z]{2}}/", handlers.MinifyMiddleware(handlers.HomeHandler))
 	r.HandleFunc("/{lang:[a-z]{2}}/about", handlers.MinifyMiddleware(handlers.AboutHandler)).Name("about")
-	r.HandleFunc("/{lang:[a-z]{2}}/thanks", handlers.MinifyMiddleware(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("TBD"))
-	}))
+	r.HandleFunc("/{lang:[a-z]{2}}/thanks", handlers.MinifyMiddleware(handlers.ThanksHandler)).Name("thanks")
 	r.HandleFunc("/{lang:[a-z]{2}}/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler)).Name("service")
 	r.HandleFunc("/{lang:[a-z]{2}}/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
 
