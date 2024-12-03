@@ -59,5 +59,8 @@
     "service.logo_alt": "%s logo",
     "service.point_updated": "Last updated: %s",
     "service.point_updated_alt": "Last updated",
-    "service.point_edit": "Edit"
+    "service.point_edit": "Edit",
+
+    "thanks.thanks": "Thank you!",
+    "thanks.intro": "We would like to express our gratitude to the following sponsors who help make ToS;DR possible:"
 } 

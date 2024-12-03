@@ -15,7 +15,7 @@ Una vez que un servicio tiene suficientes insignias para evaluar la equidad de s
 
 - (`Grado A`) son los mejores términos de servicios: te tratan de manera justa, respetan tus derechos y no abusarán de tus datos.
 
-- (`Grado B`) Los términos de servicios son justos para el usuario, pero podrían mejorarse.
+- (`Grado B`) los términos de uso son justos para el usuario, pero podrían mejorarse.
 
 - (`Grado C`) Los términos de servicio están bien, pero algunos problemas requieren tu consideración.
 

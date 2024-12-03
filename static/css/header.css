@@ -90,6 +90,12 @@ nav {
     border-radius: var(--border-radius);
     display: flex;
     align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.donate-btn:hover, .leave-beta-btn:hover {
+    opacity: 0.9;
+    color: var(--btn-tertiary-text);
 }
 
 .hamburger {

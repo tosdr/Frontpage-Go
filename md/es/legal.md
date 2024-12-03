@@ -4,7 +4,7 @@ Title: Información Legal
 
 # Información Legal
 
-**Nada aquí debe considerarse asesoría legal**. Expresamos nuestra opinión sin garantía y no respaldamos ningún servicio de ninguna manera. Por favor, consulte a un abogado calificado para obtener asesoría legal. **Leer ToS;DR de ninguna manera sustituye la lectura de los términos completos a los que está obligado.** Divulgación: nuestra lista de donantes y partidarios [es pública](https://thanks.tosdr.org/).
+**Nada aquí debe considerarse asesoría legal**. Expresamos nuestra opinión sin garantía y no respaldamos ningún servicio de ninguna manera. Por favor, consulta a un abogado calificado para obtener asesoría legal. **Leer ToS;DR de ninguna manera sustituye la lectura de los términos completos a los que está obligado.** Divulgación: nuestra lista de donantes y partidarios [es pública](https://thanks.tosdr.org/).
 
 ## Política de privacidad
 
