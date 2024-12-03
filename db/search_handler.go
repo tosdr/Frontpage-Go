@@ -16,12 +16,15 @@ const (
 )
 
 func SearchServices(term string) ([]models.SearchResult, error) {
-	// twitter is... special. thanks elon.
-	if term == "x" || len(term) < minSearchLen {
-		return nil, errors.New("search term must be at least 3 characters long")
+	normalizedTerm := strings.ToLower(strings.TrimSpace(term))
+
+	if normalizedTerm == "x" { // twitter is... special. thanks elon.
+		normalizedTerm = "twitter"
 	}
 
-	normalizedTerm := strings.ToLower(strings.TrimSpace(term))
+	if len(normalizedTerm) < minSearchLen {
+		return nil, errors.New("search term must be at least 3 characters long")
+	}
 
 	if cachedResults, found := cache.GetSearchResults(normalizedTerm); found {
 		return cachedResults, nil
