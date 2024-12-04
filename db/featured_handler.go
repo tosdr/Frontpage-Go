@@ -21,28 +21,46 @@ func FetchFeaturedServicesData() (*models.FeaturedServices, error) {
 		ExpiresAt: time.Now().Add(24 * time.Hour),
 	}
 
+	// Create channels for results and errors
+	resultChan := make(chan models.FeaturedService, len(config.AppConfig.FeaturedServices))
+	errorChan := make(chan error, len(config.AppConfig.FeaturedServices))
+
+	// Launch goroutines for parallel fetching
 	for _, serviceID := range config.AppConfig.FeaturedServices {
-		service, err := FetchServiceData(serviceID)
-		if err != nil {
-			logger.LogError(err, fmt.Sprintf("Error fetching service data for ID %d", serviceID))
-			continue
-		}
+		go func(id int) {
+			service, err := FetchServiceData(id)
+			if err != nil {
+				logger.LogError(err, fmt.Sprintf("Error fetching service data for ID %d", id))
+				errorChan <- err
+				return
+			}
 
-		featuredService := models.FeaturedService{
-			ID:    service.ID,
-			Name:  service.Name,
-			Icon:  service.Image,
-			Grade: service.Rating,
-		}
+			featuredService := models.FeaturedService{
+				ID:    service.ID,
+				Name:  service.Name,
+				Icon:  service.Image,
+				Grade: service.Rating,
+			}
 
-		for i := 0; i < len(service.Points) && i < 5; i++ {
-			featuredService.Points = append(featuredService.Points, service.Points[i])
-		}
+			for i := 0; i < len(service.Points) && i < 5; i++ {
+				featuredService.Points = append(featuredService.Points, service.Points[i])
+			}
 
-		featuredServices.Services = append(featuredServices.Services, featuredService)
+			resultChan <- featuredService
+		}(serviceID)
+	}
+
+	// Collect results
+	for i := 0; i < len(config.AppConfig.FeaturedServices); i++ {
+		select {
+		case service := <-resultChan:
+			featuredServices.Services = append(featuredServices.Services, service)
+		case err := <-errorChan:
+			// Log error but continue collecting other results
+			logger.LogError(err, "Error collecting featured service")
+		}
 	}
 
 	cache.SetFeaturedServices(featuredServices)
-
 	return featuredServices, nil
 }

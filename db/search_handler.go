@@ -2,11 +2,15 @@ package db
 
 import (
 	"errors"
+	"fmt"
+	"net/http"
 	"sort"
+	"strconv"
 	"strings"
+	"time"
+	"tosdrgo/cache"
 	"tosdrgo/logger"
 
-	"tosdrgo/cache"
 	"tosdrgo/models"
 )
 
@@ -15,57 +19,74 @@ const (
 	minSearchLen = 3
 )
 
-func SearchServices(term string) ([]models.SearchResult, error) {
+var allServices []models.SearchService
+
+func IndexSearch() {
+	start := time.Now()
+	logger.LogDebug("Running search index...")
+	query := `
+		SELECT id, name, url, is_comprehensively_reviewed, rating
+		FROM services
+	`
+
+	rows, err := DB.Query(query)
+	if err != nil {
+		logger.LogError(err, "Error executing search query")
+		return
+	}
+	defer rows.Close()
+
+	allServices = make([]models.SearchService, 0)
+	for rows.Next() {
+		var service models.SearchService
+		err := rows.Scan(&service.ID, &service.Name, &service.URL, &service.ComprehensivelyReviewed, &service.Rating)
+		if err != nil {
+			logger.LogError(err, "Error scanning search query results")
+			return
+		}
+		allServices = append(allServices, service)
+	}
+
+	logger.LogDebug("Search index completed in %s", time.Since(start))
+}
+
+func SearchServices(term string) ([]models.SearchResult, int, error) {
 	normalizedTerm := strings.ToLower(strings.TrimSpace(term))
 
-	if normalizedTerm == "x" { // twitter is... special. thanks elon.
+	if normalizedTerm == "x" {
 		normalizedTerm = "twitter"
 	}
 
 	if len(normalizedTerm) < minSearchLen {
-		return nil, errors.New("search term must be at least 3 characters long")
+		return nil, http.StatusBadRequest, errors.New(fmt.Sprintf("search term must be at least %d characters long", minSearchLen))
 	}
 
 	if cachedResults, found := cache.GetSearchResults(normalizedTerm); found {
-		return cachedResults, nil
+		return cachedResults, http.StatusNotModified, nil
 	}
 
-	query := `
-		SELECT id, name, slug, rating, is_comprehensively_reviewed, url
-		FROM services
-		WHERE LOWER(name) LIKE $1 OR url LIKE $1
-		LIMIT 100
-	`
-
-	if strings.Count(normalizedTerm, "%") > 2 {
-		logger.LogWarn("Potentially expensive search query with multiple wildcards: %s", normalizedTerm)
-	}
-
-	rows, err := DB.Query(query, "%"+normalizedTerm+"%")
-	if err != nil {
-		logger.LogError(err, "Error executing search query")
-		return nil, err
-	}
-	defer rows.Close()
-
-	results := make([]models.SearchResult, 0, 100)
-	for rows.Next() {
-		var result models.SearchResult
-		var urls string
-		err := rows.Scan(&result.ID, &result.Name, &result.Slug, &result.Rating, &result.ComprehensivelyReviewed, &urls)
-		if err != nil {
-			logger.LogError(err, "Error scanning search query results")
-			return nil, err
+	results := make([]models.SearchResult, 0, 20)
+	for _, service := range allServices {
+		if !strings.Contains(strings.ToLower(service.Name), normalizedTerm) &&
+			!strings.Contains(strings.ToLower(service.URL), normalizedTerm) {
+			continue
 		}
-		result.Image = "https://s3.tosdr.org/logos/" + result.ID + ".png"
 
-		urlList := strings.Split(urls, ",")
+		result := models.SearchResult{
+			ID:                      strconv.Itoa(service.ID),
+			Name:                    service.Name,
+			ComprehensivelyReviewed: service.ComprehensivelyReviewed,
+			Rating:                  service.Rating,
+			Image:                   "https://s3.tosdr.org/logos/" + strconv.Itoa(service.ID) + ".png",
+		}
 
-		nameMatch := calculateSimilarity(normalizedTerm, strings.ToLower(result.Name))
-		urlMatches := calculateURLMatches(normalizedTerm, urlList)
-		result.MatchPercentage = max(nameMatch, urlMatches)
+		nameMatch := calculateQuickSimilarity(normalizedTerm, strings.ToLower(service.Name))
+		urlMatch := calculateQuickSimilarity(normalizedTerm, strings.ToLower(service.URL))
+		result.MatchPercentage = max(nameMatch, urlMatch)
 
-		results = append(results, result)
+		if result.MatchPercentage > 0 {
+			results = append(results, result)
+		}
 	}
 
 	if len(results) > maxResults {
@@ -78,51 +99,28 @@ func SearchServices(term string) ([]models.SearchResult, error) {
 	}
 
 	cache.SetSearchResults(normalizedTerm, results)
-	return results, nil
+	return results, http.StatusOK, nil
 }
 
-func calculateURLMatches(term string, urls []string) float64 {
-	maxMatch := 0.0
-	for _, url := range urls {
-		match := calculateSimilarity(strings.ToLower(term), strings.ToLower(url))
-		if match > maxMatch {
-			maxMatch = match
+func calculateQuickSimilarity(term, target string) float64 {
+	if term == target {
+		return 100
+	}
+
+	if strings.Contains(target, term) {
+		return 90 * (float64(len(term)) / float64(len(target)))
+	}
+
+	matches := 0
+	termIndex := 0
+	for i := 0; i < len(target) && termIndex < len(term); i++ {
+		if target[i] == term[termIndex] {
+			matches++
+			termIndex++
 		}
 	}
-	return maxMatch
-}
 
-func calculateSimilarity(s1, s2 string) float64 {
-	distance := levenshteinDistance(s1, s2)
-	maxLen := max(float64(len(s1)), float64(len(s2)))
-	return 100 * (1 - float64(distance)/maxLen)
-}
-
-func levenshteinDistance(s1, s2 string) int {
-	m := len(s1)
-	n := len(s2)
-	d := make([][]int, m+1)
-	for i := range d {
-		d[i] = make([]int, n+1)
-	}
-
-	for i := 0; i <= m; i++ {
-		d[i][0] = i
-	}
-	for j := 0; j <= n; j++ {
-		d[0][j] = j
-	}
-
-	for j := 1; j <= n; j++ {
-		for i := 1; i <= m; i++ {
-			if s1[i-1] == s2[j-1] {
-				d[i][j] = d[i-1][j-1]
-			} else {
-				d[i][j] = min(d[i-1][j]+1, min(d[i][j-1]+1, d[i-1][j-1]+1))
-			}
-		}
-	}
-	return d[m][n]
+	return 100 * float64(matches) / max(float64(len(term)), float64(len(target)))
 }
 
 func partialSort(results []models.SearchResult, k int) {

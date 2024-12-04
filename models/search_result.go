@@ -9,3 +9,11 @@ type SearchResult struct {
 	Image                   string  `json:"image"`
 	MatchPercentage         float64 `json:"match_percentage"`
 }
+
+type SearchService struct {
+	ID                      int
+	Name                    string
+	URL                     string
+	ComprehensivelyReviewed bool
+	Rating                  string
+}

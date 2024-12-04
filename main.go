@@ -62,6 +62,20 @@ func main() {
 	}
 	defer db.CloseDB()
 
+	// Initial indexing
+	db.IndexSearch()
+
+	// Start background indexing
+	go func() {
+		ticker := time.NewTicker(12 * time.Hour)
+		defer ticker.Stop()
+
+		for range ticker.C {
+			logger.LogDebug("Running scheduled search index update")
+			db.IndexSearch()
+		}
+	}()
+
 	r := mux.NewRouter()
 
 	// Add metrics middleware to all routes
@@ -85,8 +99,14 @@ func main() {
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
 
 	// Shield endpoints (without language prefix)
-	r.HandleFunc("/shield/{serviceID}", handlers.ShieldHandler).Methods("GET")
-	r.HandleFunc("/legacyshield/en_{serviceID}.svg", handlers.ShieldHandler).Methods("GET")
+	r.HandleFunc("/{lang:[a-z]{2}}/shield/{serviceID}", handlers.ShieldHandler).Methods("GET")
+	r.HandleFunc("/legacyshield/{lang:[a-z]{2}}_{serviceID}.svg", handlers.ShieldHandler).Methods("GET")
+
+	// Add redirects for non-language-prefixed routes
+	r.HandleFunc("/service/{serviceID}", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
+	r.HandleFunc("/about", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
+	r.HandleFunc("/thanks", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
+	r.HandleFunc("/sites/{sitename}", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
 
 	// Root redirect to browser language
 	r.HandleFunc("/", handlers.DetectLanguageAndRedirect)

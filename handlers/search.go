@@ -33,9 +33,9 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	start := time.Now()
-	searchResults, err := db.SearchServices(searchTerm)
+	searchResults, code, err := db.SearchServices(searchTerm)
 	if err != nil {
-		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to fetch search results\n"+err.Error(), err)
+		RenderErrorPage(w, lang, code, "Failed to fetch search results\n"+err.Error(), err)
 		return
 	}
 
