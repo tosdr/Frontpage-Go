@@ -8,9 +8,9 @@
     <div class="logo-display">
         <img class="logo" alt="Logo">
     </div>
-    
+
     <h1 class="tagline">{{ t "home.tagline" }}</h1>
-    
+
     <div class="featured-on">
         <div class="featured-on-label">{{ t "home.featured_on" }}</div>
         <div class="featured-on-container">
@@ -63,13 +63,13 @@
             </div>
         </div>
     </div>
-    
+
     <div class="search-container">
         <!--suppress HtmlFormInputWithoutLabel -->
         <input type="text" id="searchInput" placeholder="{{ t "home.search_placeholder" }}" class="search-input">
         <button id="searchButton" class="search-button">{{ t "search.button" }}</button>
     </div>
-    
+
     <div class="services-grid">
         {{ $lang := .Lang }}
         {{ range .Featured }}
@@ -96,13 +96,24 @@
             </div>
         {{ end }}
     </div>
-    
     <div class="last-fetched-info">
         <p>{{ t "home.data_last_fetched" }} <span id="lastFetchedTime">{{ .LastFetchedTime }}</span></p>
     </div>
 
-    <div class="classifications-section markdown-content">
-        {{ .Classification }}
+    <div class="how-it-works">
+        <h2>{{ t "home.how_it_works.title" }}</h2>
+        <p>{{ t "home.how_it_works.content.one" }}</p>
+        <p>{{ t "home.how_it_works.content.two" }}</p>
+        <p>{{ t "home.how_it_works.content.three" }}</p>
+        <ul>
+            <li><span class="service-grade grade-A">{{ t "home.grade" "A" }}</span> — {{ t "home.how_it_works.a" }}</li>
+            <li><span class="service-grade grade-B">{{ t "home.grade" "B" }}</span> — {{ t "home.how_it_works.b" }}</li>
+            <li><span class="service-grade grade-C">{{ t "home.grade" "C" }}</span> — {{ t "home.how_it_works.c" }}</li>
+            <li><span class="service-grade grade-D">{{ t "home.grade" "D" }}</span> — {{ t "home.how_it_works.d" }}</li>
+            <li><span class="service-grade grade-E">{{ t "home.grade" "E" }}</span> — {{ t "home.how_it_works.e" }}</li>
+            <li><span class="service-grade grade-N/A">{{ t "home.nograde" }}</span> — {{ t "home.how_it_works.none" }}</li>
+        </ul>
+        <p>{{ t "home.how_it_works.more_info.before" }}<a href="https://edit.tosdr.org/">{{ t  "home.how_it_works.call_to_action" }}</a>{{ t "home.how_it_works.more_info.after" }}</p>
     </div>
 </div>
 <script>
