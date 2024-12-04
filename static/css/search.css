@@ -80,6 +80,16 @@
 .grade-E { background-color: var(--grade-e-bg); color: var(--grade-text); }
 .grade-N\/A { background-color: var(--btn-secondary-bg); color: var(--btn-secondary-text); }
 
+.result-logo.placeholder {
+    background-color: var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    opacity: 0.5;
+}
+
 @media (max-width: 768px) {
     .search-container {
         flex-direction: column;
