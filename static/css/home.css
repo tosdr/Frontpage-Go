@@ -93,7 +93,7 @@ p {
     background: var(--card-bg);
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -102,7 +102,7 @@ p {
 
 .service-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .service-header {
@@ -136,11 +136,30 @@ p {
     font-size: 0.9rem;
 }
 
-.grade-E { background-color: var(--grade-e-bg); color: var(--grade-text); }
-.grade-D { background-color: var(--grade-d-bg); color: var(--grade-text); }
-.grade-C { background-color: var(--grade-c-bg); color: var(--grade-text); }
-.grade-B { background-color: var(--grade-b-bg); color: var(--grade-text); }
-.grade-A { background-color: var(--grade-a-bg); color: var(--grade-text); }
+.grade-N\/A {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+}
+.grade-E {
+    background-color: var(--grade-e-bg);
+    color: var(--grade-text);
+}
+.grade-D {
+    background-color: var(--grade-d-bg);
+    color: var(--grade-text);
+}
+.grade-C {
+    background-color: var(--grade-c-bg);
+    color: var(--grade-text);
+}
+.grade-B {
+    background-color: var(--grade-b-bg);
+    color: var(--grade-text);
+}
+.grade-A {
+    background-color: var(--grade-a-bg);
+    color: var(--grade-text);
+}
 
 .service-points {
     list-style: none;
@@ -177,7 +196,9 @@ p {
 .point-icon {
     width: 20px;
     height: 20px;
-    filter: brightness(0) saturate(100%) invert(var(--icon-invert)) sepia(var(--icon-sepia)) saturate(var(--icon-saturate)) hue-rotate(var(--icon-hue-rotate)) brightness(var(--icon-brightness)) contrast(var(--icon-contrast));
+    filter: brightness(0) saturate(100%) invert(var(--icon-invert)) sepia(var(--icon-sepia))
+        saturate(var(--icon-saturate)) hue-rotate(var(--icon-hue-rotate))
+        brightness(var(--icon-brightness)) contrast(var(--icon-contrast));
 }
 
 .point-good {
@@ -196,7 +217,6 @@ p {
     background-color: var(--point-blocker-bg);
     color: var(--point-blocker-text);
 }
-
 
 .point-good .point-icon {
     --icon-invert: 23%;
@@ -240,6 +260,28 @@ p {
     margin-top: 1.5rem;
 }
 
+.how-it-works {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.how-it-works h2 {
+    font-size: 2.5rem;
+    margin-top: -0.5rem;
+    color: var(--text-color);
+}
+
+.how-it-works li {
+    margin-top: 15px;
+    margin-left: 1rem;
+}
+
+.how-it-works p {
+    margin-top: 1rem;
+}
+
 .btn {
     flex: 1;
     padding: 0.8rem;
@@ -270,8 +312,12 @@ p {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideUp {
@@ -298,7 +344,7 @@ p {
 
 .last-fetched-info {
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 0.9em;
     color: var(--text-color);
 }
@@ -431,11 +477,11 @@ p {
     .featured-on {
         margin: 1rem auto;
     }
-    
+
     .featured-on-scroll {
         gap: 2rem;
     }
-    
+
     .featured-on-scroll a {
         font-size: 1rem;
     }

@@ -3,9 +3,7 @@ package handlers
 import (
 	"bytes"
 	"fmt"
-	"html/template"
 	"net/http"
-	"os"
 	"time"
 	"tosdrgo/db"
 	"tosdrgo/localization"
@@ -45,25 +43,12 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	classificationContent, err := os.ReadFile(fmt.Sprintf("md/%s/classification.md", lang))
-	if err != nil {
-		logger.LogError(err, fmt.Sprintf("Failed to load classification content for %s, falling back to English", lang))
-		classificationContent, err = os.ReadFile("md/en/classification.md")
-	}
-
-	rendered, err := RenderMarkdown(classificationContent)
-	if err != nil {
-		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render classification content", err)
-		return
-	}
-
 	data := struct {
 		Title           string
 		Beta            bool
 		Lang            string
 		LastFetchedTime string
 		Featured        []models.FeaturedService
-		Classification  template.HTML
 		Languages       map[string]string
 	}{
 		Title:           "Home Page",
@@ -71,7 +56,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		Lang:            lang,
 		LastFetchedTime: time.Now().Format(time.RFC850),
 		Featured:        featured.Services,
-		Classification:  rendered,
 		Languages:       SupportedLanguages,
 	}
 
