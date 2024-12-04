@@ -1,8 +1,9 @@
 header {
     background-color: var(--header-bg);
     padding: 0 1rem;
-    margin: 1rem;
+    margin: 1rem auto;
     border-radius: var(--border-radius);
+    max-width: 1500px;
 }
 
 nav {
