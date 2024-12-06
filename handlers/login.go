@@ -4,7 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"net/http"
-	"tosdrgo/auth"
+	"tosdrgo/handlers/auth"
 
 	"github.com/gorilla/mux"
 )

@@ -1,28 +1,30 @@
 .dashboard-container {
-    max-width: 100%;
+    width: 95%;
+    max-width: 1800px;
     margin: 0 auto;
-    padding: 0;
+    padding: 1rem;
 }
 
 .dashboard-container h1 {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: var(--text-color);
 }
 
 .submissions-table {
     overflow-x: auto;
     background: var(--card-bg);
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.9rem;
 }
 
 th, td {
-    padding: 1rem;
+    padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid var(--card-border);
 }
@@ -31,38 +33,51 @@ th {
     background: var(--header-bg);
     color: var(--text-color);
     font-weight: 600;
+    white-space: nowrap;
+}
+
+td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 tr:hover {
     background: var(--header-bg);
 }
 
-.status-pending {
-    background: #f1c40f;
-    color: #000;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
+.action-buttons {
+    white-space: nowrap;
+    width: 1%;
 }
 
-.status-approved {
-    background: #2ecc71;
-    color: #fff;
-    padding: 0.25rem 0.5rem;
+.btn-accept, .btn-deny {
+    padding: 0.4rem 0.8rem;
+    border: none;
     border-radius: 4px;
-    font-size: 0.9rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin: 0 0.2rem;
+    transition: all 0.2s;
 }
 
-.status-rejected {
-    background: #e74c3c;
-    color: #fff;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
+.btn-accept {
+    background: var(--grade-a-bg);
+    color: var(--grade-text);
+}
+
+.btn-deny {
+    background: var(--grade-e-bg);
+    color: var(--grade-text);
+}
+
+.btn-accept:hover, .btn-deny:hover {
+    filter: brightness(90%);
 }
 
 .pagination {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;

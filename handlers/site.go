@@ -3,17 +3,16 @@ package handlers
 import (
 	"bytes"
 	"fmt"
-	"html/template"
-	"net/http"
-	"os"
-	"tosdrgo/localization"
-	"tosdrgo/logger"
-
 	"github.com/gorilla/mux"
 	"github.com/patrickmn/go-cache"
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
+	"html/template"
+	"net/http"
+	"os"
+	"tosdrgo/handlers/localization"
+	"tosdrgo/internal/logger"
 )
 
 func SiteHandler(w http.ResponseWriter, r *http.Request) {

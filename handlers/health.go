@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 	"time"
-	"tosdrgo/db"
-	"tosdrgo/logger"
+	"tosdrgo/internal/db"
+	"tosdrgo/internal/logger"
 )
 
 func HealthCheckHandler(w http.ResponseWriter, _ *http.Request) {

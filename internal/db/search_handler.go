@@ -8,9 +8,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"tosdrgo/cache"
-	"tosdrgo/logger"
-
+	"tosdrgo/handlers/cache"
+	"tosdrgo/internal/logger"
 	"tosdrgo/models"
 )
 

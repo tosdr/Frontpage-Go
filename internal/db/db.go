@@ -3,10 +3,9 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"tosdrgo/config"
-	"tosdrgo/logger"
-
 	_ "github.com/lib/pq"
+	"tosdrgo/internal/config"
+	"tosdrgo/internal/logger"
 )
 
 var DB *sql.DB

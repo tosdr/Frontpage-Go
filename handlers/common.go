@@ -2,14 +2,13 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/patrickmn/go-cache"
 	"html/template"
 	"net/http"
 	"strings"
 	"time"
-	"tosdrgo/localization"
-	"tosdrgo/logger"
-
-	"github.com/patrickmn/go-cache"
+	"tosdrgo/handlers/localization"
+	"tosdrgo/internal/logger"
 )
 
 var (

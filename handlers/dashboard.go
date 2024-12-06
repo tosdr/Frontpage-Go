@@ -4,14 +4,15 @@ import (
 	"bytes"
 	"net/http"
 	"strconv"
-	"tosdrgo/auth"
-	"tosdrgo/db"
+	"tosdrgo/handlers/auth"
+	"tosdrgo/internal/db"
+	"tosdrgo/internal/logger"
 
 	"github.com/gorilla/mux"
 )
 
 type DashboardData struct {
-	Submissions []db.ServiceSubmissionWithStatus
+	Submissions []db.ServiceSubmission
 	Page        int
 	TotalPages  int
 	HasNext     bool
@@ -85,4 +86,35 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set(ContentType, ContentTypeHtml)
 	_, _ = w.Write(buf.Bytes())
+}
+
+func HandleSubmissionAction(w http.ResponseWriter, r *http.Request) {
+	// Check if user is logged in
+	user, err := auth.GetUserSession(r)
+	if err != nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	vars := mux.Vars(r)
+	id := vars["id"]
+	action := vars["action"]
+
+	// Validate action
+	if action != "accept" && action != "deny" {
+		http.Error(w, "Invalid action", http.StatusBadRequest)
+		return
+	}
+
+	// Update submission status in database
+	err = db.UpdateSubmissionStatus(id, action)
+	if err != nil {
+		logger.LogError(err, "Failed to update submission")
+		http.Error(w, "Failed to update submission", http.StatusInternalServerError)
+		return
+	}
+
+	logger.LogDebug("Submission accepted by " + user.Email)
+
+	w.WriteHeader(http.StatusOK)
 }

@@ -4,9 +4,8 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"strings"
-	"tosdrgo/db"
-	"tosdrgo/logger"
-	"tosdrgo/models"
+	"tosdrgo/internal/db"
+	"tosdrgo/internal/logger"
 )
 
 type ServiceForm struct {
@@ -60,10 +59,10 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 	logger.LogDebug("Form validation passed, creating submission")
 
 	// Create submission
-	submission := &models.ServiceSubmission{
+	submission := &db.ServiceSubmission{
 		Name:      form.ServiceName,
-		Domains:   []string{form.ServiceURL},
-		Documents: []models.Document{},
+		Domains:   form.ServiceURL,
+		Documents: "",
 		Wikipedia: form.WikipediaURL,
 		Email:     form.EmailAddress,
 		Note:      form.Notes,

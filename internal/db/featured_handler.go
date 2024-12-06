@@ -3,10 +3,10 @@ package db
 import (
 	"fmt"
 	"time"
+	"tosdrgo/handlers/cache"
+	"tosdrgo/internal/config"
+	"tosdrgo/internal/logger"
 
-	"tosdrgo/cache"
-	"tosdrgo/config"
-	"tosdrgo/logger"
 	"tosdrgo/models"
 )
 

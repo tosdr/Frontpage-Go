@@ -1,19 +1,21 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
 	"strings"
 	"time"
-	"tosdrgo/auth"
-	"tosdrgo/config"
-	"tosdrgo/db"
 	"tosdrgo/handlers"
-	"tosdrgo/logger"
-	"tosdrgo/metrics"
-	"tosdrgo/middleware"
+	"tosdrgo/handlers/auth"
+	"tosdrgo/handlers/metrics"
+	"tosdrgo/handlers/middleware"
+	"tosdrgo/internal/config"
+	db2 "tosdrgo/internal/db"
+	"tosdrgo/internal/email"
+	"tosdrgo/internal/logger"
+
+	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var IsBeta = true
@@ -31,6 +33,10 @@ func init() {
 		config.AppConfig.Login.SessionKey,
 		config.AppConfig.Login.LogoutReturn,
 	)
+
+	if err := email.Init(); err != nil {
+		log.Fatalf("Failed to initialize email client: %v", err)
+	}
 }
 
 func setCSSContentType(next http.Handler) http.Handler {
@@ -66,13 +72,13 @@ func basicAuthMiddleware(username, password string) mux.MiddlewareFunc {
 }
 
 func main() {
-	if err := db.InitDB(); err != nil {
+	if err := db2.InitDB(); err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
-	defer db.CloseDB()
+	defer db2.CloseDB()
 
 	// Initial indexing
-	db.IndexSearch()
+	db2.IndexSearch()
 
 	// Start background indexing
 	go func() {
@@ -81,7 +87,7 @@ func main() {
 
 		for range ticker.C {
 			logger.LogDebug("Running scheduled search index update")
-			db.IndexSearch()
+			db2.IndexSearch()
 		}
 	}()
 
@@ -148,6 +154,9 @@ func main() {
 
 	// Dashboard route
 	r.HandleFunc("/{lang:[a-z]{2}}/dashboard", handlers.DashboardHandler).Methods("GET").Name("dashboard")
+
+	// Add these lines after the dashboard route
+	r.HandleFunc("/api/submissions/{id}/{action}", handlers.HandleSubmissionAction).Methods("POST").Name("submission_action")
 
 	// Start the server
 	log.Printf("Server starting on 0.0.0.0:80")

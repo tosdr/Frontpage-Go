@@ -6,7 +6,6 @@ toolchain go1.23.3
 
 require (
 	github.com/essentialkaos/go-badge v1.4.1
-	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/gorilla/mux v1.8.1
 	github.com/gorilla/sessions v1.4.0
 	github.com/lib/pq v1.10.9
@@ -16,6 +15,7 @@ require (
 	github.com/yuin/goldmark v1.7.6
 	github.com/yuin/goldmark-meta v1.1.0
 	golang.org/x/oauth2 v0.21.0
+	gopkg.in/mail.v2 v2.3.1
 )
 
 require (
@@ -30,6 +30,7 @@ require (
 	golang.org/x/image v0.22.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 )
 
 require (
