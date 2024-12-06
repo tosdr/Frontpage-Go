@@ -1,8 +1,10 @@
 package db
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"tosdrgo/internal/email"
 	"tosdrgo/internal/logger"
 )
@@ -154,7 +156,28 @@ func UpdateSubmissionStatus(id string, action string) error {
 			logger.LogError(err, "Failed to delete submission")
 			return err
 		}
-		err = email.SendEmail("Your request to add "+service.Name+" has been denied, sorry.", service.Email)
+
+		// Parse and execute the email template
+		tmpl, err := template.ParseFiles("templates/emails/denied.gohtml")
+		if err != nil {
+			logger.LogError(err, "Failed to parse email template")
+			return err
+		}
+
+		var emailBody bytes.Buffer
+		err = tmpl.ExecuteTemplate(&emailBody, "email", struct {
+			ServiceName string
+			ServicePage string
+		}{
+			ServiceName: service.Name,
+			ServicePage: service.Domains,
+		})
+		if err != nil {
+			logger.LogError(err, "Failed to execute email template")
+			return err
+		}
+
+		err = email.SendEmail(service.Email, "ToS;DR Service Submission Update", emailBody.String())
 		if err != nil {
 			logger.LogError(err, "Failed to send email")
 		}

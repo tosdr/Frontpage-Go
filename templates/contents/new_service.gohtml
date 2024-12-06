@@ -61,6 +61,12 @@
             {{ end }}
         </div>
 
+        <div class="form-group" id="documents-container">
+            <label>{{ t "new_service.documents_label" }}</label>
+            <div class="documents-list"></div>
+            <button type="button" class="btn btn-secondary" onclick="addDocument()">{{ t "new_service.add_document" }}</button>
+        </div>
+
         <div class="form-group">
             <label for="notes">{{ t "new_service.notes_label" }}</label>
             <textarea id="notes" name="notes" rows="4">{{ .Form.Notes }}</textarea>
@@ -130,6 +136,38 @@ document.getElementById('serviceForm').addEventListener('submit', function(e) {
         }
     }
 
+    // Validate documents
+    const documents = [];
+    const documentEntries = document.querySelectorAll('.document-entry');
+    
+    documentEntries.forEach(entry => {
+        const name = entry.querySelector('.document-name').value.trim();
+        const url = entry.querySelector('.document-url').value.trim();
+        const xpath = entry.querySelector('.document-xpath').value.trim();
+        
+        if (name && url) {
+            documents.push({
+                name: name,
+                url: url,
+                xpath: xpath
+            });
+        }
+    });
+
+    // Require at least one document
+    if (documents.length === 0) {
+        isValid = false;
+        document.getElementById('documents-container').classList.add('invalid');
+        console.log('At least one document is required');
+    }
+
+    // Add documents to form data
+    const documentsInput = document.createElement('input');
+    documentsInput.type = 'hidden';
+    documentsInput.name = 'documents';
+    documentsInput.value = JSON.stringify(documents);
+    this.appendChild(documentsInput);
+
     console.log('Form validation result:', isValid);
     if (!isValid) {
         e.preventDefault();
@@ -138,5 +176,34 @@ document.getElementById('serviceForm').addEventListener('submit', function(e) {
         console.log('Form submission proceeding');
     }
 });
+
+function addDocument() {
+    const container = document.createElement('div');
+    container.className = 'document-entry';
+    
+    const html = `
+        <div class="form-group">
+            <input type="text" 
+                   placeholder="{{ t "new_service.document_name_placeholder" }}"
+                   class="document-name" required>
+        </div>
+        <div class="form-group">
+            <input type="url" 
+                   placeholder="{{ t "new_service.document_url_placeholder" }}"
+                   class="document-url" required>
+        </div>
+        <div class="form-group">
+            <input type="text" 
+                   placeholder="{{ t "new_service.document_xpath_placeholder" }}"
+                   class="document-xpath">
+        </div>
+        <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">
+            {{ t "new_service.remove_document" }}
+        </button>
+    `;
+    
+    container.innerHTML = html;
+    document.querySelector('.documents-list').appendChild(container);
+}
 </script>
 {{ end }}

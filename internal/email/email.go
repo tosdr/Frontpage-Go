@@ -32,7 +32,7 @@ func Init() error {
 }
 
 // SendEmail sends an email using the default client
-func SendEmail(body string, to string) error {
+func SendEmail(to string, subject string, body string) error {
 	if to == "" { // no email
 		logger.LogDebug("There is no email.")
 		return nil
@@ -40,14 +40,14 @@ func SendEmail(body string, to string) error {
 	if defaultClient == nil {
 		return fmt.Errorf("email client not initialized")
 	}
-	return defaultClient.Send(body, to)
+	return defaultClient.Send(to, subject, body)
 }
 
 // Send sends an email using the client's configuration
-func (c *Client) Send(body string, to string) error {
+func (c *Client) Send(to string, subject string, body string) error {
 	from := mail.NewEmail("ToS;DR", c.from)
 	toEmail := mail.NewEmail("", to)
-	message := mail.NewSingleEmail(from, "ToS;DR Notification", toEmail, "", body)
+	message := mail.NewSingleEmail(from, subject, toEmail, "", body)
 
 	client := sendgrid.NewSendClient(c.apiKey)
 	_, err := client.Send(message)

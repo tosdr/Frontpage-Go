@@ -1,12 +1,21 @@
 package handlers
 
 import (
-	"github.com/gorilla/mux"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 	"tosdrgo/internal/db"
 	"tosdrgo/internal/logger"
+
+	"github.com/gorilla/mux"
 )
+
+type Document struct {
+	Name  string `json:"name"`
+	URL   string `json:"url"`
+	XPath string `json:"xpath"`
+}
 
 type ServiceForm struct {
 	ServiceName  string
@@ -14,6 +23,7 @@ type ServiceForm struct {
 	WikipediaURL string
 	EmailAddress string
 	Notes        string
+	Documents    []Document
 	Errors       map[string]string
 }
 
@@ -37,17 +47,31 @@ func NewServiceHandler(w http.ResponseWriter, r *http.Request) {
 func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string) {
 	logger.LogDebug("Starting service submission handling")
 
+	// Parse documents JSON from form
+	var documents []Document
+	documentsJSON := r.FormValue("documents")
+	if documentsJSON != "" {
+		if err := json.Unmarshal([]byte(documentsJSON), &documents); err != nil {
+			logger.LogError(err, "Failed to parse documents JSON")
+			renderNewServiceForm(w, r, lang, &ServiceForm{
+				Errors: map[string]string{"documents": "Invalid document format"},
+			})
+			return
+		}
+	}
+
 	form := &ServiceForm{
 		ServiceName:  strings.TrimSpace(r.FormValue("service_name")),
 		ServiceURL:   strings.TrimSpace(r.FormValue("service_url")),
 		WikipediaURL: strings.TrimSpace(r.FormValue("wikipedia_url")),
 		EmailAddress: strings.TrimSpace(r.FormValue("email")),
 		Notes:        strings.TrimSpace(r.FormValue("notes")),
+		Documents:    documents,
 		Errors:       make(map[string]string),
 	}
 
-	logger.LogDebug("Form values received - Name: %s, URL: %s, Wiki: %s, Email: %s",
-		form.ServiceName, form.ServiceURL, form.WikipediaURL, form.EmailAddress)
+	logger.LogDebug("Form values received - Name: %s, URL: %s, Wiki: %s, Email: %s, Documents: %v",
+		form.ServiceName, form.ServiceURL, form.WikipediaURL, form.EmailAddress, form.Documents)
 
 	// Validate form
 	if !validateForm(form) {
@@ -58,18 +82,27 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 
 	logger.LogDebug("Form validation passed, creating submission")
 
+	// Convert documents to JSON string
+	documentsBytes, err := json.Marshal(form.Documents)
+	if err != nil {
+		logger.LogError(err, "Failed to marshal documents")
+		form.Errors["general"] = "Failed to process documents"
+		renderNewServiceForm(w, r, lang, form)
+		return
+	}
+
 	// Create submission
 	submission := &db.ServiceSubmission{
 		Name:      form.ServiceName,
 		Domains:   form.ServiceURL,
-		Documents: "",
+		Documents: string(documentsBytes),
 		Wikipedia: form.WikipediaURL,
 		Email:     form.EmailAddress,
 		Note:      form.Notes,
 	}
 
 	// Add submission to database
-	err := db.AddSubmission(submission)
+	err = db.AddSubmission(submission)
 	if err != nil {
 		logger.LogError(err, "Database submission failed")
 		form.Errors["general"] = "Failed to submit service. Please try again later."
@@ -127,6 +160,32 @@ func validateForm(form *ServiceForm) bool {
 		if !strings.Contains(form.EmailAddress, "@") || !strings.Contains(form.EmailAddress, ".") {
 			form.Errors["email"] = "Invalid email address"
 			isValid = false
+		}
+	}
+
+	// Validate documents
+	if len(form.Documents) == 0 {
+		form.Errors["documents"] = "At least one document is required"
+		isValid = false
+	}
+
+	for i, doc := range form.Documents {
+		if strings.TrimSpace(doc.Name) == "" {
+			form.Errors["documents"] = fmt.Sprintf("Document %d: Name is required", i+1)
+			isValid = false
+			break
+		}
+
+		if strings.TrimSpace(doc.URL) == "" {
+			form.Errors["documents"] = fmt.Sprintf("Document %d: URL is required", i+1)
+			isValid = false
+			break
+		}
+
+		if !strings.HasPrefix(doc.URL, "http://") && !strings.HasPrefix(doc.URL, "https://") {
+			form.Errors["documents"] = fmt.Sprintf("Document %d: URL must start with http:// or https://", i+1)
+			isValid = false
+			break
 		}
 	}
 

@@ -52,7 +52,7 @@
     "nav.contribute": "Contribute",
     "nav.contribute_analysis": "Contribute Analysis",
     "nav.add_service": "Add new Service",
-    "nav.login": "Login",
+    "nav.dashboard": "Dashboard",
     "nav.donate": "Donate",
     "nav.leave_beta": "Leave Beta",
 
@@ -86,6 +86,12 @@
     "new_service.email_label": "Your Email Address",
     "new_service.notes_label": "Notes for Reviewers",
     "new_service.submit": "Submit Service",
+    "new_service.documents_label": "Documents",
+    "new_service.add_document": "Add Document",
+    "new_service.remove_document": "Remove",
+    "new_service.document_name_placeholder": "Document Name (e.g., Privacy Policy)",
+    "new_service.document_url_placeholder": "Document URL (https://...)",
+    "new_service.document_xpath_placeholder": "XPath (optional)",
 
     "profile.logout": "Logout"
 }
