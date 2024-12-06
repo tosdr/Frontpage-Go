@@ -11,11 +11,11 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/prometheus/client_golang v1.20.5
+	github.com/sendgrid/sendgrid-go v3.16.0+incompatible
 	github.com/tdewolff/minify/v2 v2.21.0
 	github.com/yuin/goldmark v1.7.6
 	github.com/yuin/goldmark-meta v1.1.0
 	golang.org/x/oauth2 v0.21.0
-	gopkg.in/mail.v2 v2.3.1
 )
 
 require (
@@ -27,10 +27,10 @@ require (
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.55.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
+	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	golang.org/x/image v0.22.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
-	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 )
 
 require (

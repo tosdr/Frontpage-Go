@@ -24,11 +24,8 @@ type Config struct {
 		SSLMode  string `yaml:"sslmode"`
 	} `yaml:"submission_database"`
 	SMTP struct {
-		Host     string `yaml:"host"`
-		User     string `yaml:"user"`
-		Password string `yaml:"password"`
-		Port     int    `yaml:"port"`
-		From     string `yaml:"from"`
+		APIKey string `yaml:"api_key"`
+		From   string `yaml:"from"`
 	} `yaml:"smtp"`
 	FeaturedServices []int  `yaml:"featured_services"`
 	MetricsUsername  string `yaml:"metrics_username"`
