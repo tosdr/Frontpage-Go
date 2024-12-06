@@ -1,0 +1,142 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/form.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="form-container">
+    <h1>{{ t "new_service.title" }}</h1>
+    <p>{{ t "new_service.description" }}</p>
+
+    <form method="POST" class="service-form" id="serviceForm" novalidate>
+        <div class="form-group">
+            <label for="service_name">{{ t "new_service.name_label" }}</label>
+            <input type="text" 
+                   id="service_name" 
+                   name="service_name" 
+                   value="{{ .Form.ServiceName }}" 
+                   required
+                   minlength="2"
+                   maxlength="100"
+                   pattern="[A-Za-z0-9\s\-]+">
+            {{ if .Form.Errors.service_name }}
+            <span class="error">{{ .Form.Errors.service_name }}</span>
+            {{ end }}
+        </div>
+
+        <div class="form-group">
+            <label for="service_url">{{ t "new_service.url_label" }}</label>
+            <input type="text" 
+                   id="service_url" 
+                   name="service_url" 
+                   value="{{ .Form.ServiceURL }}" 
+                   required
+                   placeholder="example.com, app.example.com">
+            <small class="help-text">Enter domains separated by commas, without protocols or www</small>
+            {{ if .Form.Errors.service_url }}
+            <span class="error">{{ .Form.Errors.service_url }}</span>
+            {{ end }}
+        </div>
+
+        <div class="form-group">
+            <label for="wikipedia_url">{{ t "new_service.wikipedia_label" }}</label>
+            <input type="url" 
+                   id="wikipedia_url" 
+                   name="wikipedia_url" 
+                   value="{{ .Form.WikipediaURL }}"
+                   pattern="https?:\/\/(en\.)?wikipedia\.org\/wiki\/.*">
+            {{ if .Form.Errors.wikipedia_url }}
+            <span class="error">{{ .Form.Errors.wikipedia_url }}</span>
+            {{ end }}
+        </div>
+
+        <div class="form-group">
+            <label for="email">{{ t "new_service.email_label" }}</label>
+            <input type="email" 
+                   id="email" 
+                   name="email" 
+                   value="{{ .Form.EmailAddress }}" 
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            {{ if .Form.Errors.email }}
+            <span class="error">{{ .Form.Errors.email }}</span>
+            {{ end }}
+        </div>
+
+        <div class="form-group">
+            <label for="notes">{{ t "new_service.notes_label" }}</label>
+            <textarea id="notes" name="notes" rows="4">{{ .Form.Notes }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{ t "new_service.submit" }}</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('serviceForm').addEventListener('submit', function(e) {
+    console.log('Form submission started');
+    let isValid = true;
+    const form = this;
+    
+    // Validate service name
+    const serviceName = form.service_name.value.trim();
+    console.log('Service name:', serviceName);
+    if (!serviceName || serviceName.length < 2 || serviceName.length > 100) {
+        isValid = false;
+        form.service_name.classList.add('invalid');
+        console.log('Service name validation failed');
+    }
+
+    // Validate service URL
+    const serviceUrl = form.service_url.value.trim();
+    console.log('Service URL:', serviceUrl);
+    
+    // Split domains and validate each one
+    const domains = serviceUrl.split(',').map(d => d.trim()).filter(d => d);
+    if (domains.length === 0) {
+        isValid = false;
+        form.service_url.classList.add('invalid');
+        console.log('At least one domain is required');
+    }
+
+    // Domain validation regex (no protocol, no www, no paths)
+    const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-z]{2,}$/;
+    for (const domain of domains) {
+        if (!domainRegex.test(domain)) {
+            isValid = false;
+            form.service_url.classList.add('invalid');
+            console.log(`Invalid domain format: ${domain}`);
+        }
+    }
+
+    // Validate Wikipedia URL if provided
+    const wikipediaUrl = form.wikipedia_url.value.trim();
+    console.log('Wikipedia URL:', wikipediaUrl);
+    if (wikipediaUrl) {
+        if (!wikipediaUrl.match(/^https?:\/\/(en\.)?wikipedia\.org\/wiki\/.+/)) {
+            isValid = false;
+            form.wikipedia_url.classList.add('invalid');
+            console.log('Wikipedia URL validation failed');
+        }
+    }
+
+    // Validate email if provided
+    const email = form.email.value.trim();
+    console.log('Email:', email);
+    if (email) {  // Only validate if email is provided
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            isValid = false;
+            form.email.classList.add('invalid');
+            console.log('Email validation failed');
+        }
+    }
+
+    console.log('Form validation result:', isValid);
+    if (!isValid) {
+        e.preventDefault();
+        console.log('Form submission prevented due to validation');
+    } else {
+        console.log('Form submission proceeding');
+    }
+});
+</script>
+{{ end }}

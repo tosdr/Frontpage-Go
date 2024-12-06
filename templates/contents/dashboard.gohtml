@@ -1,0 +1,53 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/dashboard.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="dashboard-container">
+    <h1>Service Submissions Dashboard</h1>
+
+    <div class="submissions-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Service Name</th>
+                    <th>Domains</th>
+                    <th>Documents</th>
+                    <th>Wikipedia</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Dashboard.Submissions }}
+                <tr>
+                    <td>{{ .ID }}</td>
+                    <td>{{ .Name }}</td>
+                    <td>{{ .Domains }}</td>
+                    <td>{{ .Documents }}</td>
+                    <td>{{ .Wikipedia }}</td>
+                    <td>{{ .Note }}</td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        {{ if .Dashboard.HasPrev }}
+        <a href="#" onclick="goToPage({{ .Dashboard.Page }} - 1); return false;" class="pagination-btn">&laquo; Previous</a>
+        {{ end }}
+        
+        <span class="page-info">Page {{ .Dashboard.Page }} of {{ .Dashboard.TotalPages }}</span>
+        
+        {{ if .Dashboard.HasNext }}
+        <a href="#" onclick="goToPage({{ .Dashboard.Page }} + 1); return false;" class="pagination-btn">Next &raquo;</a>
+        {{ end }}
+    </div>
+</div>
+<script>
+    function goToPage(page) {
+        window.location.href = `?page=${page}`;
+    }
+</script>
+{{ end }}

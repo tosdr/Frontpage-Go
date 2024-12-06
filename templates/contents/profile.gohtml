@@ -1,0 +1,17 @@
+{{ define "css_block" }}
+    <link rel="stylesheet" href="/static/css/profile.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="{{ .User.Picture }}" alt="Profile picture" class="profile-picture">
+        <h1>{{ .User.Name }}</h1>
+        <p class="email">{{ .User.Email }}</p>
+    </div>
+    <div class="profile-actions">
+        <a href="/logout" class="btn">{{ t "profile.logout" }}</a>
+        <a href="/{{ .Lang }}/dashboard" class="btn">Dashboard</a>
+    </div>
+</div>
+{{ end }} 

@@ -1,0 +1,87 @@
+.dashboard-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.dashboard-container h1 {
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.submissions-table {
+    overflow-x: auto;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--card-border);
+}
+
+th {
+    background: var(--header-bg);
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+tr:hover {
+    background: var(--header-bg);
+}
+
+.status-pending {
+    background: #f1c40f;
+    color: #000;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.status-approved {
+    background: #2ecc71;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.status-rejected {
+    background: #e74c3c;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.pagination {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination-btn {
+    padding: 0.5rem 1rem;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.pagination-btn:hover {
+    background: var(--btn-secondary-bg);
+}
+
+.page-info {
+    color: var(--text-color);
+} 
