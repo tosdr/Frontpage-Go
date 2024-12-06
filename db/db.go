@@ -10,39 +10,93 @@ import (
 )
 
 var DB *sql.DB
+var SubDB *sql.DB
 
-func InitDB() error {
-	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s options='--default_transaction_read_only=on'",
-		config.AppConfig.Database.Host,
-		config.AppConfig.Database.Port,
-		config.AppConfig.Database.User,
-		config.AppConfig.Database.Password,
-		config.AppConfig.Database.DBName,
-		config.AppConfig.Database.SSLMode,
+type dbConfig struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	DBName   string
+	SSLMode  string
+}
+
+func createConnection(conf dbConfig, readOnly bool) (*sql.DB, error) {
+	options := ""
+	if readOnly {
+		options = " options='--default_transaction_read_only=on'"
+	}
+
+	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s%s",
+		conf.Host,
+		conf.Port,
+		conf.User,
+		conf.Password,
+		conf.DBName,
+		conf.SSLMode,
+		options,
 	)
 
-	var err error
-	DB, err = sql.Open("postgres", connStr)
+	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-		logger.LogError(err, "Failed to open database connection")
-		return err
+		return nil, err
 	}
 
 	// Set connection pool settings
-	DB.SetMaxOpenConns(25)
-	DB.SetMaxIdleConns(25)
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
 
-	if err = DB.Ping(); err != nil {
-		logger.LogError(err, "Failed to ping database")
+	if err = db.Ping(); err != nil {
+		return nil, err
+	}
+
+	return db, nil
+}
+
+func InitDB() error {
+	// Initialize main database
+	mainConfig := dbConfig{
+		Host:     config.AppConfig.Database.Host,
+		Port:     config.AppConfig.Database.Port,
+		User:     config.AppConfig.Database.User,
+		Password: config.AppConfig.Database.Password,
+		DBName:   config.AppConfig.Database.DBName,
+		SSLMode:  config.AppConfig.Database.SSLMode,
+	}
+
+	var err error
+	DB, err = createConnection(mainConfig, true)
+	if err != nil {
+		logger.LogError(err, "Failed to open main database connection")
 		return err
 	}
 
-	logger.LogDebug("Database connection established successfully")
+	// Initialize submissions database
+	subConfig := dbConfig{
+		Host:     config.AppConfig.SubmissionsDatabase.Host,
+		Port:     config.AppConfig.SubmissionsDatabase.Port,
+		User:     config.AppConfig.SubmissionsDatabase.User,
+		Password: config.AppConfig.SubmissionsDatabase.Password,
+		DBName:   config.AppConfig.SubmissionsDatabase.DBName,
+		SSLMode:  config.AppConfig.SubmissionsDatabase.SSLMode,
+	}
+
+	SubDB, err = createConnection(subConfig, false)
+	if err != nil {
+		logger.LogError(err, "Failed to open submissions database connection")
+		CloseDB() // Close main DB if submissions DB fails
+		return err
+	}
+
+	logger.LogDebug("Database connections established successfully")
 	return nil
 }
 
 func CloseDB() {
 	if DB != nil {
 		_ = DB.Close()
+	}
+	if SubDB != nil {
+		_ = SubDB.Close()
 	}
 }

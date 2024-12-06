@@ -52,6 +52,7 @@
     "nav.contribute": "Contribute",
     "nav.contribute_analysis": "Contribute Analysis",
     "nav.add_service": "Add new Service",
+    "nav.login": "Login",
     "nav.donate": "Donate",
     "nav.leave_beta": "Leave Beta",
 
@@ -75,5 +76,16 @@
     "service.point_edit": "Edit",
 
     "thanks.thanks": "Thank you!",
-    "thanks.intro": "We would like to express our gratitude to the following sponsors who help make ToS;DR possible:"
+    "thanks.intro": "We would like to express our gratitude to the following sponsors who help make ToS;DR possible:",
+
+    "new_service.title": "Add New Service",
+    "new_service.description": "Please provide the details of the service you would like to add to ToS;DR. Our team will review your submission.",
+    "new_service.name_label": "Service Name",
+    "new_service.url_label": "Service URL",
+    "new_service.wikipedia_label": "Wikipedia Article URL (optional)",
+    "new_service.email_label": "Your Email Address",
+    "new_service.notes_label": "Notes for Reviewers",
+    "new_service.submit": "Submit Service",
+
+    "profile.logout": "Logout"
 }

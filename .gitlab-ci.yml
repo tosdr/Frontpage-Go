@@ -27,6 +27,8 @@ sonarqube-check:
     - if: $CI_COMMIT_BRANCH == 'master'
     - if: $CI_COMMIT_BRANCH == 'main'
     - if: $CI_COMMIT_BRANCH == 'develop'
+  only:
+    - master
 
 sonarqube-vulnerability-report:
   stage: sonarqube-vulnerability-report
@@ -43,6 +45,8 @@ sonarqube-vulnerability-report:
     expire_in: 1 day
     reports:
       sast: gl-sast-sonar-report.json
+  only:
+    - master
 
 build:
   stage: build

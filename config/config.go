@@ -15,9 +15,25 @@ type Config struct {
 		DBName   string `yaml:"dbname"`
 		SSLMode  string `yaml:"sslmode"`
 	} `yaml:"database"`
+	SubmissionsDatabase struct {
+		Host     string `yaml:"host"`
+		Port     int    `yaml:"port"`
+		User     string `yaml:"user"`
+		Password string `yaml:"password"`
+		DBName   string `yaml:"dbname"`
+		SSLMode  string `yaml:"sslmode"`
+	} `yaml:"submission_database"`
 	FeaturedServices []int  `yaml:"featured_services"`
 	MetricsUsername  string `yaml:"metrics_username"`
 	MetricsPassword  string `yaml:"metrics_password"`
+	Login            struct {
+		Domain       string `yaml:"domain"`
+		LogoutReturn string `yaml:"logout_return"`
+		ClientID     string `yaml:"client_id"`
+		ClientSecret string `yaml:"client_secret"`
+		RedirectURI  string `yaml:"redirect_uri"`
+		SessionKey   string `yaml:"session_key"`
+	} `yaml:"login"`
 }
 
 var AppConfig *Config
