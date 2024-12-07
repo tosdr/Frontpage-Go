@@ -180,20 +180,20 @@ document.getElementById('serviceForm').addEventListener('submit', function(e) {
 function addDocument() {
     const container = document.createElement('div');
     container.className = 'document-entry';
-    
-    const html = `
+
+    container.innerHTML = `
         <div class="form-group">
-            <input type="text" 
+            <input type="text"
                    placeholder="{{ t "new_service.document_name_placeholder" }}"
                    class="document-name" required>
         </div>
         <div class="form-group">
-            <input type="url" 
+            <input type="url"
                    placeholder="{{ t "new_service.document_url_placeholder" }}"
                    class="document-url" required>
         </div>
         <div class="form-group">
-            <input type="text" 
+            <input type="text"
                    placeholder="{{ t "new_service.document_xpath_placeholder" }}"
                    class="document-xpath">
         </div>
@@ -201,8 +201,6 @@ function addDocument() {
             {{ t "new_service.remove_document" }}
         </button>
     `;
-    
-    container.innerHTML = html;
     document.querySelector('.documents-list').appendChild(container);
 }
 

@@ -93,12 +93,18 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 		return
 	}
 
+	urls := strings.Split(form.ServiceURL, ",")
+	for _, url := range urls {
+		url = strings.TrimSpace(url)
+	}
+
+	trimmedUrls := strings.Join(urls, ",")
 	logger.LogDebug("Form validation passed, creating submission")
 
 	// Create submission
 	submission := &db.ServiceSubmission{
 		Name:      form.ServiceName,
-		Domains:   form.ServiceURL,
+		Domains:   trimmedUrls,
 		Documents: documentsJSON,
 		Wikipedia: form.WikipediaURL,
 		Email:     form.EmailAddress,
