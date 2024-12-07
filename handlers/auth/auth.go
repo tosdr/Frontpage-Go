@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/gob"
@@ -23,6 +24,8 @@ var (
 	logoutReturn string
 	loginDomain  string
 )
+
+const cookieName = "auth-session"
 
 type A0User struct {
 	Sub           string `json:"sub"`
@@ -73,7 +76,7 @@ func GetLoginURL(state string) string {
 }
 
 func Exchange(code string) (*oauth2.Token, error) {
-	return config.Exchange(oauth2.NoContext, code)
+	return config.Exchange(context.Background(), code)
 }
 
 func GetUserInfo(token *oauth2.Token) (*A0User, error) {
@@ -92,7 +95,7 @@ func GetUserInfo(token *oauth2.Token) (*A0User, error) {
 }
 
 func SaveUserSession(w http.ResponseWriter, r *http.Request, user *A0User, token *oauth2.Token) error {
-	session, err := store.Get(r, "auth-session")
+	session, err := store.Get(r, cookieName)
 	if err != nil {
 		return fmt.Errorf("failed to get session: %v", err)
 	}
@@ -104,7 +107,7 @@ func SaveUserSession(w http.ResponseWriter, r *http.Request, user *A0User, token
 }
 
 func GetUserSession(r *http.Request) (*A0User, error) {
-	session, _ := store.Get(r, "auth-session")
+	session, _ := store.Get(r, cookieName)
 	if user, ok := session.Values["user"].(*A0User); ok {
 		return user, nil
 	}
@@ -112,7 +115,7 @@ func GetUserSession(r *http.Request) (*A0User, error) {
 }
 
 func ClearSession(w http.ResponseWriter, r *http.Request) error {
-	session, _ := store.Get(r, "auth-session")
+	session, _ := store.Get(r, cookieName)
 	session.Options.MaxAge = -1
 	return session.Save(r, w)
 }

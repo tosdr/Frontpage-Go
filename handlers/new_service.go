@@ -50,6 +50,7 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 	// Parse documents JSON from form
 	var documents []Document
 	documentsJSON := r.FormValue("documents")
+	println(documentsJSON)
 	if documentsJSON != "" {
 		if err := json.Unmarshal([]byte(documentsJSON), &documents); err != nil {
 			logger.LogError(err, "Failed to parse documents JSON")
@@ -82,27 +83,18 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 
 	logger.LogDebug("Form validation passed, creating submission")
 
-	// Convert documents to JSON string
-	documentsBytes, err := json.Marshal(form.Documents)
-	if err != nil {
-		logger.LogError(err, "Failed to marshal documents")
-		form.Errors["general"] = "Failed to process documents"
-		renderNewServiceForm(w, r, lang, form)
-		return
-	}
-
 	// Create submission
 	submission := &db.ServiceSubmission{
 		Name:      form.ServiceName,
 		Domains:   form.ServiceURL,
-		Documents: string(documentsBytes),
+		Documents: documentsJSON,
 		Wikipedia: form.WikipediaURL,
 		Email:     form.EmailAddress,
 		Note:      form.Notes,
 	}
 
 	// Add submission to database
-	err = db.AddSubmission(submission)
+	err := db.AddSubmission(submission)
 	if err != nil {
 		logger.LogError(err, "Database submission failed")
 		form.Errors["general"] = "Failed to submit service. Please try again later."
@@ -117,79 +109,109 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 func validateForm(form *ServiceForm) bool {
 	isValid := true
 
-	if len(form.ServiceName) < 2 || len(form.ServiceName) > 100 {
-		form.Errors["service_name"] = "Service name must be between 2 and 100 characters"
+	// Validate each field using separate functions
+	if !validateServiceName(form) {
 		isValid = false
 	}
-
-	if form.ServiceURL == "" {
-		form.Errors["service_url"] = "Service URL is required"
-		isValid = false
-	} else {
-		domains := strings.Split(form.ServiceURL, ",")
-		for _, domain := range domains {
-			domain = strings.TrimSpace(domain)
-			if domain == "" {
-				continue
-			}
-			if strings.HasPrefix(domain, "http://") || strings.HasPrefix(domain, "https://") {
-				form.Errors["service_url"] = "Domains must not include protocols (http:// or https://)"
-				isValid = false
-				break
-			}
-			if strings.HasPrefix(domain, "www.") {
-				form.Errors["service_url"] = "Domains must not include www prefix"
-				isValid = false
-				break
-			}
-			// Basic domain format validation
-			if !strings.Contains(domain, ".") || len(domain) < 4 {
-				form.Errors["service_url"] = "Invalid domain format"
-				isValid = false
-				break
-			}
-		}
-	}
-
-	if form.WikipediaURL != "" && !strings.HasPrefix(form.WikipediaURL, "https://en.wikipedia.org/wiki/") {
-		form.Errors["wikipedia_url"] = "Wikipedia URL must be from English Wikipedia (https://en.wikipedia.org/wiki/)"
+	if !validateServiceURL(form) {
 		isValid = false
 	}
-
-	if form.EmailAddress != "" { // Only validate if email is provided
-		if !strings.Contains(form.EmailAddress, "@") || !strings.Contains(form.EmailAddress, ".") {
-			form.Errors["email"] = "Invalid email address"
-			isValid = false
-		}
-	}
-
-	// Validate documents
-	if len(form.Documents) == 0 {
-		form.Errors["documents"] = "At least one document is required"
+	if !validateWikipediaURL(form) {
 		isValid = false
 	}
-
-	for i, doc := range form.Documents {
-		if strings.TrimSpace(doc.Name) == "" {
-			form.Errors["documents"] = fmt.Sprintf("Document %d: Name is required", i+1)
-			isValid = false
-			break
-		}
-
-		if strings.TrimSpace(doc.URL) == "" {
-			form.Errors["documents"] = fmt.Sprintf("Document %d: URL is required", i+1)
-			isValid = false
-			break
-		}
-
-		if !strings.HasPrefix(doc.URL, "http://") && !strings.HasPrefix(doc.URL, "https://") {
-			form.Errors["documents"] = fmt.Sprintf("Document %d: URL must start with http:// or https://", i+1)
-			isValid = false
-			break
-		}
+	if !validateEmail(form) {
+		isValid = false
+	}
+	if !validateDocuments(form) {
+		isValid = false
 	}
 
 	return isValid
+}
+
+func validateServiceName(form *ServiceForm) bool {
+	if len(form.ServiceName) < 2 || len(form.ServiceName) > 100 {
+		form.Errors["service_name"] = "Service name must be between 2 and 100 characters"
+		return false
+	}
+	return true
+}
+
+func validateServiceURL(form *ServiceForm) bool {
+	if form.ServiceURL == "" {
+		form.Errors["service_url"] = "Service URL is required"
+		return false
+	}
+
+	domains := strings.Split(form.ServiceURL, ",")
+	for _, domain := range domains {
+		domain = strings.TrimSpace(domain)
+		if domain == "" {
+			continue
+		}
+		if err := validateDomain(domain); err != nil {
+			form.Errors["service_url"] = err.Error()
+			return false
+		}
+	}
+	return true
+}
+
+func validateDomain(domain string) error {
+	if strings.HasPrefix(domain, "http://") || strings.HasPrefix(domain, "https://") {
+		return fmt.Errorf("domains must not include protocols (http:// or https://)")
+	}
+	if strings.HasPrefix(domain, "www.") {
+		return fmt.Errorf("domains must not include www prefix")
+	}
+	if !strings.Contains(domain, ".") || len(domain) < 4 {
+		return fmt.Errorf("invalid domain format")
+	}
+	return nil
+}
+
+func validateWikipediaURL(form *ServiceForm) bool {
+	if form.WikipediaURL != "" && !strings.HasPrefix(form.WikipediaURL, "https://en.wikipedia.org/wiki/") {
+		form.Errors["wikipedia_url"] = "Wikipedia URL must be from English Wikipedia (https://en.wikipedia.org/wiki/)"
+		return false
+	}
+	return true
+}
+
+func validateEmail(form *ServiceForm) bool {
+	if form.EmailAddress != "" && (!strings.Contains(form.EmailAddress, "@") || !strings.Contains(form.EmailAddress, ".")) {
+		form.Errors["email"] = "Invalid email address"
+		return false
+	}
+	return true
+}
+
+func validateDocuments(form *ServiceForm) bool {
+	if len(form.Documents) == 0 {
+		form.Errors["documents"] = "At least one document is required"
+		return false
+	}
+
+	for i, doc := range form.Documents {
+		if err := validateDocument(i, doc); err != nil {
+			form.Errors["documents"] = err.Error()
+			return false
+		}
+	}
+	return true
+}
+
+func validateDocument(index int, doc Document) error {
+	if strings.TrimSpace(doc.Name) == "" {
+		return fmt.Errorf("document %d: Name is required", index+1)
+	}
+	if strings.TrimSpace(doc.URL) == "" {
+		return fmt.Errorf("document %d: URL is required", index+1)
+	}
+	if !strings.HasPrefix(doc.URL, "http://") && !strings.HasPrefix(doc.URL, "https://") {
+		return fmt.Errorf("document %d: URL must start with http:// or https://", index+1)
+	}
+	return nil
 }
 
 func renderNewServiceForm(w http.ResponseWriter, r *http.Request, lang string, form *ServiceForm) {

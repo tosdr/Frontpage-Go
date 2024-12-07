@@ -26,13 +26,6 @@ type DocumentSubmission struct {
 }
 
 func AddSubmission(submission *ServiceSubmission) error {
-	// Convert documents array to JSON string
-	documentsJSON, err := json.Marshal(submission.Documents)
-	if err != nil {
-		logger.LogError(err, "Failed to marshal documents")
-		return err
-	}
-
 	// Prepare the SQL statement
 	stmt, err := SubDB.Prepare(`
 		INSERT INTO service_requests 
@@ -49,7 +42,7 @@ func AddSubmission(submission *ServiceSubmission) error {
 	_, err = stmt.Exec(
 		submission.Name,
 		submission.Domains,
-		string(documentsJSON),
+		submission.Documents,
 		submission.Wikipedia,
 		submission.Email,
 		submission.Note,
@@ -153,7 +146,7 @@ func DeleteSubmission(id string) (*ServiceSubmission, error) {
 	return &submission, nil
 }
 
-func AddService(name string, url string, wikipedia string, user string) (int, error) {
+func AddService(name string, url string, wikipedia string) (int, error) {
 	var serviceID int
 	err := DB.QueryRow(`
 		INSERT INTO services (name, url, wikipedia, created_at, updated_at) VALUES ($1, $2, $3, NOW(), NOW()) RETURNING id
@@ -175,7 +168,7 @@ func AcceptSubmission(id string) (string, string, int, error) {
 	}
 
 	// add service to DB
-	serviceID, err := AddService(service.Name, service.Domains, service.Wikipedia, service.Email)
+	serviceID, err := AddService(service.Name, service.Domains, service.Wikipedia)
 	if err != nil {
 		logger.LogError(err, "Failed to add service to DB")
 		return "", "", 0, err
@@ -200,73 +193,83 @@ func AcceptSubmission(id string) (string, string, int, error) {
 	return service.Name, service.Email, serviceID, nil
 }
 
+func denyRequest(id string) error {
+	service, err := DeleteSubmission(id)
+	if err != nil {
+		logger.LogError(err, "Failed to delete submission")
+		return err
+	}
+
+	// Parse and execute the email template
+	tmpl, err := template.ParseFiles("templates/emails/denied.gohtml")
+	if err != nil {
+		logger.LogError(err, "Failed to parse email template")
+		return err
+	}
+
+	var emailBody bytes.Buffer
+	err = tmpl.ExecuteTemplate(&emailBody, "email", struct {
+		ServiceName string
+		ServicePage string
+	}{
+		ServiceName: service.Name,
+		ServicePage: service.Domains,
+	})
+	if err != nil {
+		logger.LogError(err, "Failed to execute email template")
+		return err
+	}
+
+	err = email.SendEmail(service.Email, "ToS;DR Service Submission Update", emailBody.String())
+	if err != nil {
+		logger.LogError(err, "Failed to send email")
+	}
+
+	return nil
+}
+
+func allowRequest(id string) error {
+	serviceName, serviceEmail, serviceID, err := AcceptSubmission(id)
+	if err != nil {
+		logger.LogError(err, "Failed to accept submission")
+		return err
+	}
+
+	// Parse and execute the email template
+	tmpl, err := template.ParseFiles("templates/emails/accepted.gohtml")
+	if err != nil {
+		logger.LogError(err, "Failed to parse email template")
+		return err
+	}
+
+	var emailBody bytes.Buffer
+	err = tmpl.ExecuteTemplate(&emailBody, "email", struct {
+		ServiceName string
+		ServiceID   int
+	}{
+		ServiceName: serviceName,
+		ServiceID:   serviceID,
+	})
+	if err != nil {
+		logger.LogError(err, "Failed to execute email template")
+		return err
+	}
+
+	err = email.SendEmail(serviceEmail, "ToS;DR Service Submission Update", emailBody.String())
+	if err != nil {
+		logger.LogError(err, "Failed to send email")
+	}
+
+	return nil
+}
+
 func UpdateSubmissionStatus(id string, action string) error {
 	logger.LogDebug("Updating submission status - ID: %s, Action: %s", id, action)
 
 	if action == "deny" {
-		service, err := DeleteSubmission(id)
-		if err != nil {
-			logger.LogError(err, "Failed to delete submission")
-			return err
-		}
-
-		// Parse and execute the email template
-		tmpl, err := template.ParseFiles("templates/emails/denied.gohtml")
-		if err != nil {
-			logger.LogError(err, "Failed to parse email template")
-			return err
-		}
-
-		var emailBody bytes.Buffer
-		err = tmpl.ExecuteTemplate(&emailBody, "email", struct {
-			ServiceName string
-			ServicePage string
-		}{
-			ServiceName: service.Name,
-			ServicePage: service.Domains,
-		})
-		if err != nil {
-			logger.LogError(err, "Failed to execute email template")
-			return err
-		}
-
-		err = email.SendEmail(service.Email, "ToS;DR Service Submission Update", emailBody.String())
-		if err != nil {
-			logger.LogError(err, "Failed to send email")
-		}
-		return nil
+		return denyRequest(id)
 	} else if action == "accept" {
-		serviceName, serviceEmail, serviceID, err := AcceptSubmission(id)
-		if err != nil {
-			logger.LogError(err, "Failed to accept submission")
-			return err
-		}
-
-		// Parse and execute the email template
-		tmpl, err := template.ParseFiles("templates/emails/accepted.gohtml")
-		if err != nil {
-			logger.LogError(err, "Failed to parse email template")
-			return err
-		}
-
-		var emailBody bytes.Buffer
-		err = tmpl.ExecuteTemplate(&emailBody, "email", struct {
-			ServiceName string
-			ServiceID   int
-		}{
-			ServiceName: serviceName,
-			ServiceID:   serviceID,
-		})
-		if err != nil {
-			logger.LogError(err, "Failed to execute email template")
-			return err
-		}
-
-		err = email.SendEmail(serviceEmail, "ToS;DR Service Submission Update", emailBody.String())
-		if err != nil {
-			logger.LogError(err, "Failed to send email")
-		}
-		return nil
+		return allowRequest(id)
 	}
 
 	return fmt.Errorf("invalid action: %s", action)
