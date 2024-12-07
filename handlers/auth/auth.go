@@ -8,9 +8,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/sessions"
 	"golang.org/x/oauth2"
-	"net/http"
 )
 
 func init() {
@@ -80,7 +81,7 @@ func Exchange(code string) (*oauth2.Token, error) {
 }
 
 func GetUserInfo(token *oauth2.Token) (*A0User, error) {
-	client := config.Client(oauth2.NoContext, token)
+	client := config.Client(context.Background(), token)
 	resp, err := client.Get(config.Endpoint.AuthURL + "/userinfo")
 	if err != nil {
 		return nil, err

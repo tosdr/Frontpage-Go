@@ -91,9 +91,14 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 func HandleSubmissionAction(w http.ResponseWriter, r *http.Request) {
 	// Check if user is logged in
 	user, err := auth.GetUserSession(r)
+
 	if err != nil {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
+	}
+
+	if !isPartOfTeam(user.Sub) {
+		LogoutHandler(w, r)
 	}
 
 	vars := mux.Vars(r)

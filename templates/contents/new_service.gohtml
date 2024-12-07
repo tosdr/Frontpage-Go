@@ -197,7 +197,7 @@ function addDocument() {
                    placeholder="{{ t "new_service.document_xpath_placeholder" }}"
                    class="document-xpath">
         </div>
-        <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">
+        <button type="button" class="btn btn-danger" onclick="removeDocument(this)">
             {{ t "new_service.remove_document" }}
         </button>
     `;
@@ -205,5 +205,16 @@ function addDocument() {
     container.innerHTML = html;
     document.querySelector('.documents-list').appendChild(container);
 }
+
+function removeDocument(button) {
+    const documentsList = document.querySelector('.documents-list');
+    if (documentsList.children.length <= 1) {
+        alert('At least one document is required');
+        return;
+    }
+    button.parentElement.remove();
+}
+
+addDocument();
 </script>
 {{ end }}

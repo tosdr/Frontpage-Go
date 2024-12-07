@@ -3,11 +3,49 @@ package handlers
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"tosdrgo/handlers/auth"
 
 	"github.com/gorilla/mux"
 )
+
+func ProfileHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	lang := vars["lang"]
+
+	user, err := auth.GetUserSession(r)
+	if err != nil {
+		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
+		return
+	}
+
+	tmpl, err := parseTemplates("templates/contents/profile.gohtml", lang, r)
+	if err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to load profile page", err)
+		return
+	}
+
+	data := struct {
+		Title     string
+		Beta      bool
+		Lang      string
+		User      *auth.A0User
+		Languages map[string]string
+	}{
+		Title:     "Profile - ToS;DR",
+		Beta:      isBeta,
+		Lang:      lang,
+		User:      user,
+		Languages: SupportedLanguages,
+	}
+
+	w.Header().Set(ContentType, ContentTypeHtml)
+	if err := tmpl.ExecuteTemplate(w, "layout", data); err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render profile page", err)
+	}
+}
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
@@ -78,6 +116,11 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !isPartOfTeam(user.Sub) {
+		LogoutHandler(w, r)
+		return
+	}
+
 	if err := auth.SaveUserSession(w, r, user, token); err != nil {
 		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to save user session", err)
 		return
@@ -86,40 +129,30 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/en/profile", http.StatusTemporaryRedirect)
 }
 
-func ProfileHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	lang := vars["lang"]
-
-	user, err := auth.GetUserSession(r)
+func isPartOfTeam(uid string) bool {
+	url := fmt.Sprintf("https://id.tosdr.org/v1/orgs/%s", uid)
+	resp, err := http.Get(url)
 	if err != nil {
-		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-		return
+		return false
+	}
+	defer resp.Body.Close()
+
+	type Organization struct {
+		Name string `json:"name"`
 	}
 
-	tmpl, err := parseTemplates("templates/contents/profile.gohtml", lang, r)
-	if err != nil {
-		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to load profile page", err)
-		return
+	var organizations []Organization
+	if err := json.NewDecoder(resp.Body).Decode(&organizations); err != nil {
+		return false
 	}
 
-	data := struct {
-		Title     string
-		Beta      bool
-		Lang      string
-		User      *auth.A0User
-		Languages map[string]string
-	}{
-		Title:     "Profile - ToS;DR",
-		Beta:      isBeta,
-		Lang:      lang,
-		User:      user,
-		Languages: SupportedLanguages,
+	for _, org := range organizations {
+		if org.Name == "tosdrteam" || org.Name == "tosdrphoenix" {
+			return true
+		}
 	}
 
-	w.Header().Set(ContentType, ContentTypeHtml)
-	if err := tmpl.ExecuteTemplate(w, "layout", data); err != nil {
-		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render profile page", err)
-	}
+	return false
 }
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {

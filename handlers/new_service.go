@@ -81,6 +81,18 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 		return
 	}
 
+	// check if already exists (domain in db)
+	existing, err := db.GetServiceSubmissionByDomain(form.ServiceURL)
+	if err != nil {
+		logger.LogError(err, "Failed to check if service already exists")
+	}
+
+	if existing != nil && existing.ID != 0 {
+		form.Errors["service_url"] = "Service already in submission queue!"
+		renderNewServiceForm(w, r, lang, form)
+		return
+	}
+
 	logger.LogDebug("Form validation passed, creating submission")
 
 	// Create submission
@@ -94,7 +106,7 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 	}
 
 	// Add submission to database
-	err := db.AddSubmission(submission)
+	err = db.AddSubmission(submission)
 	if err != nil {
 		logger.LogError(err, "Database submission failed")
 		form.Errors["general"] = "Failed to submit service. Please try again later."
