@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	"tosdrgo/db"
-	"tosdrgo/metrics"
+	"tosdrgo/handlers/metrics"
+	"tosdrgo/internal/db"
 	"tosdrgo/models"
 
 	"github.com/gorilla/mux"

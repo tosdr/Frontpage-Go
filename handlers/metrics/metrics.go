@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	// Request metrics
+	// RequestCounter Request metrics
 	RequestCounter = promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "tosdr_http_requests_total",
@@ -15,7 +15,7 @@ var (
 		[]string{"handler", "method", "status"},
 	)
 
-	// Page render timing
+	// PageRenderTime Page render timing
 	PageRenderTime = promauto.NewHistogramVec(
 		prometheus.HistogramOpts{
 			Name:    "tosdr_page_render_duration_seconds",
@@ -25,7 +25,7 @@ var (
 		[]string{"handler", "lang"},
 	)
 
-	// Error tracking
+	// ErrorCounter Error tracking
 	ErrorCounter = promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "tosdr_errors_total",
@@ -34,7 +34,7 @@ var (
 		[]string{"type", "message"},
 	)
 
-	// Detailed error tracking
+	// ErrorDetailsCounter Detailed error tracking
 	ErrorDetailsCounter = promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "tosdr_error_details_total",
@@ -43,7 +43,7 @@ var (
 		[]string{"type", "status_code", "message"},
 	)
 
-	// Cache performance
+	// CacheHits Cache performance
 	CacheHits = promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "tosdr_cache_hits_total",
@@ -60,7 +60,7 @@ var (
 		[]string{"cache_type"},
 	)
 
-	// Search latency
+	// SearchLatency Search latency
 	SearchLatency = promauto.NewHistogramVec(
 		prometheus.HistogramOpts{
 			Name:    "tosdr_search_duration_seconds",
@@ -70,7 +70,7 @@ var (
 		[]string{"result_count"},
 	)
 
-	// Rate limit metrics
+	// RateLimitExceeded Rate limit metrics
 	RateLimitExceeded = promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "tosdr_rate_limit_exceeded_total",

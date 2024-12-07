@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"time"
-	"tosdrgo/db"
-	"tosdrgo/localization"
-	"tosdrgo/logger"
+	"tosdrgo/handlers/localization"
+	"tosdrgo/internal/db"
+	"tosdrgo/internal/logger"
 	"tosdrgo/models"
 
 	"github.com/gorilla/mux"

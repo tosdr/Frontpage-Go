@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"net/http"
-	"tosdrgo/metrics"
-	"tosdrgo/ratelimit"
+	"tosdrgo/handlers/metrics"
+	"tosdrgo/handlers/ratelimit"
 )
 
 func RateLimitMiddleware(next http.Handler) http.Handler {
