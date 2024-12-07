@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"tosdrgo/db"
+	"tosdrgo/internal/db"
 	"tosdrgo/models"
 
 	"github.com/gorilla/mux"

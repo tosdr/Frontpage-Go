@@ -4,8 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"sync"
-
-	"tosdrgo/logger"
+	"tosdrgo/internal/logger"
 )
 
 var (

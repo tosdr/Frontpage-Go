@@ -1,0 +1,93 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/dashboard.css">
+<style>
+    td:not(.action-buttons) {
+        cursor: pointer;
+    }
+    td:not(.action-buttons):hover {
+        opacity: 0.8;
+    }
+</style>
+{{ end }}
+
+{{ define "content" }}
+<div class="dashboard-container">
+    <h1>Service Submissions Dashboard</h1>
+
+    <div class="submissions-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Service Name</th>
+                    <th>Domains</th>
+                    <th>Documents</th>
+                    <th>Wikipedia</th>
+                    <th>Note</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Dashboard.Submissions }}
+                <tr data-id="{{ .ID }}">
+                    <td onclick="showContent(this)">{{ .ID }}</td>
+                    <td onclick="showContent(this)">{{ .Name }}</td>
+                    <td onclick="showContent(this)">{{ .Domains }}</td>
+                    <td onclick="showContent(this)">{{ .Documents }}</td>
+                    <td onclick="showContent(this)">{{ .Wikipedia }}</td>
+                    <td onclick="showContent(this)">{{ .Note }}</td>
+                    <td class="action-buttons">
+                        <button class="btn-accept" onclick="handleSubmission({{ .ID }}, 'accept')">Accept</button>
+                        <button class="btn-deny" onclick="handleSubmission({{ .ID }}, 'deny')">Deny</button>
+                    </td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        {{ if .Dashboard.HasPrev }}
+        <a href="#" onclick="goToPage({{ .Dashboard.Page }} - 1); return false;" class="pagination-btn">&laquo; Previous</a>
+        {{ end }}
+        
+        <span class="page-info">Page {{ .Dashboard.Page }} of {{ .Dashboard.TotalPages }}</span>
+        
+        {{ if .Dashboard.HasNext }}
+        <a href="#" onclick="goToPage({{ .Dashboard.Page }} + 1); return false;" class="pagination-btn">Next &raquo;</a>
+        {{ end }}
+    </div>
+</div>
+<script>
+    function goToPage(page) {
+        window.location.href = `?page=${page}`;
+    }
+
+    function showContent(element) {
+        const content = element.textContent || element.innerText;
+        alert(content.trim());
+    }
+
+    async function handleSubmission(id, action) {
+        try {
+            const response = await fetch(`/api/submissions/${id}/${action}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            // Remove the row from the table
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+            row.remove();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to process submission. Please try again.');
+        }
+    }
+</script>
+{{ end }}

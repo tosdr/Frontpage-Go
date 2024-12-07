@@ -15,5 +15,5 @@ type SearchService struct {
 	Name                    string
 	URL                     string
 	ComprehensivelyReviewed bool
-	Rating                  string
+	Rating                  *string
 }

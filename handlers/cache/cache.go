@@ -3,7 +3,7 @@ package cache
 import (
 	"fmt"
 	"time"
-	"tosdrgo/metrics"
+	"tosdrgo/handlers/metrics"
 	"tosdrgo/models"
 
 	"github.com/patrickmn/go-cache"

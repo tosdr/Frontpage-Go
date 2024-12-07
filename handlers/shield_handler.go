@@ -6,9 +6,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-
-	"tosdrgo/db"
-	"tosdrgo/logger"
+	"tosdrgo/internal/db"
+	"tosdrgo/internal/logger"
 
 	"github.com/essentialkaos/go-badge"
 	"github.com/gorilla/mux"

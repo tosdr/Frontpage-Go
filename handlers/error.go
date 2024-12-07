@@ -3,8 +3,8 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-	"tosdrgo/logger"
-	"tosdrgo/metrics"
+	"tosdrgo/handlers/metrics"
+	"tosdrgo/internal/logger"
 )
 
 func RenderErrorPage(w http.ResponseWriter, lang string, errorCode int, errorMessage string, err error) {

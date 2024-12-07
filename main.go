@@ -5,12 +5,14 @@ import (
 	"net/http"
 	"strings"
 	"time"
-	"tosdrgo/config"
-	"tosdrgo/db"
 	"tosdrgo/handlers"
-	"tosdrgo/logger"
-	"tosdrgo/metrics"
-	"tosdrgo/middleware"
+	"tosdrgo/handlers/auth"
+	"tosdrgo/handlers/metrics"
+	"tosdrgo/handlers/middleware"
+	"tosdrgo/internal/config"
+	db2 "tosdrgo/internal/db"
+	"tosdrgo/internal/email"
+	"tosdrgo/internal/logger"
 
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -21,6 +23,19 @@ var IsBeta = true
 func init() {
 	if err := config.LoadConfig(); err != nil {
 		log.Fatalf("Failed to load configuration: %v", err)
+	}
+
+	auth.Init(
+		config.AppConfig.Login.Domain,
+		config.AppConfig.Login.ClientID,
+		config.AppConfig.Login.ClientSecret,
+		config.AppConfig.Login.RedirectURI,
+		config.AppConfig.Login.SessionKey,
+		config.AppConfig.Login.LogoutReturn,
+	)
+
+	if err := email.Init(); err != nil {
+		log.Fatalf("Failed to initialize email client: %v", err)
 	}
 }
 
@@ -57,13 +72,13 @@ func basicAuthMiddleware(username, password string) mux.MiddlewareFunc {
 }
 
 func main() {
-	if err := db.InitDB(); err != nil {
+	if err := db2.InitDB(); err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
-	defer db.CloseDB()
+	defer db2.CloseDB()
 
 	// Initial indexing
-	db.IndexSearch()
+	db2.IndexSearch()
 
 	// Start background indexing
 	go func() {
@@ -72,7 +87,7 @@ func main() {
 
 		for range ticker.C {
 			logger.LogDebug("Running scheduled search index update")
-			db.IndexSearch()
+			db2.IndexSearch()
 		}
 	}()
 
@@ -118,6 +133,7 @@ func main() {
 	r.HandleFunc("/{lang:[a-z]{2}}/thanks", handlers.MinifyMiddleware(handlers.ThanksHandler)).Name("thanks")
 	r.HandleFunc("/{lang:[a-z]{2}}/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler)).Name("service")
 	r.HandleFunc("/{lang:[a-z]{2}}/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/new_service", handlers.MinifyMiddleware(handlers.NewServiceHandler)).Methods("GET", "POST").Name("new_service")
 
 	searchRouter := r.PathPrefix("/{lang:[a-z]{2}}/search").Subrouter()
 	searchRouter.Use(middleware.RateLimitMiddleware)
@@ -129,6 +145,18 @@ func main() {
 
 	//goland:noinspection GoBoolExpressions
 	handlers.SetIsBeta(IsBeta)
+
+	// Auth routes
+	r.HandleFunc("/login", handlers.LoginHandler).Methods("GET").Name("login")
+	r.HandleFunc("/logout", handlers.LogoutHandler).Methods("GET").Name("logout")
+	r.HandleFunc("/auth/callback", handlers.CallbackHandler).Methods("GET").Name("auth_callback")
+	r.HandleFunc("/{lang:[a-z]{2}}/profile", handlers.ProfileHandler).Methods("GET").Name("profile")
+
+	// Dashboard route
+	r.HandleFunc("/{lang:[a-z]{2}}/dashboard", handlers.DashboardHandler).Methods("GET").Name("dashboard")
+
+	// Add these lines after the dashboard route
+	r.HandleFunc("/api/submissions/{id}/{action}", handlers.HandleSubmissionAction).Methods("POST").Name("submission_action")
 
 	// Start the server
 	log.Printf("Server starting on 0.0.0.0:80")
