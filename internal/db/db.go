@@ -3,9 +3,10 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
 	"tosdrgo/internal/config"
 	"tosdrgo/internal/logger"
+
+	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
@@ -64,7 +65,7 @@ func InitDB() error {
 	}
 
 	var err error
-	DB, err = createConnection(mainConfig, true)
+	DB, err = createConnection(mainConfig, false)
 	if err != nil {
 		logger.LogError(err, "Failed to open main database connection")
 		return err

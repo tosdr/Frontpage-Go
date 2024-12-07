@@ -71,11 +71,18 @@ func SearchServices(term string) ([]models.SearchResult, int, error) {
 			continue
 		}
 
+		var rating string
+		if service.Rating != nil {
+			rating = *service.Rating
+		} else {
+			rating = "N/A"
+		}
+
 		result := models.SearchResult{
 			ID:                      strconv.Itoa(service.ID),
 			Name:                    service.Name,
 			ComprehensivelyReviewed: service.ComprehensivelyReviewed,
-			Rating:                  service.Rating,
+			Rating:                  rating,
 			Image:                   "https://s3.tosdr.org/logos/" + strconv.Itoa(service.ID) + ".png",
 		}
 

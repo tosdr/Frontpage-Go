@@ -1,0 +1,123 @@
+{{ define "email" }}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Service Submission Accepted - ToS;DR</title>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .container {
+                background-color: #fff;
+                border-radius: 8px;
+                padding: 30px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .logo {
+                width: 120px;
+                height: auto;
+                margin-bottom: 20px;
+            }
+            h1 {
+                color: #374151;
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .content {
+                margin-bottom: 30px;
+            }
+            .data {
+                background-color: #f3f4f6;
+                border-radius: 6px;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            .reasons {
+                background-color: #f3f4f6;
+                border-radius: 6px;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            .reasons ul {
+                margin: 10px 0;
+                padding-left: 20px;
+            }
+            .what-now {
+                background-color: #e5edff;
+                border-radius: 6px;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            .button {
+                display: inline-block;
+                background-color: #4F46E5;
+                color: #ffffff;
+                text-decoration: none;
+                padding: 12px 24px;
+                border-radius: 6px;
+                margin-top: 10px;
+            }
+            .footer {
+                text-align: center;
+                color: #6B7280;
+                font-size: 14px;
+                margin-top: 30px;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="container">
+        <div class="header">
+            <img src="https://s3.tosdr.org/branding/tosdr-icon-32.svg" alt="ToS;DR Logo" class="logo">
+            <h1>Service Submission Accepted</h1>
+        </div>
+
+        <div class="content">
+            <p>Hello,</p>
+            <p>Great news! Your service submission for {{ .ServiceName }} has been accepted and added to the ToS;DR database. Thank you for helping make the internet more transparent! 🎉</p>
+        </div>
+
+        <div class="reasons">
+            <strong>What happens next?</strong>
+            <ul>
+                <li>The service is now publicly visible in our database</li>
+                <li>Community members can start analyzing its terms and policies</li>
+                <li>You can contribute by adding points and cases</li>
+                <li>Others can review and discuss the service</li>
+            </ul>
+        </div>
+
+        <div class="what-now">
+            <strong>Want to help more?</strong>
+            <p>You can continue contributing to ToS;DR by:</p>
+            <ul>
+                <li>Adding points to analyze specific terms</li>
+                <li>Reviewing existing cases</li>
+                <li>Submitting more services</li>
+            </ul>
+            <a href="https://edit.tosdr.org/services/{{ .ServiceID }}" class="button">View Service Page</a>
+        </div>
+
+        <div class="data">
+            <strong>What about my E-Mail?</strong>
+            <p>Your email has been deleted from our notification systems the second you have received this mail. You don't need to do anything.</p>
+        </div>
+
+        <div class="footer">
+            <p>Join our community discussions at <a href="https://tosdr.community">tosdr.community</a> or reach out to us at <a href="mailto:team@tosdr.org">team@tosdr.org</a> if you have any questions!</p>
+        </div>
+    </div>
+    </body>
+    </html>
+{{ end }}

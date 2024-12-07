@@ -36,22 +36,34 @@ func FetchServiceData(serviceID int) (*models.Service, error) {
 
 func fetchBaseServiceData(serviceID int) (*models.Service, error) {
 	var service models.Service
-	var urlString string
+	var urlString sql.NullString
+	var slug sql.NullString
+	var rating sql.NullString
 
 	err := DB.QueryRow(`
 		SELECT id, name, updated_at, created_at, slug, rating, is_comprehensively_reviewed, url 
-			FROM services WHERE id = $1
+				FROM services WHERE id = $1
 	`, serviceID).Scan(
 		&service.ID, &service.Name, &service.UpdatedAt, &service.CreatedAt,
-		&service.Slug, &service.Rating, &service.ComprehensivelyReviewed, &urlString,
+		&slug, &rating, &service.ComprehensivelyReviewed, &urlString,
 	)
 	if err != nil {
 		logger.LogError(err, fmt.Sprintf("Error fetching base service data for ID %d", serviceID))
 		return nil, err
 	}
 
-	if urlString != "" {
-		service.URLs = strings.Split(urlString, ",")
+	if slug.Valid {
+		service.Slug = slug.String
+	}
+
+	if rating.Valid {
+		service.Rating = rating.String
+	} else {
+		service.Rating = "N/A"
+	}
+
+	if urlString.Valid && urlString.String != "" {
+		service.URLs = strings.Split(urlString.String, ",")
 	}
 	return &service, nil
 }
