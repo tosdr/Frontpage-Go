@@ -43,8 +43,6 @@ sonarqube-vulnerability-report:
     expire_in: 1 day
     reports:
       sast: gl-sast-sonar-report.json
-  only:
-    - master
 
 build:
   stage: build
