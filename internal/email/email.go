@@ -2,6 +2,7 @@ package email
 
 import (
 	"fmt"
+	"github.com/sendgrid/sendgrid-go"
 	"tosdrgo/internal/config"
 	"tosdrgo/internal/logger"
 
