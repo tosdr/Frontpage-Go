@@ -33,6 +33,13 @@ var logLevelMap = map[string]LogLevel{
 	"ERROR": ErrorLevel,
 }
 
+var ignoredErrorPatterns = []string{
+	"Invalid service ID in shield handler",
+	"The requested page was not found",
+	"Failed to fetch search results",
+	"search term must be at least 3 characters long",
+}
+
 func init() {
 	InfoLogger = log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime)
 	ErrorLogger = log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime)
@@ -49,6 +56,24 @@ func init() {
 	} else {
 		currentLevel = WarnLevel
 	}
+}
+
+func shouldLogError(err error, context string) bool {
+	if err == nil && context == "" {
+		return false
+	}
+
+	message := context
+	if err != nil {
+		message += err.Error()
+	}
+
+	for _, pattern := range ignoredErrorPatterns {
+		if strings.Contains(message, pattern) {
+			return false
+		}
+	}
+	return true
 }
 
 // sanitizeURL removes potential PII from URLs
@@ -93,7 +118,7 @@ func LogRequest(r *http.Request, duration time.Duration) {
 
 // LogError logs error messages with context
 func LogError(err error, context string) {
-	if currentLevel <= ErrorLevel {
+	if currentLevel <= ErrorLevel && shouldLogError(err, context) {
 		ErrorLogger.Printf("[%s] %s: %v", getCallerInfo(), context, err)
 	}
 }

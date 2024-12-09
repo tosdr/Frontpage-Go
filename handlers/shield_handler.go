@@ -37,7 +37,7 @@ func ShieldHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse service ID and fetch data
 	intServiceID, err := strconv.Atoi(serviceID)
 	if err != nil {
-		logger.LogError(err, "Invalid service ID in shield handler")
+		logger.LogDebug("Invalid service ID in shield handler: %v", err)
 		svg, _ := returnShield("Error", "Service not found!", gradeToHexColor("E"))
 		w.Header().Set(contentType, svgType)
 		_, _ = w.Write(svg)

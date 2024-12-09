@@ -57,6 +57,7 @@ func SearchServices(term string) ([]models.SearchResult, int, error) {
 	}
 
 	if len(normalizedTerm) < minSearchLen {
+		logger.LogDebug("Search term too short: %s", normalizedTerm)
 		return nil, http.StatusBadRequest, errors.New(fmt.Sprintf("search term must be at least %d characters long", minSearchLen))
 	}
 

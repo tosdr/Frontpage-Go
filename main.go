@@ -105,7 +105,6 @@ func main() {
 	))
 	metricsRouter.Handle("", promhttp.Handler())
 
-	// Add names to routes for better metrics
 	r.HandleFunc("/v1/health", handlers.HealthCheckHandler).Methods("GET").Name("health")
 
 	// Serve static files with content type middleware and minification for CSS
