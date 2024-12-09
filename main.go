@@ -18,7 +18,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var IsBeta = true
+var IsBeta = false
 
 func init() {
 	if err := config.LoadConfig(); err != nil {

@@ -5,7 +5,6 @@ import (
 	"tosdrgo/internal/config"
 	"tosdrgo/internal/logger"
 
-	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
@@ -33,7 +32,6 @@ func Init() error {
 
 // SendEmail sends an email using the default client
 func SendEmail(to string, subject string, body string) error {
-	return nil    // TODO: for testing, we dont wanna send a mail.
 	if to == "" { // no email
 		logger.LogDebug("There is no email.")
 		return nil
