@@ -56,7 +56,7 @@ func fetchBaseServiceData(serviceID int) (*models.Service, error) {
 		service.Slug = slug.String
 	}
 
-	if rating.Valid {
+	if rating.Valid && service.ComprehensivelyReviewed {
 		service.Rating = rating.String
 	} else {
 		service.Rating = "N/A"

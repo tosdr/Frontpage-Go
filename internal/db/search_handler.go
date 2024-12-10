@@ -73,7 +73,7 @@ func SearchServices(term string) ([]models.SearchResult, int, error) {
 		}
 
 		var rating string
-		if service.Rating != nil {
+		if service.Rating != nil && service.ComprehensivelyReviewed {
 			rating = *service.Rating
 		} else {
 			rating = "N/A"
