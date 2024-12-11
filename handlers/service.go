@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"regexp"
 	"strconv"
 	"tosdrgo/internal/db"
 	"tosdrgo/models"
@@ -17,6 +18,8 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
 	serviceID := vars["serviceID"]
+
+	serviceID = regexp.MustCompile("[^0-9]").ReplaceAllString(serviceID, "")
 
 	cacheKey := fmt.Sprintf("service_%s_%s", lang, serviceID)
 	if cachedPage, found := pageCache.Get(cacheKey); found {

@@ -154,7 +154,6 @@ func main() {
 	// Dashboard route
 	r.HandleFunc("/{lang:[a-z]{2}}/dashboard", handlers.DashboardHandler).Methods("GET").Name("dashboard")
 
-	// Add these lines after the dashboard route
 	r.HandleFunc("/api/submissions/{id}/{action}", handlers.HandleSubmissionAction).Methods("POST").Name("submission_action")
 
 	// Start the server
