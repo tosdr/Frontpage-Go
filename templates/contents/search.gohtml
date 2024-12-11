@@ -39,25 +39,16 @@
         // Add image error handling
         document.querySelectorAll('.result-logo').forEach(img => {
             img.addEventListener('error', function() {
-                // Get the service name from the alt text (before "logo")
-                const serviceName = this.alt.split(' ')[0];
-                // Get first letter of service name
-                const initial = serviceName.charAt(0).toUpperCase();
-                
-                // Add placeholder class
                 this.classList.add('placeholder');
-                // Replace img with initial
                 this.src = 'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"></svg>';
-                this.style.fontSize = '1.5rem';
-                this.style.fontWeight = 'bold';
                 this.insertAdjacentHTML('afterbegin', initial);
             });
         });
 
         function performSearch() {
-            const searchTerm = encodeURIComponent(searchInput.value.trim());
-            if (searchTerm) {
-                window.location.href = `/{{ .Lang }}/search/${searchTerm}`;
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm === 'x' || searchTerm.length > 3) {
+                window.location.href = `/{{ .Lang }}/search/${encodeURIComponent(searchTerm)}`;
             }
         }
 

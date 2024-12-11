@@ -137,9 +137,9 @@
         searchInput.focus();
 
         function performSearch() {
-            const searchTerm = encodeURIComponent(searchInput.value.trim());
-            if (searchTerm) {
-                window.location.href = `/{{ .Lang }}/search/${searchTerm}`;
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm === 'x' || searchTerm.length > 3) {
+                window.location.href = `/{{ .Lang }}/search/${encodeURIComponent(searchTerm)}`;
             }
         }
 
