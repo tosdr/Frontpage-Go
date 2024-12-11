@@ -42,6 +42,15 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	for i := range team.Founders {
+		rendered, err := RenderMarkdown([]byte(team.Founders[i].Description))
+		if err != nil {
+			RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render team member description", err)
+			return
+		}
+		team.Founders[i].Description = rendered
+	}
+
 	for i := range team.Current {
 		rendered, err := RenderMarkdown([]byte(team.Current[i].Description))
 		if err != nil {

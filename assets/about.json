@@ -1,5 +1,5 @@
 {
-    "current": [
+    "founders": [
         {
             "photo": "https://s3.tosdr.org/team/6.jpg",
             "name": "Michiel de Jong",
@@ -34,7 +34,82 @@
                 "mastodon": "https://someone.elses.computer/@hugo",
                 "website": "https://hroy.eu"
             }
+        }
+    ],
+    "current": [
+        {
+            "photo": "https://s3.tosdr.org/team/133.jpg",
+            "name": "Madeline O'Leary",
+            "title": "Phoenix Lead Developer",
+            "description": "When not developing the Edit Tool for ToS;DR, Madeline O'Leary is a software developer for the International Consortium of Investigative Journalists. She also spends considerable time making weird music.",
+            "links": {
+                "github": "https://github.com/madoleary",
+                "email": "madeline.oleary@tosdr.org"
+            }
         },
+        {
+            "photo": "https://s3.tosdr.org/team/2130.jpg",
+            "name": "Dmitri Pedersen",
+            "title": "Privacy Philanthropist",
+            "description": "Dmitri is dedicated to making the world a better place, giving people advice, and helping people. He currently resides in Washington.",
+            "links": {
+                "github": "https://github.com/pederdm000",
+                "email": "dmitri.pedersen@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://s3.tosdr.org/team/20760.jpg",
+            "name": "Inés Rubio",
+            "title": "Phoenix Contributor",
+            "description": "Inés Rubio (alias Agnes de Lion) is a teenage girl committed to informing people about their rights online. Strangely enough, she enjoys spending time reading long and tortuous terms of service. She currently resides in France.",
+            "links": {
+                "email": "ines.rubio@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://s3.tosdr.org/team/32634.JPG",
+            "name": "Erik Hering",
+            "title": "Lead-ish Developer*",
+            "description": "A young, sarcastic person from Germany with keen interest in any kind of Development you can see with your eyes. Feel free to e-mail me cat and dog pics.\n\n*not responsible for Phoenix or AI, so uhh, don't count on it.",
+            "links": {
+                "website": "https://ptgms.space",
+                "github": "https://github.com/p8tgms",
+                "email": "erik.hering@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://s3.tosdr.org/team/24658.JPG",
+            "name": "Evan Radkoff",
+            "title": "AI Lead Developer",
+            "description": "Evan dreams up ways to utilize AI at ToS;DR. For work he freelances as a data scientist and ML engineer. For fun he travels the world and makes music.",
+            "links": {
+                "website": "https://www.soundsandwords.io/consulting/",
+                "email": "evan.radkoff@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://s3.tosdr.org/team/28460.jpg",
+            "name": "Moritz Beneke",
+            "title": "Lead Community Manager",
+            "description": "TBD",
+            "links": {
+                "website": "https://codeberg.org/shadowwwind",
+                "github": "https://github.com/shadowwwind",
+                "email": "moritz.beneke@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://s3.tosdr.org/team/31366.png",
+            "name": "Tomasz Gębarski",
+            "title": "Phoenix- and Community Manager",
+            "description": "Tomasz is a talented and passionate Python programmer with a strong interest in AI. He is also a dedicated reader of fiction and enjoys creating random programs and Discord bots. In his spare time, Tech enjoys doing some light translation work for open source projects. This allows him to use his skills and knowledge to help others and make a positive impact on the world.",
+            "links": {
+                "github": "https://github.com/Tech-TTGames",
+                "email": "tomasz.gebarski@tosdr.org"
+            }
+        }
+    ],
+    "past": [
         {
             "photo": "https://s3.tosdr.org/team/ian.jpg",
             "name": "Ian McGowan",
@@ -63,16 +138,6 @@
             "description": "Suzanne does not know what she wants to do with her life, so until then she reads terms of service. (Oh, and she has a law degree.)",
             "links": {
                 "email": "suzanne.azmayesh@tosdr.org"
-            }
-        },
-        {
-            "photo": "https://s3.tosdr.org/team/133.jpg",
-            "name": "Madeline O'Leary",
-            "title": "Developer",
-            "description": "When not developing the Edit Tool for ToS;DR, Madeline O'Leary is a software developer for the International Consortium of Investigative Journalists. She also spends considerable time making weird music.",
-            "links": {
-                "github": "https://github.com/madoleary",
-                "email": "madeline.oleary@tosdr.org"
             }
         },
         {
@@ -128,25 +193,6 @@
             }
         },
         {
-            "photo": "https://s3.tosdr.org/team/2130.jpg",
-            "name": "Dmitri Pedersen",
-            "title": "Privacy Philanthropist",
-            "description": "Dmitri is dedicated to making the world a better place, giving people advice, and helping people. He currently resides in Washington.",
-            "links": {
-                "github": "https://github.com/pederdm000",
-                "email": "dmitri.pedersen@tosdr.org"
-            }
-        },
-        {
-            "photo": "https://s3.tosdr.org/team/20760.jpg",
-            "name": "Inés Rubio",
-            "title": "Phoenix Contributor",
-            "description": "Inés Rubio (alias Agnes de Lion) is a teenage girl committed to informing people about their rights online. Strangely enough, she enjoys spending time reading long and tortuous terms of service. She currently resides in France.",
-            "links": {
-                "email": "ines.rubio@tosdr.org"
-            }
-        },
-        {
             "photo": "https://s3.tosdr.org/team/2390.jpg",
             "name": "Arlo James Barnes",
             "title": "Tautogrammatic Telecommunicator",
@@ -155,51 +201,6 @@
                 "website": "https://b.arn.es",
                 "email": "arlo.james.barnes@tosdr.org"
             }
-        },
-        {
-            "photo": "https://s3.tosdr.org/team/32634.JPG",
-            "name": "Erik Hering",
-            "title": "Lead-ish Developer*",
-            "description": "A young, sarcastic person from Germany with keen interest in any kind of Development you can see with your eyes. Feel free to e-mail me cat and dog pics.\n\n*not responsible for Phoenix or AI, so uhh, don't count on it.",
-            "links": {
-                "website": "https://ptgms.space",
-                "github": "https://github.com/p8tgms",
-                "email": "erik.hering@tosdr.org"
-            }
-        },
-        {
-            "photo": "https://s3.tosdr.org/team/24658.JPG",
-            "name": "Evan Radkoff",
-            "title": "AI Lead Developer",
-            "description": "Evan dreams up ways to utilize AI at ToS;DR. For work he freelances as a data scientist and ML engineer. For fun he travels the world and makes music.",
-            "links": {
-                "website": "https://www.soundsandwords.io/consulting/",
-                "email": "evan.radkoff@tosdr.org"
-            }
-        },
-        {
-            "photo": "https://s3.tosdr.org/team/28460.jpg",
-            "name": "Moritz Beneke",
-            "title": "Lead Community Manager",
-            "description": "TBD",
-            "links": {
-                "website": "https://codeberg.org/shadowwwind",
-                "github": "https://github.com/shadowwwind",
-                "email": "moritz.beneke@tosdr.org"
-            }
-        },
-        {
-            "photo": "https://s3.tosdr.org/team/31366.png",
-            "name": "Tomasz Gębarski",
-            "title": "Phoenix- and Community Manager",
-            "description": "Tomasz is a talented and passionate Python programmer with a strong interest in AI. He is also a dedicated reader of fiction and enjoys creating random programs and Discord bots. In his spare time, Tech enjoys doing some light translation work for open source projects. This allows him to use his skills and knowledge to help others and make a positive impact on the world.",
-            "links": {
-                "github": "https://github.com/Tech-TTGames",
-                "email": "tomasz.gebarski@tosdr.org"
-            }
         }
-    ],
-    "past": [
-        
     ]
 }

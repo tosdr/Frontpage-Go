@@ -13,6 +13,7 @@ type TeamMember struct {
 }
 
 type Team struct {
-	Current []TeamMember `json:"current"`
-	Past    []TeamMember `json:"past"`
+	Founders []TeamMember `json:"founders"`
+	Current  []TeamMember `json:"current"`
+	Past     []TeamMember `json:"past"`
 }
