@@ -78,4 +78,13 @@ var (
 		},
 		[]string{"handler"},
 	)
+
+	// NotFoundPaths tracks 404 errors with their requested paths
+	NotFoundPaths = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "tosdr_not_found_paths_total",
+			Help: "Total number of 404 errors by requested path",
+		},
+		[]string{"path", "method"},
+	)
 )

@@ -139,6 +139,8 @@ func main() {
 	searchRouter.HandleFunc("/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))
 
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Track 404 paths
+		metrics.NotFoundPaths.WithLabelValues(r.URL.Path, r.Method).Inc()
 		handlers.RenderErrorPage(w, "en", http.StatusNotFound, "The requested page was not found", nil)
 	})
 
