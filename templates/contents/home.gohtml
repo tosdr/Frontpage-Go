@@ -109,6 +109,13 @@
             </div>
         {{ end }}
     </div>
+
+    {{ if eq .Lang "de" "fr" "es" }}
+        <div class="translation-warning">
+            <p>{{ t "translation.warning" }}</p>
+        </div>
+    {{ end }}
+
     <div class="last-fetched-info">
         <p>{{ t "home.data_last_fetched" }} <span id="lastFetchedTime">{{ .LastFetchedTime }}</span></p>
     </div>

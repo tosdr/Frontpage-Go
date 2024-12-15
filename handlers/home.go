@@ -37,7 +37,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	featured, err := db.FetchFeaturedServicesData()
+	featured, err := db.FetchFeaturedServicesData(lang)
 	if err != nil {
 		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to fetch featured services", err)
 		return

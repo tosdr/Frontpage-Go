@@ -36,6 +36,7 @@
     "footer.links.terms": "Terms of Use",
     "footer.links.branding": "Branding",
     "footer.links.thanks": "Thanks",
+    "footer.links.localize": "Help translating",
 
     "search.results_for": "Search Results for \"%s\"",
     "search.no_results": "No results found for \"%s\"",
@@ -95,5 +96,7 @@
     "new_service.document_url_placeholder": "Document URL (https://...)",
     "new_service.document_xpath_placeholder": "XPath (optional)",
 
-    "profile.logout": "Logout"
+    "profile.logout": "Logout",
+
+    "translation.warning": "The points above have been machine translated. They may not be 100% accurate and we encourage you to check the original point to verify accuracy."
 }

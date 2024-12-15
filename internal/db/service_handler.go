@@ -12,8 +12,8 @@ import (
 	"tosdrgo/models"
 )
 
-func FetchServiceData(serviceID int) (*models.Service, error) {
-	if cachedService, found := cache.GetService(serviceID); found {
+func FetchServiceData(serviceID int, lang string) (*models.Service, error) {
+	if cachedService, found := cache.GetService(serviceID, lang); found {
 		return cachedService, nil
 	}
 
@@ -23,14 +23,14 @@ func FetchServiceData(serviceID int) (*models.Service, error) {
 		return nil, err
 	}
 
-	if err := fetchRelatedData(service); err != nil {
+	if err := fetchRelatedData(service, lang); err != nil {
 		return nil, err
 	}
 
 	service.Points = organizePoints(service.Points)
 	service.Image = "https://s3.tosdr.org/logos/" + strconv.Itoa(service.ID) + ".png"
 
-	cache.SetService(serviceID, service)
+	cache.SetService(serviceID, lang, service)
 	return service, nil
 }
 
@@ -68,13 +68,13 @@ func fetchBaseServiceData(serviceID int) (*models.Service, error) {
 	return &service, nil
 }
 
-func fetchRelatedData(service *models.Service) error {
+func fetchRelatedData(service *models.Service, lang string) error {
 	docChan := make(chan []models.Document, 1)
 	pointsChan := make(chan []models.Point, 1)
 	errChan := make(chan error, 2)
 
 	go fetchDocuments(service.ID, docChan, errChan)
-	go fetchPoints(service.ID, pointsChan, errChan)
+	go fetchPoints(service.ID, lang, pointsChan, errChan)
 
 	var err1, err2 error
 	service.Documents = <-docChan
@@ -114,7 +114,7 @@ func fetchDocuments(serviceID int, docChan chan<- []models.Document, errChan cha
 	errChan <- nil
 }
 
-func fetchPoints(serviceID int, pointsChan chan<- []models.Point, errChan chan<- error) {
+func fetchPoints(serviceID int, lang string, pointsChan chan<- []models.Point, errChan chan<- error) {
 	rows, err := DB.Query(`
 		SELECT 
 			p.id, p.title, p.source, p.status, p.analysis, p.document_id, p.updated_at, p.created_at,
@@ -132,8 +132,56 @@ func fetchPoints(serviceID int, pointsChan chan<- []models.Point, errChan chan<-
 	defer rows.Close()
 
 	points := scanPoints(rows)
+
+	if lang != "en" {
+		if err := fetchPointTranslations(points, lang); err != nil {
+			logger.LogError(err, fmt.Sprintf("Error fetching translations for service ID %d and language %s", serviceID, lang))
+		}
+	}
+
 	pointsChan <- points
 	errChan <- nil
+}
+
+func fetchPointTranslations(points []models.Point, lang string) error {
+	if len(points) == 0 {
+		return nil
+	}
+
+	// Create a slice of point IDs
+	pointIDs := make([]string, len(points))
+	pointMap := make(map[int]*models.Point)
+	for i, point := range points {
+		pointIDs[i] = strconv.Itoa(point.ID)
+		pointMap[point.ID] = &points[i]
+	}
+
+	// Query translations for all points at once
+	query := `
+		SELECT original_id, translation_text 
+		FROM localization 
+		WHERE original_id IN (` + strings.Join(pointIDs, ",") + `)
+		AND language_code = $1`
+
+	rows, err := DB.Query(query, lang)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	// Update points with translations
+	for rows.Next() {
+		var originalID int
+		var translatedTitle string
+		if err := rows.Scan(&originalID, &translatedTitle); err != nil {
+			return err
+		}
+		if point, exists := pointMap[originalID]; exists {
+			point.Title = translatedTitle
+		}
+	}
+
+	return nil
 }
 
 func scanPoints(rows *sql.Rows) []models.Point {

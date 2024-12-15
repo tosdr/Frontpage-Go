@@ -17,8 +17,8 @@ type fetchResult struct {
 }
 
 // fetchServiceConcurrently handles the concurrent fetching of a single service
-func fetchServiceConcurrently(idx int, serviceID int, resultChan chan<- fetchResult, errorChan chan<- error) {
-	service, err := FetchServiceData(serviceID)
+func fetchServiceConcurrently(idx int, serviceID int, lang string, resultChan chan<- fetchResult, errorChan chan<- error) {
+	service, err := FetchServiceData(serviceID, lang)
 	if err != nil {
 		logger.LogError(err, fmt.Sprintf("Error fetching service data for ID %d", serviceID))
 		errorChan <- err
@@ -51,8 +51,8 @@ func compactServices(services []models.FeaturedService) []models.FeaturedService
 	return compactedServices
 }
 
-func FetchFeaturedServicesData() (*models.FeaturedServices, error) {
-	if cachedServices, found := cache.GetFeaturedServices(); found {
+func FetchFeaturedServicesData(lang string) (*models.FeaturedServices, error) {
+	if cachedServices, found := cache.GetFeaturedServices(lang); found {
 		return cachedServices, nil
 	}
 
@@ -68,7 +68,7 @@ func FetchFeaturedServicesData() (*models.FeaturedServices, error) {
 
 	// Launch goroutines for parallel fetching
 	for i, serviceID := range config.AppConfig.FeaturedServices {
-		go fetchServiceConcurrently(i, serviceID, resultChan, errorChan)
+		go fetchServiceConcurrently(i, serviceID, lang, resultChan, errorChan)
 	}
 
 	// Collect results
@@ -88,6 +88,6 @@ func FetchFeaturedServicesData() (*models.FeaturedServices, error) {
 		featuredServices.Services = compactServices(featuredServices.Services)
 	}
 
-	cache.SetFeaturedServices(featuredServices)
+	cache.SetFeaturedServices(lang, featuredServices)
 	return featuredServices, nil
 }

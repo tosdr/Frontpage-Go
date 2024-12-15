@@ -13,8 +13,8 @@ var (
 	c = cache.New(5*time.Minute, 10*time.Minute)
 )
 
-func GetService(id int) (*models.Service, bool) {
-	if x, found := c.Get(getServiceKey(id)); found {
+func GetService(id int, lang string) (*models.Service, bool) {
+	if x, found := c.Get(getServiceKey(id, lang)); found {
 		metrics.CacheHits.WithLabelValues("service").Inc()
 		return x.(*models.Service), true
 	}
@@ -22,12 +22,12 @@ func GetService(id int) (*models.Service, bool) {
 	return nil, false
 }
 
-func SetService(id int, service *models.Service) {
-	c.Set(getServiceKey(id), service, cache.DefaultExpiration)
+func SetService(id int, lang string, service *models.Service) {
+	c.Set(getServiceKey(id, lang), service, cache.DefaultExpiration)
 }
 
-func GetFeaturedServices() (*models.FeaturedServices, bool) {
-	if x, found := c.Get("featured_services"); found {
+func GetFeaturedServices(lang string) (*models.FeaturedServices, bool) {
+	if x, found := c.Get(getFeaturedServicesKey(lang)); found {
 		metrics.CacheHits.WithLabelValues("featured").Inc()
 		return x.(*models.FeaturedServices), true
 	}
@@ -35,8 +35,8 @@ func GetFeaturedServices() (*models.FeaturedServices, bool) {
 	return nil, false
 }
 
-func SetFeaturedServices(services *models.FeaturedServices) {
-	c.Set("featured_services", services, 24*time.Hour)
+func SetFeaturedServices(lang string, services *models.FeaturedServices) {
+	c.Set(getFeaturedServicesKey(lang), services, 24*time.Hour)
 }
 
 func GetSearchResults(term string) ([]models.SearchResult, bool) {
@@ -50,10 +50,14 @@ func SetSearchResults(term string, results []models.SearchResult) {
 	c.Set(getSearchKey(term), results, cache.DefaultExpiration)
 }
 
-func getServiceKey(id int) string {
-	return fmt.Sprintf("service_%d", id)
+func getServiceKey(id int, lang string) string {
+	return fmt.Sprintf("service_%d_%s", id, lang)
 }
 
 func getSearchKey(term string) string {
 	return fmt.Sprintf("search_%s", term)
+}
+
+func getFeaturedServicesKey(lang string) string {
+	return fmt.Sprintf("featured_services_%s", lang)
 }

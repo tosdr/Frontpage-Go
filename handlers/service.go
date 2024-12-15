@@ -41,7 +41,7 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	service, err := db.FetchServiceData(intServiceID)
+	service, err := db.FetchServiceData(intServiceID, lang)
 	if err != nil {
 		RenderErrorPage(w, lang, http.StatusNotFound, "Service not found", err)
 		return

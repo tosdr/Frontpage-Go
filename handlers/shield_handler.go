@@ -44,7 +44,7 @@ func ShieldHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	service, err := db.FetchServiceData(intServiceID)
+	service, err := db.FetchServiceData(intServiceID, "en")
 	if err != nil {
 		svg, _ := returnShield("Error", "Service not found!", gradeToHexColor("E"))
 		w.Header().Set(contentType, svgType)

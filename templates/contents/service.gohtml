@@ -31,6 +31,12 @@
             {{ end }}
         </ul>
 
+        {{ if eq .Lang "de" "fr" "es" }}
+        <div class="translation-warning">
+            <p>{{ t "translation.warning" }}</p>
+        </div>
+        {{ end }}
+
         <h2>{{ t "service.documents_title" }}</h2>
         <ul class="service-documents">
             {{ range .Service.Documents }}

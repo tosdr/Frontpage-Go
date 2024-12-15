@@ -167,3 +167,33 @@ a {
 a:hover {
     color: var(--link-hover-color);
 }
+
+.translation-warning {
+    background-color: var(--point-bad-bg);
+    border: 1px solid var(--point-bad-text);
+    color: var(--point-bad-text);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-color: rgba(102, 77, 3, 0.2);
+}
+
+.translation-warning::before {
+    content: '';
+    width: 28px;
+    height: 28px;
+    background-image: url('/static/svg/warning.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: invert(27%) sepia(51%) saturate(768%) hue-rotate(12deg) brightness(92%) contrast(96%);
+}
+
+.translation-warning p {
+    margin: 0;
+    font-size: 0.9rem;
+    flex: 1;
+}
