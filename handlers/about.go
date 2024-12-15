@@ -13,6 +13,17 @@ import (
 	"github.com/patrickmn/go-cache"
 )
 
+func renderTeamDescriptions(members []models.TeamMember) ([]models.TeamMember, error) {
+	for i := range members {
+		rendered, err := RenderMarkdown([]byte(members[i].Description))
+		if err != nil {
+			return nil, fmt.Errorf("failed to render team member description: %w", err)
+		}
+		members[i].Description = rendered
+	}
+	return members, nil
+}
+
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
@@ -42,31 +53,22 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for i := range team.Founders {
-		rendered, err := RenderMarkdown([]byte(team.Founders[i].Description))
-		if err != nil {
-			RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render team member description", err)
-			return
-		}
-		team.Founders[i].Description = rendered
+	team.Founders, err = renderTeamDescriptions(team.Founders)
+	if err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, err.Error(), err)
+		return
 	}
 
-	for i := range team.Current {
-		rendered, err := RenderMarkdown([]byte(team.Current[i].Description))
-		if err != nil {
-			RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render team member description", err)
-			return
-		}
-		team.Current[i].Description = rendered
+	team.Current, err = renderTeamDescriptions(team.Current)
+	if err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, err.Error(), err)
+		return
 	}
 
-	for i := range team.Past {
-		rendered, err := RenderMarkdown([]byte(team.Past[i].Description))
-		if err != nil {
-			RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render team member description", err)
-			return
-		}
-		team.Past[i].Description = rendered
+	team.Past, err = renderTeamDescriptions(team.Past)
+	if err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, err.Error(), err)
+		return
 	}
 
 	mdContent, err := os.ReadFile("assets/about.md")
