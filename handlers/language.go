@@ -12,6 +12,7 @@ var SupportedLanguages = map[string]string{
 	"es": "Spanish",
 	"fr": "French",
 	"ja": "Japanese",
+	"nl": "Dutch",
 	"pl": "Polish",
 	"ru": "Russian",
 	"zh": "Chinese",
