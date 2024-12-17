@@ -7,27 +7,64 @@
 
 .search-container {
     display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
+    gap: 1rem;
+    animation: slideUp 0.6s ease-out;
 }
 
 .search-input {
-    width: 70%;
-    max-width: 500px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 1rem 0 0 1rem;
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.search-input:focus {
+    border-color: var(--link-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    outline: none;
 }
 
 .search-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
+    padding: 1rem 2rem;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
     border: none;
-    border-radius: 0 1rem 1rem 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-button:hover {
+    background: var(--link-hover-color);
+    transform: translateY(-1px);
+}
+
+.grade-filter {
+    width: 120px;
+    font-size: 16px;
+    border: 2px solid var(--input-border);
+    background: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+    padding: 10px 2.5em 10px 10px;
+}
+
+.grade-filter option {
+    background: var(--card-bg);
+    color: var(--text-color);
 }
 
 .search-results {
@@ -93,16 +130,14 @@
 @media (max-width: 768px) {
     .search-container {
         flex-direction: column;
-        align-items: center;
+        padding: 0 1rem;
     }
-
-    .search-input {
+    
+    .search-inputs {
+        flex-direction: column;
+    }
+    
+    .grade-filter {
         width: 100%;
-        max-width: none;
-        border-radius: 1rem;
-    }
-
-    .search-button {
-        visibility: hidden;
     }
 }

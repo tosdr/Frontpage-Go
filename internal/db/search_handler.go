@@ -1,7 +1,6 @@
 package db
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"sort"
@@ -49,8 +48,9 @@ func IndexSearch() {
 	logger.LogDebug("Search index completed in %s", time.Since(start))
 }
 
-func SearchServices(term string) ([]models.SearchResult, int, error) {
+func SearchServices(term string, grade string) ([]models.SearchResult, int, error) {
 	normalizedTerm := strings.ToLower(strings.TrimSpace(term))
+	normalizedGrade := strings.ToUpper(strings.TrimSpace(grade))
 
 	if normalizedTerm == "x" {
 		normalizedTerm = "twitter"
@@ -58,10 +58,10 @@ func SearchServices(term string) ([]models.SearchResult, int, error) {
 
 	if len(normalizedTerm) < minSearchLen {
 		logger.LogDebug("Search term too short: %s", normalizedTerm)
-		return nil, http.StatusBadRequest, errors.New(fmt.Sprintf("search term must be at least %d characters long", minSearchLen))
+		return nil, http.StatusBadRequest, fmt.Errorf("search term must be at least %d characters long", minSearchLen)
 	}
 
-	if cachedResults, found := cache.GetSearchResults(normalizedTerm); found {
+	if cachedResults, found := cache.GetSearchResults(normalizedTerm, normalizedGrade); found {
 		return cachedResults, http.StatusNotModified, nil
 	}
 
@@ -69,6 +69,11 @@ func SearchServices(term string) ([]models.SearchResult, int, error) {
 	for _, service := range allServices {
 		if !strings.Contains(strings.ToLower(service.Name), normalizedTerm) &&
 			!strings.Contains(strings.ToLower(service.URL), normalizedTerm) {
+			continue
+		}
+
+		if normalizedGrade != "" &&
+			(service.Rating == nil || !service.ComprehensivelyReviewed || *service.Rating != normalizedGrade) {
 			continue
 		}
 
@@ -105,7 +110,7 @@ func SearchServices(term string) ([]models.SearchResult, int, error) {
 		})
 	}
 
-	cache.SetSearchResults(normalizedTerm, results)
+	cache.SetSearchResults(normalizedTerm, normalizedGrade, results)
 	return results, http.StatusOK, nil
 }
 

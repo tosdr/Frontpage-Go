@@ -44,9 +44,11 @@
     "search.placeholder": "Search for a service...",
     "search.button": "Search",
     "search.logo_alt": "logo",
+    "search.all_grades": "All",
 
     "nav.home": "Home",
     "nav.feedback": "Feedback",
+    "nav.services": "Services",
     "nav.about": "About",
     "nav.download": "Download",
     "nav.communities": "Communities",
@@ -94,6 +96,14 @@
     "new_service.document_xpath_placeholder": "XPath (optional)",
 
     "profile.logout": "Logout",
+
+    "pagination.back": "Back",
+    "pagination.next": "Next",
+    "pagination.previous": "Previous",
+    "pagination.page_of": "Page %d of %d",
+
+    "graded_services.title": "Services with Grade %s",
+    "graded_services.no_results": "No services found with Grade %s",
 
     "translation.warning": "The points above have been machine translated. They may not be 100% accurate and we encourage you to check the original point to verify accuracy."
 }

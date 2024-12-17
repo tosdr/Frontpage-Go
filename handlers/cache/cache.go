@@ -39,23 +39,38 @@ func SetFeaturedServices(lang string, services *models.FeaturedServices) {
 	c.Set(getFeaturedServicesKey(lang), services, 24*time.Hour)
 }
 
-func GetSearchResults(term string) ([]models.SearchResult, bool) {
-	if x, found := c.Get(getSearchKey(term)); found {
+func GetSearchResults(term string, grade string) ([]models.SearchResult, bool) {
+	if x, found := c.Get(getSearchKey(term, grade)); found {
 		return x.([]models.SearchResult), true
 	}
 	return nil, false
 }
 
-func SetSearchResults(term string, results []models.SearchResult) {
-	c.Set(getSearchKey(term), results, cache.DefaultExpiration)
+func GetGradedServices(grade string) ([]models.SearchResult, bool) {
+	if x, found := c.Get(getGradedServicesKey(grade)); found {
+		return x.([]models.SearchResult), true
+	}
+	return nil, false
+}
+
+func SetGradedServices(grade string, results []models.SearchResult) {
+	c.Set(getGradedServicesKey(grade), results, cache.DefaultExpiration)
+}
+
+func SetSearchResults(term string, grade string, results []models.SearchResult) {
+	c.Set(getSearchKey(term, grade), results, cache.DefaultExpiration)
 }
 
 func getServiceKey(id int, lang string) string {
 	return fmt.Sprintf("service_%d_%s", id, lang)
 }
 
-func getSearchKey(term string) string {
-	return fmt.Sprintf("search_%s", term)
+func getSearchKey(term string, grade string) string {
+	return fmt.Sprintf("search_%s_%s", term, grade)
+}
+
+func getGradedServicesKey(grade string) string {
+	return fmt.Sprintf("services_%s", grade)
 }
 
 func getFeaturedServicesKey(lang string) string {

@@ -2,13 +2,14 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/patrickmn/go-cache"
 	"html/template"
 	"net/http"
 	"strings"
 	"time"
 	"tosdrgo/handlers/localization"
 	"tosdrgo/internal/logger"
+
+	"github.com/patrickmn/go-cache"
 )
 
 var (
@@ -55,6 +56,13 @@ func parseTemplates(contentTemplate string, lang string, r *http.Request) (*temp
 				return "/" + targetLang
 			}
 			return "/" + targetLang + strings.TrimPrefix(r.URL.Path, "/"+lang)
+		},
+		"ToLower": strings.ToLower,
+		"subtract": func(a, b int) int {
+			return a - b
+		},
+		"add": func(a, b int) int {
+			return a + b
 		},
 	}
 

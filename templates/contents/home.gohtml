@@ -80,6 +80,14 @@
     <div class="search-container">
         <!--suppress HtmlFormInputWithoutLabel -->
         <input type="text" id="searchInput" placeholder="{{ t "home.search_placeholder" }}" class="search-input">
+        <select id="gradeFilter" class="grade-filter">
+            <option value="">{{ t "search.all_grades" }}</option>
+            <option value="A">{{ t "home.grade" "A" }}</option>
+            <option value="B">{{ t "home.grade" "B" }}</option>
+            <option value="C">{{ t "home.grade" "C" }}</option>
+            <option value="D">{{ t "home.grade" "D" }}</option>
+            <option value="E">{{ t "home.grade" "E" }}</option>
+        </select>
         <button id="searchButton" class="search-button">{{ t "search.button" }}</button>
     </div>
 
@@ -140,13 +148,20 @@
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
         const searchButton = document.getElementById('searchButton');
+        const gradeFilter = document.getElementById('gradeFilter');
 
         searchInput.focus();
 
         function performSearch() {
             const searchTerm = searchInput.value.trim();
+            const grade = gradeFilter.value;
+            
             if (searchTerm === 'x' || searchTerm.length > 3) {
-                window.location.href = `/{{ .Lang }}/search/${encodeURIComponent(searchTerm)}`;
+                let url = `/{{ .Lang }}/search/${encodeURIComponent(searchTerm)}`;
+                if (grade) {
+                    url += `?grade=${grade}`;
+                }
+                window.location.href = url;
             }
         }
 

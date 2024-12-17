@@ -48,13 +48,13 @@
 
     <div class="pagination">
         {{ if .Dashboard.HasPrev }}
-        <a href="#" onclick="goToPage({{ .Dashboard.Page }} - 1); return false;" class="pagination-btn">&laquo; Previous</a>
+        <a href="#" onclick="goToPage({{ subtract .Dashboard.Page 1 }}); return false;" class="pagination-btn">&laquo; Previous</a>
         {{ end }}
         
         <span class="page-info">Page {{ .Dashboard.Page }} of {{ .Dashboard.TotalPages }}</span>
         
         {{ if .Dashboard.HasNext }}
-        <a href="#" onclick="goToPage({{ .Dashboard.Page }} + 1); return false;" class="pagination-btn">Next &raquo;</a>
+        <a href="#" onclick="goToPage({{ add .Dashboard.Page 1 }}); return false;" class="pagination-btn">Next &raquo;</a>
         {{ end }}
     </div>
 </div>

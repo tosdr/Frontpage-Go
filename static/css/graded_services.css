@@ -1,0 +1,213 @@
+.graded-services-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.grade-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.grade-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.grade-badge {
+    font-size: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.grade-description {
+    font-size: 1.1rem;
+    color: var(--secondary-text);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.service-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.service-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.service-logo.placeholder {
+    background-color: var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    opacity: 0.5;
+}
+
+.service-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.service-header h2 a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.service-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.service-grade {
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.view-details {
+    padding: 0.4rem 1rem;
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.view-details:hover {
+    background: var(--link-hover-color);
+    color: var(--btn-secondary-bg);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.pagination-btn:hover {
+    background: var(--link-hover-color);
+    transform: translateY(-1px);
+}
+
+.page-info {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.grade-picker {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.grade-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--grade-text);
+    transition: all 0.2s ease;
+    border: 3px solid transparent;
+}
+
+.grade-option:hover {
+    color: var(--grade-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.grade-option.active {
+    border-color: var(--text-color);
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .graded-services-container {
+        padding: 1rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grade-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .pagination {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .grade-picker {
+        gap: 0.5rem;
+        padding: 0.75rem;
+    }
+
+    .grade-option {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+} 

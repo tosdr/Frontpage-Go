@@ -200,6 +200,10 @@
 
 
 @media (max-width: 768px) {
+    .service-container {
+        padding: 1rem;
+    }
+
     .service-header {
         flex-direction: column;
         text-align: center;

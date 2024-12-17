@@ -133,6 +133,7 @@ func main() {
 	r.HandleFunc("/{lang:[a-z]{2}}/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler)).Name("service")
 	r.HandleFunc("/{lang:[a-z]{2}}/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
 	r.HandleFunc("/{lang:[a-z]{2}}/new_service", handlers.MinifyMiddleware(handlers.NewServiceHandler)).Methods("GET", "POST").Name("new_service")
+	r.HandleFunc("/{lang:[a-z]{2}}/services/{grade}", handlers.MinifyMiddleware(handlers.GradedServicesHandler))
 
 	searchRouter := r.PathPrefix("/{lang:[a-z]{2}}/search").Subrouter()
 	searchRouter.Use(middleware.RateLimitMiddleware)

@@ -1,0 +1,65 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/graded_services.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="graded-services-container">
+    <div class="grade-header">
+        <h1>{{ t "graded_services.title" .Grade }}</h1>
+    </div>
+    
+    <div class="grade-picker">
+        <a href="/{{ .Lang }}/services/A" class="grade-option grade-A {{ if eq .Grade "A" }}active{{ end }}">A</a>
+        <a href="/{{ .Lang }}/services/B" class="grade-option grade-B {{ if eq .Grade "B" }}active{{ end }}">B</a>
+        <a href="/{{ .Lang }}/services/C" class="grade-option grade-C {{ if eq .Grade "C" }}active{{ end }}">C</a>
+        <a href="/{{ .Lang }}/services/D" class="grade-option grade-D {{ if eq .Grade "D" }}active{{ end }}">D</a>
+        <a href="/{{ .Lang }}/services/E" class="grade-option grade-E {{ if eq .Grade "E" }}active{{ end }}">E</a>
+    </div>
+
+    <p class="grade-description">{{ t (printf "home.how_it_works.%s" (ToLower .Grade)) }}</p>
+
+    <div class="services-grid">
+        {{ if .Results }}
+            {{ $lang := .Lang }}
+            {{ range .Results }}
+                <div class="service-card">
+                    <div class="service-header">
+                        <img src="{{ .Image }}" alt="{{ .Name }} {{ t "search.logo_alt" }}" class="service-logo">
+                        <h2><a href="/{{ $lang }}/service/{{ .ID }}">{{ .Name }}</a></h2>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-grade grade-{{ .Rating }}">{{ .Rating }}</span>
+                        <a href="/{{ $lang }}/service/{{ .ID }}" class="view-details">{{ t "home.view_details_button" }}</a>
+                    </div>
+                </div>
+            {{ end }}
+        {{ else }}
+            <p class="no-results">{{ t "graded_services.no_results" .Grade }}</p>
+        {{ end }}
+    </div>
+
+    {{ if or .HasPrev .HasNext }}
+    <div class="pagination">
+        {{ if .HasPrev }}
+            <a href="/{{ .Lang }}/services/{{ .Grade }}?page={{ subtract .Page 1 }}" class="pagination-btn">&laquo; {{ t "pagination.previous" }}</a>
+        {{ end }}
+        
+        <span class="page-info">{{ t "pagination.page_of" .Page .TotalPages }}</span>
+        
+        {{ if .HasNext }}
+            <a href="/{{ .Lang }}/services/{{ .Grade }}?page={{ add .Page 1 }}" class="pagination-btn">{{ t "pagination.next" }} &raquo;</a>
+        {{ end }}
+    </div>
+    {{ end }}
+
+    <script>
+        document.querySelectorAll('.service-logo').forEach(img => {
+            img.addEventListener('error', function() {
+                this.classList.add('placeholder');
+                this.src = 'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"></svg>';
+                this.insertAdjacentHTML('afterbegin', initial);
+            });
+        });
+    </script>
+</div>
+{{ end }}

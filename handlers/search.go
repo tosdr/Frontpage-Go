@@ -18,8 +18,14 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
 	searchTerm := vars["term"]
+	grade := r.URL.Query().Get("grade")
 
-	cacheKey := fmt.Sprintf("search_%s_%s", lang, searchTerm)
+	if grade != "" && grade != "A" && grade != "B" && grade != "C" && grade != "D" && grade != "E" {
+		http.Error(w, "Invalid grade provided", http.StatusBadRequest)
+		return
+	}
+
+	cacheKey := fmt.Sprintf("search_%s_%s_%s", lang, searchTerm, grade)
 	if cachedPage, found := pageCache.Get(cacheKey); found {
 		w.Header().Set(ContentType, ContentTypeHtml)
 		_, _ = w.Write(cachedPage.([]byte))
@@ -33,7 +39,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	start := time.Now()
-	searchResults, code, err := db.SearchServices(searchTerm)
+	searchResults, code, err := db.SearchServices(searchTerm, grade)
 	if err != nil {
 		RenderErrorPage(w, lang, code, "Failed to fetch search results\n"+err.Error(), err)
 		return
@@ -47,6 +53,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		Beta          bool
 		Lang          string
 		SearchTerm    string
+		Grade         string
 		SearchResults []models.SearchResult
 		Languages     map[string]string
 	}{
@@ -54,6 +61,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		Beta:          isBeta,
 		Lang:          lang,
 		SearchTerm:    searchTerm,
+		Grade:         grade,
 		SearchResults: searchResults,
 		Languages:     SupportedLanguages,
 	}
