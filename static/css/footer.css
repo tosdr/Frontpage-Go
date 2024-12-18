@@ -69,7 +69,7 @@ footer {
 }
 
 .language-selector select {
-    background-color: transparent;
+    background-color: var(--footer-bg);
     color: var(--footer-text);
     padding: 0.5rem 2rem;
     border: 1px solid var(--footer-text);
@@ -78,6 +78,11 @@ footer {
     font-size: 0.9rem;
     appearance: none;
     -webkit-appearance: none;
+}
+
+.language-selector select option {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
 }
 
 .language-selector select:hover {

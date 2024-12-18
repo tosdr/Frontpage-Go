@@ -136,6 +136,7 @@
 .pagination-btn:hover {
     background: var(--link-hover-color);
     transform: translateY(-1px);
+    color: var(--btn-primary-text);
 }
 
 .page-info {
