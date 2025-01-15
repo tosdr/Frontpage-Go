@@ -159,6 +159,8 @@ func main() {
 
 	r.HandleFunc("/api/submissions/{id}/{action}", handlers.HandleSubmissionAction).Methods("POST").Name("submission_action")
 
+	r.HandleFunc("/api/teams", handlers.HandleTeamAction).Methods("GET")
+
 	// Start the server
 	log.Printf("Server starting on 0.0.0.0:80")
 	log.Fatal(http.ListenAndServe("0.0.0.0:80", r))
