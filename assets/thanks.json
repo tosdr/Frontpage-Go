@@ -6,12 +6,6 @@
         "description": "Jira, Confluence, Software Licenses"
     },
     {
-        "name": "JetBrains",
-        "logo": "https://s3.tosdr.org/logos-thanks/jetbrains.png",
-        "link": "https://www.jetbrains.com",
-        "description": "IDE Licenses"
-    },
-    {
         "name": "Fastly",
         "logo": "https://s3.tosdr.org/logos-thanks/fastly.svg",
         "link": "https://fastly.com",
