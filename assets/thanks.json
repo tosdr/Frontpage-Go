@@ -9,13 +9,19 @@
         "name": "Fastly",
         "logo": "https://s3.tosdr.org/logos-thanks/fastly.svg",
         "link": "https://fastly.com",
-        "description": "CDN"
+        "description": "CDN & DDoS Protection"
     },
     {
         "name": "BetterStack",
         "logo": "https://s3.tosdr.org/logos-thanks/betterstack.png",
         "link": "https://betterstack.com",
         "description": "Monitoring & Status Page"
+    },
+    {
+        "name": "StartMail",
+        "logo": "https://s3.tosdr.org/logos-thanks/startmail.svg",
+        "link": "https://startmail.com",
+        "description": "Email Service"
     },
     {
         "name": "OpenCollective contributors",

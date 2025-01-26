@@ -116,7 +116,6 @@
             "title": "",
             "description": "Ian received his MA in Forensic Linguistics, the study of language within a legal context, from Cardiff University, investigating consumer motivation behind reading, or not reading, online Terms & Conditions. He is currently living and teaching English in Seville, Spain in addition to contributing to ToS;DR.",
             "links": {
-                "email": "ian.mcgowan@tosdr.org"
             }
         },
         {
@@ -127,8 +126,7 @@
             "links": {
                 "twitter": "https://x.com/jimmstout",
                 "website": "http://jimmstout.com/",
-                "github": "https://github.com/jimmstout",
-                "email": "jimm.stout@tosdr.org"
+                "github": "https://github.com/jimmstout"
             }
         },
         {
@@ -137,7 +135,6 @@
             "title": "Analysis Anarchist",
             "description": "Suzanne does not know what she wants to do with her life, so until then she reads terms of service. (Oh, and she has a law degree.)",
             "links": {
-                "email": "suzanne.azmayesh@tosdr.org"
             }
         },
         {
@@ -146,8 +143,7 @@
             "title": "Developer",
             "description": "Vincent is a front-end engineer from the Netherlands focused on civil rights. If he has the time and energy, he occasionally does some coding work for ToS;DR.",
             "links": {
-                "mastodon": "https://fosstodon.org/@VincentTunru",
-                "email": "vincent.tunru@tosdr.org"
+                "mastodon": "https://fosstodon.org/@VincentTunru"
             }
         },
         {
@@ -155,8 +151,7 @@
             "name": "Christopher Talib",
             "description": "Working for a better Internet everyday.",
             "links": {
-                "github": "https://github.com/christalib",
-                "email": "chris.talib@tosdr.org"
+                "github": "https://github.com/christalib"
             }
         },
         {
@@ -165,8 +160,7 @@
             "title": "Privacy Philanthropist",
             "description": "Evan is dedicated to making the world a better place by giving consumers more information about what they agree to in the fine print. He currently resides in San Antonio, Texas.",
             "links": {
-                "github": "https://github.com/Peepo1",
-                "email": "evan.mullen@tosdr.org"
+                "github": "https://github.com/Peepo1"
             }
         },
         {
@@ -177,8 +171,7 @@
             "links": {
                 "twitter": "https://x.com/justinrene_back",
                 "website": "https://justinback.de",
-                "github": "https://github.com/justinback",
-                "email": "justin.back@tosdr.org"
+                "github": "https://github.com/justinback"
             }
         },
         {
@@ -188,8 +181,7 @@
             "description": "19 year-old Guennadi (AKA 'Dr.Jeff') has yet a lot to learn, but is determined to help in any way he can. He currently resides in Mexico, and is barely starting his career on Philosophy, expecting to someday focus his research on Privacy. Also learning to code.",
             "links": {
                 "twitter": "https://x.com/jeffsamonarch",
-                "github": "https://github.com/DrKJeff16",
-                "email": "guennadi.cortes@tosdr.org"
+                "github": "https://github.com/DrKJeff16"
             }
         },
         {
@@ -198,8 +190,7 @@
             "title": "Tautogrammatic Telecommunicator",
             "description": "Arlo is a netizen who has been involved in the free culture movement for around a decade, and who discovered the wonderful world of ToS;DR indirectly through volunteering at Wikidata...and now can be found tooling about the discussion community in the hopes of helping others to add to the ratings database and also to find new and exciting uses for the data. IRL Arlo has a career at a public utility in a desert, but spends much time on the web nonetheless. Arlo is agender and may be referred to by whichever pronoun system you wish to use.",
             "links": {
-                "website": "https://b.arn.es",
-                "email": "arlo.james.barnes@tosdr.org"
+                "website": "https://b.arn.es"
             }
         }
     ]
