@@ -50,7 +50,6 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 	// Parse documents JSON from form
 	var documents []Document
 	documentsJSON := r.FormValue("documents")
-	println(documentsJSON)
 	if documentsJSON != "" {
 		if err := json.Unmarshal([]byte(documentsJSON), &documents); err != nil {
 			logger.LogError(err, "Failed to parse documents JSON")
@@ -87,7 +86,7 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 		logger.LogError(err, "Failed to check if service already exists")
 	}
 
-	if existing != nil && existing.ID != 0 {
+	if existing != 0 {
 		form.Errors["service_url"] = "Service already in submission queue!"
 		renderNewServiceForm(w, r, lang, form)
 		return

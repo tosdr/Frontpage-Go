@@ -322,9 +322,11 @@ func createVersion(itemType string, itemID string, event string, objectChanges s
 	_, err = stmt.Exec(itemType, itemID, event, objectChanges, whodunnit, object)
 	return err
 }
-
-func GetServiceSubmissionByDomain(domain string) (*ServiceSubmission, error) {
-	var submission ServiceSubmission
-	err := DB.QueryRow("SELECT * FROM service_requests WHERE domains = $1", domain).Scan(&submission)
-	return &submission, err
+func GetServiceSubmissionByDomain(domain string) (int, error) {
+	var submissionID int
+	err := SubDB.QueryRow("SELECT id FROM service_requests WHERE domains = $1", domain).Scan(&submissionID)
+	if err != nil {
+		return 0, err
+	}
+	return submissionID, nil
 }
