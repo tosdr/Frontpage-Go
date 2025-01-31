@@ -64,6 +64,13 @@ func parseTemplates(contentTemplate string, lang string, r *http.Request) (*temp
 		"add": func(a, b int) int {
 			return a + b
 		},
+		"safeHTML": func(s string) template.HTML {
+			return template.HTML(s)
+		},
+		"isDonationMonth": func() bool {
+			currentMonth := time.Now().Month()
+			return currentMonth == time.January || currentMonth == time.July
+		},
 	}
 
 	tmpl := template.New("")

@@ -13,10 +13,55 @@
 </head>
 <body>
     {{template "header" .}}
+    {{if isDonationMonth}}
+    <div class="donate-header">
+        <a href="https://opencollective.com/tosdr" class="donate-header-link">
+            <img src="/static/svg/warning.svg" alt="Warning" class="warning-icon">
+            <div class="donate-text">
+                <h3>{{ t "donate.banner.title" }}</h3>
+                <p>{{ t "donate.banner.description" | safeHTML }}</p>
+            </div>
+        </a>
+        <button class="close-donate" aria-label="{{ t "donate.banner.close" }}">×</button>
+    </div>
+    {{end}}
     <main>
         {{template "content" .}}
     </main>
     {{template "footer" .}}
+    {{if isDonationMonth}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const donateHeader = document.querySelector('.donate-header');
+            const closeButton = document.querySelector('.close-donate');
+            
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    donateHeader.classList.add('hiding');
+                    
+                    setTimeout(() => {
+                        donateHeader.style.display = 'none';
+                    }, 300);
+                    
+                    const expirationDate = new Date();
+                    expirationDate.setDate(expirationDate.getDate() + 7);
+                    localStorage.setItem('hideDonateHeader', expirationDate.toISOString());
+                });
+            }
+
+            const storedDate = localStorage.getItem('hideDonateHeader');
+            if (storedDate) {
+                const expirationDate = new Date(storedDate);
+                const now = new Date();
+                if (now > expirationDate) {
+                    localStorage.removeItem('hideDonateHeader');
+                } else {
+                    donateHeader.style.display = 'none';
+                }
+            }
+        });
+    </script>
+    {{end}}
 </body>
 </html>
 {{ end }}

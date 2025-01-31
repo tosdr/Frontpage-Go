@@ -197,3 +197,82 @@ a:hover {
     font-size: 0.9rem;
     flex: 1;
 }
+
+.donate-header {
+    max-width: 750px;
+    margin: 0 auto 1rem;
+    position: relative;
+}
+
+.donate-header-link {
+    background: var(--btn-tertiary-bg);
+    color: var(--btn-tertiary-text);
+    padding: 1.25rem 3rem 1.25rem 1.25rem;
+    text-align: left;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.donate-header-link:hover {
+    color: var(--btn-tertiary-text);
+    opacity: 0.95;
+}
+
+.warning-icon {
+    width: 24px;
+    height: 24px;
+    filter: invert(1);
+    flex-shrink: 0;
+}
+
+.donate-text {
+    flex: 1;
+}
+
+.donate-text h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--btn-tertiary-text);
+}
+
+.donate-text p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--btn-tertiary-text);
+}
+
+.donate-text a {
+    text-decoration: underline;
+}
+
+.close-donate {
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    background: none;
+    border: none;
+    color: var(--btn-tertiary-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.close-donate:hover {
+    opacity: 1;
+}
+
+.donate-header.hiding .donate-header-link {
+    opacity: 0;
+    transform: translateY(-20px);
+}

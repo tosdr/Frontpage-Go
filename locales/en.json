@@ -105,5 +105,12 @@
     "graded_services.title": "Services with Grade %s",
     "graded_services.no_results": "No services found with Grade %s",
 
-    "translation.warning": "The points above have been machine translated. They may not be 100% accurate and we encourage you to check the original point to verify accuracy."
+    "translation.warning": "The points above have been machine translated. They may not be 100% accurate and we encourage you to check the original point to verify accuracy.",
+
+    "donate.header_text": "Help us keep ToS;DR free and open source by donating to our project.",
+    "donate.header_link": "Donate",
+    "donate.close": "Close",
+    "donate.banner.title": "It's funding month! 🌟",
+    "donate.banner.description": "ToS;DR is a <em>not-for-profit, FOSS project</em> that depends on donations to keep running. If everyone reading this donated just <strong>$1</strong>, we'd be funded for the next few years!",
+    "donate.banner.close": "Close donation banner"
 }
