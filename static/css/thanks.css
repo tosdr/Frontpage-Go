@@ -192,4 +192,44 @@ h1 {
     .opencollective-widget {
         background: var(--card-bg);
     }
+}
+
+.sponsorship-independence {
+    margin-top: 4rem;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sponsorship-independence h2 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.sponsorship-independence p {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.independence-link {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.independence-link:hover {
+    color: var(--link-hover-color);
+}
+
+@media (max-width: 768px) {
+    .sponsorship-independence {
+        margin-top: 2rem;
+        padding: 1.5rem;
+    }
 } 

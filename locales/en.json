@@ -79,6 +79,9 @@
 
     "thanks.thanks": "Thank you!",
     "thanks.intro": "We would like to express our gratitude to the following sponsors who help make ToS;DR possible:",
+    "thanks.independence.title": "Sponsorship Independence Disclosure",
+    "thanks.independence.text": "While we are grateful for our sponsors' support, ToS;DR's ratings and reviews remain completely independent from any sponsorship. Our assessment process is transparent and community-driven, ensuring unbiased evaluations of terms of service and privacy policies.",
+    "thanks.independence.link": "Read our full Sponsorship Independence Disclosure",
 
     "new_service.title": "Add New Service",
     "new_service.description": "Please provide the details of the service you would like to add to ToS;DR. Our team will review your submission.",
