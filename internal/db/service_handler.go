@@ -190,14 +190,22 @@ func scanPoints(rows *sql.Rows) []models.Point {
 		var point models.Point
 		var caseData models.Case
 		var documentID, caseID sql.NullInt64
+		var source sql.NullString
+
 		if err := rows.Scan(
-			&point.ID, &point.Title, &point.Source, &point.Status, &point.Analysis,
+			&point.ID, &point.Title, &source, &point.Status, &point.Analysis,
 			&documentID, &point.UpdatedAt, &point.CreatedAt,
 			&caseID, &caseData.Weight, &caseData.Title, &caseData.Description,
 			&caseData.UpdatedAt, &caseData.CreatedAt, &caseData.TopicID, &caseData.Classification,
 		); err != nil {
+			logger.LogError(err, fmt.Sprintf("Error scanning row: %v", err))
 			continue
 		}
+
+		if source.Valid {
+			point.Source = source.String
+		}
+
 		if documentID.Valid {
 			point.DocumentID = int(documentID.Int64)
 		}
