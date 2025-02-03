@@ -1,5 +1,36 @@
 {{ define "css_block" }}
 <link rel="stylesheet" href="/static/css/service.css">
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.expand-description').forEach(button => {
+        button.addEventListener('click', function() {
+            const pointElement = this.closest('li');
+            const description = pointElement.querySelector('.point-description');
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            
+            this.setAttribute('aria-expanded', !isExpanded);
+            
+            if (isExpanded) {
+                description.addEventListener('transitionend', function handler() {
+                    description.hidden = true;
+                    description.removeEventListener('transitionend', handler);
+                });
+                description.style.maxHeight = '0';
+                description.style.opacity = '0';
+                description.style.marginTop = '0';
+            } else {
+                description.hidden = false;
+                // Trigger reflow to enable transition
+                description.offsetHeight;
+                description.style.maxHeight = description.scrollHeight + 'px';
+                description.style.opacity = '1';
+                description.style.marginTop = '1rem';
+            }
+        });
+    });
+});
+</script>
 {{ end }}
 
 {{ define "content" }}
@@ -17,9 +48,16 @@
             <li class="point-{{ .Case.Classification }}">
                 <div class="point-content">
                     <img src="/static/svg/{{ .Case.Classification }}.svg" alt="{{ .Case.Classification }} icon" class="point-icon">
-                    <h3>{{ .Title }}</h3>
+                    <div class="point-text">
+                        <h3>{{ .Title }}</h3>
+                    </div>
                 </div>
                 <div class="point-actions">
+                    {{ if .Case.Description }}
+                    <button class="expand-description" aria-expanded="false" title="{{ t "service.point_expand" }}">
+                        <img src="/static/svg/expand.svg" alt="Expand" class="expand-icon">
+                    </button>
+                    {{ end }}
                     <span class="updated-on" title="{{ t "service.point_updated" (.UpdatedAt.Format "2006-01-02 15:04:05") }}">
                         <img src="/static/svg/schedule.svg" alt="{{ t "service.point_updated_alt" }}">
                     </span>
@@ -27,6 +65,9 @@
                         <img src="/static/svg/edit.svg" alt="{{ t "service.point_edit" }}">
                     </a>
                 </div>
+                {{ if .Case.Description }}
+                <div class="point-description" style="max-height: 0px; opacity: 0; margin-top: 0px;" hidden>{{ .Case.Description }}</div>
+                {{ end }}
             </li>
             {{ end }}
         </ul>

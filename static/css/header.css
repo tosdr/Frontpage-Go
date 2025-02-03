@@ -1,7 +1,7 @@
 header {
     background-color: var(--header-bg);
     padding: 0 1rem;
-    margin: 1rem auto;
+    margin: 1rem 0.5rem;
     border-radius: var(--border-radius);
     max-width: 1500px;
 }

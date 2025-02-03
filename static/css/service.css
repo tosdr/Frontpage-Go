@@ -38,13 +38,15 @@
     padding: 1rem;
     border-radius: 1rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.5rem;
 }
 
 .point-content {
     display: flex;
     align-items: center;
+    flex: 1;
 }
 
 .edit-button {
@@ -115,51 +117,71 @@
 .point-actions {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
 }
 
-.updated-on, .edit-icon {
+.updated-on, .edit-icon, .expand-description {
     margin-left: 10px;
     font-size: 1rem;
     color: #6c757d;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
 }
 
-.updated-on {
+.expand-description {
+    transition: transform 0.3s ease;
+}
+
+.expand-description[aria-expanded="true"] .expand-icon {
+    transform: rotate(180deg);
+}
+
+.expand-icon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.point-text {
+    flex-grow: 1;
+}
+
+.point-text h3 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.point-description-wrapper {
     position: relative;
-}
-
-.updated-on:hover::after {
-    content: attr(title);
-    position: absolute;
-    background-color: #f8f9fa;
-    color: #212529;
-    padding: 5px;
-    border-radius: 3px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    z-index: 1;
-    left: 50%;
-    transform: translateX(-70%);
-    bottom: 100%;
-    margin-bottom: 5px;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.edit-icon {
-    text-decoration: none;
-}
-
-.edit-icon:hover {
-    color: #007bff;
 }
 
 .point-icon {
     width: 24px;
     height: 24px;
     margin-right: 10px;
+    flex-shrink: 0;
     filter: brightness(0) saturate(100%) invert(var(--icon-invert)) sepia(var(--icon-sepia)) saturate(var(--icon-saturate)) hue-rotate(var(--icon-hue-rotate)) brightness(var(--icon-brightness)) contrast(var(--icon-contrast));
+}
+
+.point-description {
+    flex-basis: 100%;
+    margin-top: 0.5rem;
+    padding-left: calc(24px + 1.5rem);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out;
+}
+
+.point-description:not([hidden]) {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: 1rem;
 }
 
 .point-good .point-icon {
@@ -198,7 +220,6 @@
     --icon-contrast: 104%;
 }
 
-
 @media (max-width: 768px) {
     .service-container {
         padding: 1rem;
@@ -226,5 +247,9 @@
     .point-actions {
         align-self: flex-end;
         margin-top: 0.5rem;
+    }
+
+    .point-text {
+        width: 100%;
     }
 }
