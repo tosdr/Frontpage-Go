@@ -69,7 +69,10 @@ func parseTemplates(contentTemplate string, lang string, r *http.Request) (*temp
 		},
 		"isDonationMonth": func() bool {
 			currentMonth := time.Now().Month()
-			return currentMonth == time.January || currentMonth == time.July
+			return currentMonth == time.March ||
+				currentMonth == time.June ||
+				currentMonth == time.September ||
+				currentMonth == time.December
 		},
 	}
 

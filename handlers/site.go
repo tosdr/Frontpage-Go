@@ -14,6 +14,7 @@ import (
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
+	"github.com/yuin/goldmark/renderer/html"
 )
 
 func SiteHandler(w http.ResponseWriter, r *http.Request) {
@@ -54,6 +55,9 @@ func SiteHandler(w http.ResponseWriter, r *http.Request) {
 	markdown := goldmark.New(
 		goldmark.WithExtensions(
 			meta.Meta,
+		),
+		goldmark.WithRendererOptions(
+			html.WithUnsafe(),
 		),
 	)
 
