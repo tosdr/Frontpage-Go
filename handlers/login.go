@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"tosdrgo/handlers/auth"
+	"tosdrgo/handlers/localization"
 
 	"github.com/gorilla/mux"
 )
@@ -34,7 +35,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 		User      *auth.A0User
 		Languages map[string]string
 	}{
-		Title:     "Profile",
+		Title:     localization.Get(lang, "page.profile"),
 		Beta:      isBeta,
 		Lang:      lang,
 		User:      user,

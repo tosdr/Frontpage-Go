@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"tosdrgo/handlers/localization"
 	"tosdrgo/handlers/metrics"
 	"tosdrgo/internal/db"
 	"tosdrgo/models"
@@ -57,7 +58,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		SearchResults []models.SearchResult
 		Languages     map[string]string
 	}{
-		Title:         "Search Results",
+		Title:         localization.GetFormatted(lang, "search.results_for", searchTerm),
 		Beta:          isBeta,
 		Lang:          lang,
 		SearchTerm:    searchTerm,

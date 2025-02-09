@@ -119,6 +119,7 @@ func main() {
 	// Add redirects for non-language-prefixed routes
 	r.HandleFunc("/service/{serviceID}", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
 	r.HandleFunc("/about", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
+	r.HandleFunc("/donate", handlers.RedirectDonate).Methods("GET")
 	r.HandleFunc("/thanks", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
 	r.HandleFunc("/sites/{sitename}", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
 
@@ -126,7 +127,7 @@ func main() {
 	r.HandleFunc("/", handlers.DetectLanguageAndRedirect)
 
 	// forward old donate page to new
-	r.HandleFunc("/{lang:[a-z]{2}}/donate", handlers.RedirectDonate)
+	r.HandleFunc("/{lang:[a-z]{2}}/sites/donate", handlers.RedirectDonate)
 
 	// Language-prefixed routes
 	r.HandleFunc("/{lang:[a-z]{2}}", handlers.MinifyMiddleware(handlers.HomeHandler)).Name("home")

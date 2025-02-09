@@ -2,6 +2,7 @@ package localization
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"sync"
 	"tosdrgo/internal/logger"
@@ -58,6 +59,28 @@ func Get(lang, key string) string {
 		if enTrans, ok := translations["en"]; ok {
 			if val, ok := enTrans[key]; ok {
 				return val
+			}
+		}
+	}
+
+	return key
+}
+
+func GetFormatted(lang, key string, args ...interface{}) string {
+	mutex.RLock()
+	defer mutex.RUnlock()
+
+	if trans, ok := translations[lang]; ok {
+		if val, ok := trans[key]; ok {
+			return fmt.Sprintf(val, args...)
+		}
+	}
+
+	// Fallback to English
+	if lang != "en" {
+		if enTrans, ok := translations["en"]; ok {
+			if val, ok := enTrans[key]; ok {
+				return fmt.Sprintf(val, args...)
 			}
 		}
 	}

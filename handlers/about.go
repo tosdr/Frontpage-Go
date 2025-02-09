@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"tosdrgo/handlers/localization"
 	"tosdrgo/models"
 
 	"github.com/gorilla/mux"
@@ -91,7 +92,7 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 		Content   template.HTML
 		Languages map[string]string
 	}{
-		Title:     "About Us",
+		Title:     localization.Get(lang, "page.about"),
 		Beta:      isBeta,
 		Lang:      lang,
 		Team:      team,

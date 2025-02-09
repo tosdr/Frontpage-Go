@@ -3,6 +3,7 @@ package handlers
 import (
 	"bytes"
 	"net/http"
+	"tosdrgo/handlers/localization"
 
 	"github.com/gorilla/mux"
 	"github.com/patrickmn/go-cache"
@@ -36,7 +37,7 @@ func DonateHandler(w http.ResponseWriter, r *http.Request) {
 		Lang      string
 		Languages map[string]string
 	}{
-		Title:     "Donate",
+		Title:     localization.Get(lang, "page.donate"),
 		Beta:      isBeta,
 		Lang:      lang,
 		Languages: SupportedLanguages,

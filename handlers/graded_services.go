@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"tosdrgo/handlers/localization"
 	"tosdrgo/internal/db"
 	"tosdrgo/models"
 
@@ -64,7 +65,7 @@ func GradedServicesHandler(w http.ResponseWriter, r *http.Request) {
 		HasPrev    bool
 		Languages  map[string]string
 	}{
-		Title:      fmt.Sprintf("Grade %s Services", grade),
+		Title:      localization.GetFormatted(lang, "page.gradedservices", grade),
 		Beta:       isBeta,
 		Lang:       lang,
 		Grade:      grade,

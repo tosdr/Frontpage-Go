@@ -70,6 +70,7 @@
 
 .crypto-item:hover {
     transform: translateY(-2px);
+    border: 1px solid var(--btn-primary-bg);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -242,11 +243,34 @@
     border-radius: var(--border-radius);
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.donation-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: left 0.6s ease;
 }
 
 .donation-option:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+}
+
+.donation-option:hover::before {
+    left: 150%;
 }
 
 .donation-option h3 {

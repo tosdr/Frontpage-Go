@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"tosdrgo/handlers/auth"
+	"tosdrgo/handlers/localization"
 	"tosdrgo/internal/db"
 	"tosdrgo/internal/logger"
 
@@ -58,7 +59,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 		Dashboard DashboardData
 		Languages map[string]string
 	}{
-		Title: "Dashboard",
+		Title: localization.Get(lang, "page.dashboard"),
 		Beta:  isBeta,
 		Lang:  lang,
 		User:  user,

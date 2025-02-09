@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"tosdrgo/handlers/localization"
 
 	"github.com/gorilla/mux"
 	"github.com/patrickmn/go-cache"
@@ -61,7 +62,7 @@ func ThanksHandler(w http.ResponseWriter, r *http.Request) {
 		Sponsors  []Sponsor
 		Languages map[string]string
 	}{
-		Title:     "Thanks",
+		Title:     localization.Get(lang, "page.thanks"),
 		Beta:      isBeta,
 		Lang:      lang,
 		Sponsors:  sponsors,

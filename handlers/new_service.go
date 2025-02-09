@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"tosdrgo/handlers/localization"
 	"tosdrgo/internal/db"
 	"tosdrgo/internal/logger"
 
@@ -245,7 +246,7 @@ func renderNewServiceForm(w http.ResponseWriter, r *http.Request, lang string, f
 		Form      *ServiceForm
 		Languages map[string]string
 	}{
-		Title:     "Add New Service",
+		Title:     localization.Get(lang, "page.newservice"),
 		Beta:      isBeta,
 		Lang:      lang,
 		Form:      form,

@@ -51,7 +51,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		Featured        []models.FeaturedService
 		Languages       map[string]string
 	}{
-		Title:           "Home Page",
+		Title:           localization.Get(lang, "page.home"),
 		Beta:            isBeta,
 		Lang:            lang,
 		LastFetchedTime: time.Now().Format(time.RFC850),
