@@ -54,7 +54,7 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 		Service   models.Service
 		Languages map[string]string
 	}{
-		Title:     service.Name + " - ToS;DR",
+		Title:     service.Name,
 		Beta:      isBeta,
 		Lang:      lang,
 		Service:   *service,

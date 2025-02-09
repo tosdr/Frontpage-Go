@@ -57,7 +57,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		SearchResults []models.SearchResult
 		Languages     map[string]string
 	}{
-		Title:         "Search Results - ToS;DR",
+		Title:         "Search Results",
 		Beta:          isBeta,
 		Lang:          lang,
 		SearchTerm:    searchTerm,

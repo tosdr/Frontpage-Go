@@ -64,7 +64,7 @@ func GradedServicesHandler(w http.ResponseWriter, r *http.Request) {
 		HasPrev    bool
 		Languages  map[string]string
 	}{
-		Title:      fmt.Sprintf("Grade %s Services - ToS;DR", grade),
+		Title:      fmt.Sprintf("Grade %s Services", grade),
 		Beta:       isBeta,
 		Lang:       lang,
 		Grade:      grade,

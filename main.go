@@ -125,10 +125,14 @@ func main() {
 	// Root redirect to browser language
 	r.HandleFunc("/", handlers.DetectLanguageAndRedirect)
 
+	// forward old donate page to new
+	r.HandleFunc("/{lang:[a-z]{2}}/donate", handlers.RedirectDonate)
+
 	// Language-prefixed routes
 	r.HandleFunc("/{lang:[a-z]{2}}", handlers.MinifyMiddleware(handlers.HomeHandler)).Name("home")
 	r.HandleFunc("/{lang:[a-z]{2}}/", handlers.MinifyMiddleware(handlers.HomeHandler))
 	r.HandleFunc("/{lang:[a-z]{2}}/about", handlers.MinifyMiddleware(handlers.AboutHandler)).Name("about")
+	r.HandleFunc("/{lang:[a-z]{2}}/donate", handlers.MinifyMiddleware(handlers.DonateHandler)).Name("about")
 	r.HandleFunc("/{lang:[a-z]{2}}/thanks", handlers.MinifyMiddleware(handlers.ThanksHandler)).Name("thanks")
 	r.HandleFunc("/{lang:[a-z]{2}}/service/{serviceID}", handlers.MinifyMiddleware(handlers.ServiceHandler)).Name("service")
 	r.HandleFunc("/{lang:[a-z]{2}}/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))

@@ -58,7 +58,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 		Dashboard DashboardData
 		Languages map[string]string
 	}{
-		Title: "Dashboard - ToS;DR",
+		Title: "Dashboard",
 		Beta:  isBeta,
 		Lang:  lang,
 		User:  user,

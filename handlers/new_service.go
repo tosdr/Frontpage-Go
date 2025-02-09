@@ -245,7 +245,7 @@ func renderNewServiceForm(w http.ResponseWriter, r *http.Request, lang string, f
 		Form      *ServiceForm
 		Languages map[string]string
 	}{
-		Title:     "Add New Service - ToS;DR",
+		Title:     "Add New Service",
 		Beta:      isBeta,
 		Lang:      lang,
 		Form:      form,

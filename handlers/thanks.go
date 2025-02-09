@@ -61,7 +61,7 @@ func ThanksHandler(w http.ResponseWriter, r *http.Request) {
 		Sponsors  []Sponsor
 		Languages map[string]string
 	}{
-		Title:     "Thanks - ToS;DR",
+		Title:     "Thanks",
 		Beta:      isBeta,
 		Lang:      lang,
 		Sponsors:  sponsors,

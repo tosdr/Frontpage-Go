@@ -34,7 +34,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 		User      *auth.A0User
 		Languages map[string]string
 	}{
-		Title:     "Profile - ToS;DR",
+		Title:     "Profile",
 		Beta:      isBeta,
 		Lang:      lang,
 		User:      user,

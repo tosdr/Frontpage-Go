@@ -1,0 +1,166 @@
+{{ define "css_block" }}
+    <link rel="stylesheet" href="/static/css/donate.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="donate-content">
+    <h1>{{ t "donate.title" }}</h1>
+    
+    <p>{{ t "donate.intro" | safeHTML }}</p>
+
+    <div class="donation-options">
+        <a href="https://opencollective.com/tosdr" class="donation-option">
+            <h3>💝 OpenCollective</h3>
+            <p>{{ t "donate.opencollective.description" }}</p>
+            <p>{{ t "donate.opencollective.methods" }}</p>
+        </a>
+
+    </div>
+
+    <hr>
+
+    <h2>💰 {{ t "donate.crypto.title" }}</h2>
+    <p>{{ t "donate.crypto.description" }}</p>
+
+    <div class="crypto-addresses">
+        <div class="crypto-item">
+            <h3>🟠 Bitcoin (BTC)</h3>
+            <div class="crypto-address">
+                <button class="qr-button" data-qr="/static/crypto/crypto_qr_BTC.png" aria-label="{{ t "donate.show_qr" }}">
+                    <img src="/static/svg/qrcode.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.show_qr" }}</span>
+                </button>
+                <input type="text" readonly value="bc1qnjcxk6xllv3dnzzxd74843lhp59njwd94u6yza" class="crypto-input">
+                <button class="copy-button" data-address="bc1qnjcxk6xllv3dnzzxd74843lhp59njwd94u6yza" aria-label="{{ t "donate.copy_address" }}">
+                    <img src="/static/svg/copy.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.copy_address" }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="crypto-item">
+            <h3>💎 Ethereum (ETH)</h3>
+            <div class="crypto-address">
+                <button class="qr-button" data-qr="/static/crypto/crypto_qr_ETH.png" aria-label="{{ t "donate.show_qr" }}">
+                    <img src="/static/svg/qrcode.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.show_qr" }}</span>
+                </button>
+                <input type="text" readonly value="0xfcCAa73b6a17bCfED9998b20028172f1E7afb3ac" class="crypto-input">
+                <button class="copy-button" data-address="0xfcCAa73b6a17bCfED9998b20028172f1E7afb3ac" aria-label="{{ t "donate.copy_address" }}">
+                    <img src="/static/svg/copy.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.copy_address" }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="crypto-item">
+            <h3>🪙 Litecoin (LTC)</h3>
+            <div class="crypto-address">
+                <button class="qr-button" data-qr="/static/crypto/crypto_qr_LTC.png" aria-label="{{ t "donate.show_qr" }}">
+                    <img src="/static/svg/qrcode.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.show_qr" }}</span>
+                </button>
+                <input type="text" readonly value="ltc1q0t89mvcxcuma04tm2z0r3gdzj7kpfy32q6gmm2" class="crypto-input">
+                <button class="copy-button" data-address="ltc1q0t89mvcxcuma04tm2z0r3gdzj7kpfy32q6gmm2" aria-label="{{ t "donate.copy_address" }}">
+                    <img src="/static/svg/copy.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.copy_address" }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="crypto-item">
+            <h3>🔵 Toncoin (TON)</h3>
+            <div class="crypto-address">
+                <button class="qr-button" data-qr="/static/crypto/crypto_qr_TON.png" aria-label="{{ t "donate.show_qr" }}">
+                    <img src="/static/svg/qrcode.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.show_qr" }}</span>
+                </button>
+                <input type="text" readonly value="UQCp0ZCuEGIvTEX3261ylE3APvBne_GmDopaHYNY-88JMI7e" class="crypto-input">
+                <button class="copy-button" data-address="UQCp0ZCuEGIvTEX3261ylE3APvBne_GmDopaHYNY-88JMI7e" aria-label="{{ t "donate.copy_address" }}">
+                    <img src="/static/svg/copy.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.copy_address" }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="crypto-item">
+            <h3>💵 Bitcoin Cash (BCH)</h3>
+            <div class="crypto-address">
+                <button class="qr-button" data-qr="/static/crypto/crypto_qr_BTC_CASH.png" aria-label="{{ t "donate.show_qr" }}">
+                    <img src="/static/svg/qrcode.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.show_qr" }}</span>
+                </button>
+                <input type="text" readonly value="qrq7a52l58q383llcavr65cs493rzt90uu9g4rq0d3" class="crypto-input">
+                <button class="copy-button" data-address="qrq7a52l58q383llcavr65cs493rzt90uu9g4rq0d3" aria-label="{{ t "donate.copy_address" }}">
+                    <img src="/static/svg/copy.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.copy_address" }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="crypto-item">
+            <h3>🐶 Dogecoin (DOGE)</h3>
+            <div class="crypto-address">
+                <button class="qr-button" data-qr="/static/crypto/crypto_qr_DOGE.png" aria-label="{{ t "donate.show_qr" }}">
+                    <img src="/static/svg/qrcode.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.show_qr" }}</span>
+                </button>
+                <input type="text" readonly value="DSeQaoY19hb9U6afzYELRvtRctGs73qUcm" class="crypto-input">
+                <button class="copy-button" data-address="DSeQaoY19hb9U6afzYELRvtRctGs73qUcm" aria-label="{{ t "donate.copy_address" }}">
+                    <img src="/static/svg/copy.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.copy_address" }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <p>{{ t "donate.crypto.disclaimer" }}</p>
+
+    <div id="qr-modal" class="modal" hidden>
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <img id="qr-image" src="" alt="{{ t "donate.qr_code" }}">
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Copy button functionality
+    document.querySelectorAll('.copy-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const address = this.dataset.address;
+            navigator.clipboard.writeText(address);
+            
+            const originalHTML = this.innerHTML;
+            this.innerHTML = '✓';
+            setTimeout(() => {
+                this.innerHTML = originalHTML;
+            }, 2000);
+        });
+    });
+
+    // QR code modal functionality
+    const modal = document.getElementById('qr-modal');
+    modal.style.display = 'none'; // Ensure modal is hidden by default
+    const qrImage = document.getElementById('qr-image');
+
+    document.querySelectorAll('.qr-button').forEach(button => {
+        button.addEventListener('click', function() {
+            qrImage.src = this.dataset.qr;
+            modal.style.display = 'flex';
+        });
+    });
+
+    document.querySelector('.close-modal').addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
+</script>
+{{ end }}

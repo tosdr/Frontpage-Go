@@ -91,7 +91,7 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 		Content   template.HTML
 		Languages map[string]string
 	}{
-		Title:     "About Us - ToS;DR",
+		Title:     "About Us",
 		Beta:      isBeta,
 		Lang:      lang,
 		Team:      team,
