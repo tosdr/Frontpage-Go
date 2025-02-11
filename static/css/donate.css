@@ -184,6 +184,20 @@
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
+    .crypto-addresses {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .crypto-item {
+        padding: 1rem;
+    }
+
+    .crypto-input {
+        font-size: 0.75rem;
+    }
+
     .crypto-address {
         flex-direction: column;
     }
@@ -233,14 +247,15 @@
 
 .donation-options {
     margin: 2rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
 }
 
 .donation-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
     padding: 1.5rem;
     border-radius: var(--border-radius);
     text-decoration: none;
@@ -265,6 +280,20 @@
     transition: left 0.6s ease;
 }
 
+/* OpenCollective style */
+.donation-option.opencollective {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+}
+
+
+/* GitHub Sponsors style */
+.donation-option.githubsponsors {
+    background: #494949;
+    color: #ffffff;
+}
+
+/* Common hover effects */
 .donation-option:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -292,6 +321,8 @@
 }
 
 .donation-option h3 {
+    display: flex;
+    align-items: center;
     margin: 0 0 0.5rem 0;
     color: var(--btn-primary-text);
 }
@@ -331,3 +362,11 @@
         text-align: center;
     }
 }
+.platform-logo {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 8px;
+    filter: brightness(0) invert(1); /* This makes the logos white to match the text */
+}
+

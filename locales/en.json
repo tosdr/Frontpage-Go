@@ -115,6 +115,8 @@
     "donate.intro": "Support our mission by donating via OpenCollective or through cryptocurrency! ToS;DR has been dedicated to making terms of service and privacy policies more transparent since 2012. Your donation helps us continue our work, maintain our independence, and improve our tools. Every contribution, no matter the size, makes a difference. Join us in our mission to create a fairer internet!",
     "donate.opencollective.description": "Support us through OpenCollective, a transparent funding platform for open source projects.",
     "donate.opencollective.methods": "Supported payment methods: Credit Card, PayPal, or bank transfer.",
+    "donate.githubsponsors.description": "Support us through GitHub Sponsors, a platform for open source projects.",
+    "donate.githubsponsors.methods": "Supported payment methods: Credit Card.",
     "donate.crypto.title": "Donate via Crypto",
     "donate.crypto.description": "If you prefer a more private way to support us, consider donating using various cryptocurrencies. Below are our wallet addresses along with QR codes for easy transactions.",
     "donate.crypto.disclaimer": "Please only send cryptocurrencies using their respective networks (e.g., Bitcoin only using the Bitcoin network, Ethereum only using the Ethereum network, etc.). We are not responsible for any loss of funds due to incorrect network usage.",
