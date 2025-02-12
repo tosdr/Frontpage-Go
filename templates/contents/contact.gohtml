@@ -1,0 +1,311 @@
+{{ define "css_block" }}
+<link rel="stylesheet" href="/static/css/contact.css">
+{{ end }}
+
+{{ define "content" }}
+<div class="contact-container">
+    <div class="wizard-progress">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+        </div>
+        <div class="steps">
+            <div class="step active" data-step="1">1. Category</div>
+            <div class="step" data-step="2">2. Details</div>
+            <div class="step" data-step="3">3. Review</div>
+        </div>
+    </div>
+
+    <form id="contactForm" method="POST" class="wizard-form">
+        <input type="hidden" id="categoryInput" name="category" value="">
+        <div class="wizard-step active" data-step="1">
+            <h2>{{ t "contact.title" }}</h2>
+            <p class="contact-intro">{{ t "contact.description" }}</p>
+
+            <div class="contact-categories">
+                <div class="category-card" data-category="website">
+                    <h3>{{ t "contact.categories.website.title" }}</h3>
+                    <p>{{ t "contact.categories.website.description" }}</p>
+                </div>
+                
+                <div class="category-card" data-category="api">
+                    <h3>{{ t "contact.categories.api.title" }}</h3>
+                    <p>{{ t "contact.categories.api.description" }}</p>
+                </div>
+                
+                <div class="category-card" data-category="ai">
+                    <h3>{{ t "contact.categories.ai.title" }}</h3>
+                    <p>{{ t "contact.categories.ai.description" }}</p>
+                </div>
+
+                <div class="category-card" data-category="phoenix">
+                    <h3>{{ t "contact.categories.phoenix.title" }}</h3>
+                    <p>{{ t "contact.categories.phoenix.description" }}</p>
+                </div>
+
+                <div class="category-card" data-category="apps">
+                    <h3>{{ t "contact.categories.apps.title" }}</h3>
+                    <p>{{ t "contact.categories.apps.description" }}</p>
+                </div>
+                
+                <div class="category-card" data-category="sponsorship">
+                    <h3>{{ t "contact.categories.sponsorship.title" }}</h3>
+                    <p>{{ t "contact.categories.sponsorship.description" }}</p>
+                </div>
+
+                <div class="category-card" data-category="organisation">
+                    <h3>{{ t "contact.categories.organisation.title" }}</h3>
+                    <p>{{ t "contact.categories.organisation.description" }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="wizard-step" data-step="2">
+            <button type="button" class="back-button">{{ t "contact.back" }}</button>
+            <h2 id="categoryTitle"></h2>
+            <p id="categoryDescription"></p>
+
+            <div class="form-group">
+                <label for="name">{{ t "contact.form.name" }}</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">{{ t "contact.form.email" }}</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group" id="companyGroup" hidden>
+                <label for="company">{{ t "contact.form.company" }}</label>
+                <input type="text" id="company" name="company">
+            </div>
+
+            <div class="form-group">
+                <label for="message">{{ t "contact.form.message" }}</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{ t "contact.form.submit" }}</button>
+        </div>
+
+        <div class="wizard-step" data-step="3">
+            <button type="button" class="back-button">{{ t "contact.back" }}</button>
+            <h2>{{ t "contact.review.title" }}</h2>
+            
+            <div class="review-summary">
+                <div class="review-item">
+                    <strong>{{ t "contact.review.category" }}:</strong>
+                    <span id="reviewCategory"></span>
+                </div>
+                <div class="review-item">
+                    <strong>{{ t "contact.review.name" }}:</strong>
+                    <span id="reviewName"></span>
+                </div>
+                <div class="review-item">
+                    <strong>{{ t "contact.review.email" }}:</strong>
+                    <span id="reviewEmail"></span>
+                </div>
+                <div class="review-item" id="reviewCompanyContainer" hidden>
+                    <strong>{{ t "contact.review.company" }}:</strong>
+                    <span id="reviewCompany"></span>
+                </div>
+                <div class="review-item">
+                    <strong>{{ t "contact.review.message" }}:</strong>
+                    <p id="reviewMessage"></p>
+                </div>
+            </div>
+
+            <div class="submit-options">
+                <button type="submit" class="btn btn-primary" name="submit_type" value="direct">
+                    {{ t "contact.submit.direct" }}
+                </button>
+                <button type="button" class="btn btn-secondary" id="emailClientBtn">
+                    {{ t "contact.submit.email_client" }}
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mail-option">
+        <p>{{ t "contact.mail_option.text" }}</p>
+        <a href="mailto:team@tosdr.org" class="btn btn-secondary">{{ t "contact.mail_option.button" }}</a>
+    </div>
+</div>
+
+<div id="phoenix-modal" class="modal">
+    <div class="modal-content">
+        <button class="close-modal">&times;</button>
+        <h3>{{ t "contact.phoenix_modal.title" }}</h3>
+        <p>{{ t "contact.phoenix_modal.description" }}</p>
+        <div class="modal-actions">
+            <a href="https://tosdr.community" class="btn btn-primary">{{ t "contact.phoenix_modal.visit" }}</a>
+            <button class="btn btn-secondary" id="continueContact">{{ t "contact.phoenix_modal.continue" }}</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contactForm');
+    const steps = document.querySelectorAll('.wizard-step');
+    const progressFill = document.getElementById('progressFill');
+    const progressSteps = document.querySelectorAll('.step');
+    let currentStep = 1;
+    let selectedCategory = '';
+
+    function updateProgress(step) {
+        const progress = ((step - 1) / (steps.length - 1)) * 100;
+        progressFill.style.width = `${progress}%`;
+        
+        progressSteps.forEach(s => {
+            const stepNum = parseInt(s.dataset.step);
+            s.classList.toggle('active', stepNum === step);
+            s.classList.toggle('completed', stepNum < step);
+        });
+    }
+
+    function showStep(step) {
+        steps.forEach(s => {
+            s.classList.remove('active', 'slide-left', 'slide-right');
+            if (parseInt(s.dataset.step) === step) {
+                s.classList.add('active');
+                s.classList.add(step > currentStep ? 'slide-left' : 'slide-right');
+            }
+        });
+        currentStep = step;
+        updateProgress(step);
+    }
+
+    const modal = document.getElementById('phoenix-modal');
+    const closeModalBtn = modal.querySelector('.close-modal');
+    
+    function showModal() {
+        modal.classList.add('active');
+    }
+    
+    function hideModal() {
+        modal.classList.remove('active');
+    }
+
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('click', function() {
+            selectedCategory = this.dataset.category;
+            document.getElementById('categoryInput').value = selectedCategory;
+            
+            if (selectedCategory === 'phoenix') {
+                showModal();
+                return;
+            }
+            
+            proceedToNextStep(this);
+        });
+    });
+
+    closeModalBtn.addEventListener('click', hideModal);
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            hideModal();
+        }
+    });
+
+    document.getElementById('continueContact').addEventListener('click', function() {
+        const phoenixCard = document.querySelector('.category-card[data-category="phoenix"]');
+        hideModal();
+        proceedToNextStep(phoenixCard);
+    });
+
+    function proceedToNextStep(card) {
+        document.getElementById('categoryTitle').textContent = 
+            card.querySelector('h3').textContent;
+        document.getElementById('categoryDescription').textContent = 
+            card.querySelector('p').textContent;
+        
+        document.getElementById('companyGroup').hidden = 
+            selectedCategory !== 'sponsorship';
+        
+        showStep(2);
+    }
+
+    document.querySelectorAll('.back-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const currentStepEl = this.closest('.wizard-step');
+            const currentStepNum = parseInt(currentStepEl.dataset.step);
+            showStep(currentStepNum - 1);
+        });
+    });
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (currentStep === 2) {
+            updateReviewPage();
+            showStep(3);
+        } else if (currentStep === 3) {
+            await submitForm();
+        }
+    });
+
+    function updateReviewPage() {
+        document.getElementById('reviewCategory').textContent = 
+            document.getElementById('categoryTitle').textContent;
+        document.getElementById('reviewName').textContent = 
+            document.getElementById('name').value;
+        document.getElementById('reviewEmail').textContent = 
+            document.getElementById('email').value;
+        document.getElementById('reviewMessage').textContent = 
+            document.getElementById('message').value;
+        
+        if (selectedCategory === 'sponsorship') {
+            document.getElementById('reviewCompanyContainer').hidden = false;
+            document.getElementById('reviewCompany').textContent = 
+                document.getElementById('company').value;
+        }
+    }
+
+    async function submitForm() {
+        const formData = new FormData(form);
+        formData.append('category', selectedCategory);
+
+        try {
+            const response = await fetch('/{{ .Lang }}/contact', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Thank you for your message! We will get back to you soon.');
+                window.location.reload();
+            } else {
+                throw new Error('Failed to submit form');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to submit form. Please try again or use email client option.');
+        }
+    }
+
+    document.getElementById('emailClientBtn').addEventListener('click', function() {
+        const email = {
+            'website': 'erik.hering@tosdr.org',
+            'api': 'api@tosdr.org',
+            'ai': 'evan.radkoff@tosdr.org',
+            'phoenix': 'phoenix@tosdr.org',
+            'apps': 'erik.hering@tosdr.org',
+            'sponsorship': 'team@tosdr.org',
+            'organisation': 'team@tosdr.org'
+        }[selectedCategory];
+        
+        const subject = encodeURIComponent(`${selectedCategory.toUpperCase()} Inquiry`);
+        const body = encodeURIComponent(
+            `Name: ${document.getElementById('name').value}\n` +
+            `Email: ${document.getElementById('email').value}\n` +
+            (selectedCategory === 'sponsorship' ? 
+                `Company: ${document.getElementById('company').value}\n` : '') +
+            `\nMessage:\n${document.getElementById('message').value}`
+        );
+
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    });
+});
+</script>
+{{ end }}

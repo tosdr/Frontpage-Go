@@ -27,6 +27,7 @@ type Config struct {
 		APIKey string `yaml:"api_key"`
 		From   string `yaml:"from"`
 	} `yaml:"smtp"`
+	Webhook          string `yaml:"webhook"`
 	FeaturedServices []int  `yaml:"featured_services"`
 	MetricsUsername  string `yaml:"metrics_username"`
 	MetricsPassword  string `yaml:"metrics_password"`

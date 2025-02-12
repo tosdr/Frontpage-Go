@@ -34,6 +34,8 @@ func init() {
 		config.AppConfig.Login.LogoutReturn,
 	)
 
+	handlers.InitContact(config.AppConfig.Webhook)
+
 	if err := email.Init(); err != nil {
 		log.Fatalf("Failed to initialize email client: %v", err)
 	}
@@ -139,6 +141,7 @@ func main() {
 	r.HandleFunc("/{lang:[a-z]{2}}/sites/{sitename}", handlers.MinifyMiddleware(handlers.SiteHandler))
 	r.HandleFunc("/{lang:[a-z]{2}}/new_service", handlers.MinifyMiddleware(handlers.NewServiceHandler)).Methods("GET", "POST").Name("new_service")
 	r.HandleFunc("/{lang:[a-z]{2}}/services/{grade}", handlers.MinifyMiddleware(handlers.GradedServicesHandler))
+	r.HandleFunc("/{lang:[a-z]{2}}/contact", handlers.MinifyMiddleware(handlers.ContactHandler)).Name("contact")
 
 	searchRouter := r.PathPrefix("/{lang:[a-z]{2}}/search").Subrouter()
 	searchRouter.Use(middleware.RateLimitMiddleware)
