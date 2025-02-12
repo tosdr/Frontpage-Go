@@ -284,3 +284,23 @@
     gap: 1rem;
     margin-top: 1.5rem;
 }
+
+@media (max-width: 768px) {
+    .contact-categories {
+        grid-template-columns: 1fr;
+        margin: 1rem 0;
+    }
+
+    .category-card {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .contact-container {
+        padding: 0 0.5rem;
+    }
+
+    .wizard-step {
+        padding: 1rem;
+    }
+}
