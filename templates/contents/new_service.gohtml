@@ -214,5 +214,40 @@ function removeDocument(button) {
 }
 
 addDocument();
+
+document.addEventListener('DOMContentLoaded', function() {
+    let formModified = false;
+    const form = document.getElementById('serviceForm');
+
+    const inputs = form.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('change', () => {
+            formModified = true;
+        });
+        input.addEventListener('keyup', () => {
+            formModified = true;
+        });
+    });
+
+    const originalObserver = new MutationObserver(() => {
+        formModified = true;
+    });
+    originalObserver.observe(document.querySelector('.documents-list'), {
+        childList: true,
+        subtree: true
+    });
+
+    form.addEventListener('submit', () => {
+        formModified = false;
+    });
+
+    window.addEventListener('beforeunload', (e) => {
+        if (formModified) {
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        }
+    });
+});
 </script>
 {{ end }}
