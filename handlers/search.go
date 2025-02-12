@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
+	"strings"
 	"time"
 	"tosdrgo/handlers/localization"
 	"tosdrgo/handlers/metrics"
@@ -20,6 +22,14 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	lang := vars["lang"]
 	searchTerm := vars["term"]
 	grade := r.URL.Query().Get("grade")
+
+	if strings.HasPrefix(searchTerm, "http") {
+		searchTerm = strings.Replace(searchTerm, ":/", "://", 1)
+		parsedUrl, err := url.Parse(searchTerm)
+		if err == nil {
+			searchTerm = parsedUrl.Host
+		}
+	}
 
 	if grade != "" && grade != "A" && grade != "B" && grade != "C" && grade != "D" && grade != "E" {
 		http.Error(w, "Invalid grade provided", http.StatusBadRequest)

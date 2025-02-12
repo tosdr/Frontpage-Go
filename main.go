@@ -145,7 +145,7 @@ func main() {
 
 	searchRouter := r.PathPrefix("/{lang:[a-z]{2}}/search").Subrouter()
 	searchRouter.Use(middleware.RateLimitMiddleware)
-	searchRouter.HandleFunc("/{term}", handlers.MinifyMiddleware(handlers.SearchHandler))
+	searchRouter.HandleFunc("/{term:.*}", handlers.MinifyMiddleware(handlers.SearchHandler))
 
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Track 404 paths
