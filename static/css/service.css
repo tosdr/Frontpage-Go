@@ -75,14 +75,10 @@
     margin-bottom: 0.5rem;
 }
 
-.document-link {
+.service-documents > li > .btn {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background-color: var(--btn-secondary-bg);
-    color: var(--btn-secondary-text);
     text-decoration: none;
-    border-radius: 0.3rem;
-    transition: background-color 0.3s;
 }
 
 .document-link:hover {
@@ -106,13 +102,6 @@
     background-color: var(--point-blocker-bg);
     color: var(--point-blocker-text);
 }
-
-.grade-A { background-color: var(--grade-a-bg); color: var(--grade-text); }
-.grade-B { background-color: var(--grade-b-bg); color: var(--grade-text); }
-.grade-C { background-color: var(--grade-c-bg); color: var(--grade-text); }
-.grade-D { background-color: var(--grade-d-bg); color: var(--grade-text); }
-.grade-E { background-color: var(--grade-e-bg); color: var(--grade-text); }
-
 
 .point-actions {
     display: flex;

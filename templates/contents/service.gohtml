@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <ul class="service-documents">
             {{ range .Service.Documents }}
             <li>
-                <a href="{{ .URL }}" target="_blank" class="document-link">{{ .Name }}</a>
+                <a href="{{ .URL }}" target="_blank" class="btn btn-secondary">{{ .Name }}</a>
             </li>
             {{ end }}
         </ul>

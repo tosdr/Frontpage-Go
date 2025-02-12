@@ -15,7 +15,7 @@
     flex: 1;
     padding: 1rem 1.5rem;
     border: 2px solid var(--input-border);
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     font-size: 1.1rem;
     transition: all 0.2s ease;
     background: var(--bg-color);
@@ -33,7 +33,7 @@
     background: var(--btn-primary-bg);
     color: var(--btn-primary-text);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -77,7 +77,7 @@
     margin-bottom: 1rem;
     padding: 1rem;
     background-color: var(--card-bg);
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -110,11 +110,6 @@
     color: var(--text-color);
 }
 
-.grade-A { background-color: var(--grade-a-bg); color: var(--grade-text); }
-.grade-B { background-color: var(--grade-b-bg); color: var(--grade-text); }
-.grade-C { background-color: var(--grade-c-bg); color: var(--grade-text); }
-.grade-D { background-color: var(--grade-d-bg); color: var(--grade-text); }
-.grade-E { background-color: var(--grade-e-bg); color: var(--grade-text); }
 .grade-N\/A { background-color: var(--btn-secondary-bg); color: var(--btn-secondary-text); }
 
 .result-logo.placeholder {

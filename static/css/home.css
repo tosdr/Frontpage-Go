@@ -52,7 +52,7 @@ p {
     flex: 1;
     padding: 1rem 1.5rem;
     border: 2px solid var(--input-border);
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     font-size: 1.1rem;
     transition: all 0.2s ease;
     background: var(--bg-color);
@@ -70,7 +70,7 @@ p {
     background: var(--btn-primary-bg);
     color: var(--btn-primary-text);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -193,13 +193,13 @@ p {
 }
 
 .service-points li:first-child {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
 }
 
 .service-points li:last-child {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
     border-bottom: none;
 }
 
@@ -308,31 +308,14 @@ p {
 
 .btn {
     flex: 1;
-    padding: 0.8rem;
     text-align: center;
     text-decoration: none;
-    border-radius: 6px;
     font-size: 0.9rem;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 44px;
-}
-
-.btn-primary {
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-}
-
-.btn-secondary {
-    background: var(--btn-secondary-bg);
-    color: var(--btn-secondary-text);
-}
-
-.btn:hover {
-    transform: translateY(-1px);
-    filter: brightness(95%);
 }
 
 @keyframes fadeIn {
@@ -522,4 +505,39 @@ p {
     .logo-display .logo {
         content: url("/static/svg/logodark.svg");
     }
+}
+
+.btn-primary, .btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary .btn-icon-img, .btn-secondary .btn-icon-img {
+    width: 20px;
+    height: 20px;
+}
+
+.service-footer .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.service-footer .btn-primary:hover {
+    background: var(--link-hover-color);
+    transform: translateY(-1px);
+}
+
+.service-footer .btn-primary .btn-icon-img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
 }

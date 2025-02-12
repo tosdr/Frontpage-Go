@@ -41,6 +41,7 @@ func LoadTranslations(lang string) error {
 	}
 
 	translations[lang] = langData
+	logger.LogDebug("Loaded translations for %s: %+v", lang, langData)
 	return nil
 }
 

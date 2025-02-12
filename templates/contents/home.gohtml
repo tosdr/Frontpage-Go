@@ -109,8 +109,15 @@
                     {{ end }}
                 </ul>
                 <div class="service-footer">
-                    <a href="/{{ $lang }}/service/{{.ID}}" class="btn btn-primary">{{ t "home.view_details_button" }}</a>
-                    <a href="https://edit.tosdr.org/services/{{.ID}}/annotate/" class="btn btn-secondary">{{ t "home.help_analyze_button" }}</a>
+                    <a href="/{{ $lang }}/service/{{.ID}}" class="btn btn-primary"
+                       title="{{ t "home.view_details_button" }}">
+                        <img src="/static/svg/info.svg" alt="" class="btn-icon-img">
+                        {{ t "home.view_details_button" }}
+                    </a>
+                    <a href="https://edit.tosdr.org/services/{{.ID}}/annotate/" class="btn btn-secondary">
+                        <img src="/static/svg/document.svg" alt="" class="btn-icon-img">
+                        {{ t "home.help_analyze" }}
+                    </a>
                 </div>
             </div>
         {{ end }}
