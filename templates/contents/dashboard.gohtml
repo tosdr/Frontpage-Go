@@ -24,6 +24,7 @@
                     <th>Documents</th>
                     <th>Wikipedia</th>
                     <th>Note</th>
+                    <th>Count</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -36,6 +37,7 @@
                     <td onclick="showContent(this)">{{ .Documents }}</td>
                     <td onclick="showContent(this)">{{ .Wikipedia }}</td>
                     <td onclick="showContent(this)">{{ .Note }}</td>
+                    <td>{{ add .Count 1 }}</td>
                     <td class="action-buttons">
                         <button class="btn-accept" onclick="handleSubmission({{ .ID }}, 'accept')">Accept</button>
                         <button class="btn-deny" onclick="handleSubmission({{ .ID }}, 'deny')">Deny</button>

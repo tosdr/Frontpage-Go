@@ -17,6 +17,7 @@ type ServiceSubmission struct {
 	Wikipedia string `json:"status"`
 	Email     string `json:"email"`
 	Note      string `json:"note"`
+	Count     int    `json:"count"`
 }
 
 type DocumentSubmission struct {
@@ -68,9 +69,9 @@ func GetSubmissions(page, perPage int) ([]ServiceSubmission, int, error) {
 
 	// Get paginated submissions
 	rows, err := SubDB.Query(`
-		SELECT id, name, domains, documents, wikipedia, note 
+		SELECT id, name, domains, documents, wikipedia, note, count
 		FROM service_requests 
-		ORDER BY id DESC 
+		ORDER BY count DESC, id DESC 
 		LIMIT $1 OFFSET $2
 	`, perPage, offset)
 	if err != nil {
@@ -81,7 +82,7 @@ func GetSubmissions(page, perPage int) ([]ServiceSubmission, int, error) {
 	var submissions []ServiceSubmission
 	for rows.Next() {
 		var s ServiceSubmission
-		err := rows.Scan(&s.ID, &s.Name, &s.Domains, &s.Documents, &s.Wikipedia, &s.Note)
+		err := rows.Scan(&s.ID, &s.Name, &s.Domains, &s.Documents, &s.Wikipedia, &s.Note, &s.Count)
 		if err != nil {
 			return nil, 0, err
 		}
@@ -329,4 +330,19 @@ func GetServiceSubmissionByDomain(domain string) (int, error) {
 		return 0, err
 	}
 	return submissionID, nil
+}
+
+func BumpServiceSubmissionCount(submissionID int) error {
+	stmt, err := SubDB.Prepare(`
+		UPDATE service_requests 
+		SET count = count + 1 
+		WHERE id = $1
+	`)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(submissionID)
+	return err
 }

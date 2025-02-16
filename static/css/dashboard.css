@@ -16,6 +16,12 @@
     border-radius: var(--border-radius);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 1.5rem;
+    background-image: linear-gradient(to right, var(--card-bg) 30%, rgba(255, 255, 255, 0)),
+                     linear-gradient(to right, rgba(255, 255, 255, 0), var(--card-bg) 70%);
+    background-position: 0 0, 100% 0;
+    background-repeat: no-repeat;
+    background-size: 40px 100%;
+    background-attachment: local, local;
 }
 
 table {
@@ -122,10 +128,10 @@ tr:hover td {
         padding: 0.5rem;
     }
 
-    .submissions-table {
-        border-radius: 0;
-        margin: -0.5rem;
-        width: calc(100% + 1rem);
+    .dashboard-container h1 {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 1rem;
     }
 
     table {
@@ -134,31 +140,48 @@ tr:hover td {
 
     th, td {
         padding: 0.75rem 0.5rem;
+        min-width: 100px;
     }
 
     td:not(.action-buttons) {
-        max-width: 120px;
-    }
-
-    .btn-accept, .btn-deny {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-        display: block;
-        width: 100%;
-        margin: 0.2rem 0;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .action-buttons {
+        min-width: 120px;
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
     }
 
+    .btn-accept, .btn-deny {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+        width: 100%;
+        white-space: nowrap;
+    }
+
     .pagination {
-        flex-direction: column;
-        gap: 0.75rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        margin: 0 0.5rem;
+    }
+
+    .pagination-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .page-info {
+        width: 100%;
         text-align: center;
-        margin: 1rem -0.5rem -0.5rem;
-        border-radius: 0;
+        order: -1;
+        margin-bottom: 0.5rem;
     }
 } 

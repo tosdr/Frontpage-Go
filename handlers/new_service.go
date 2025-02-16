@@ -88,8 +88,11 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 	}
 
 	if existing != 0 {
-		form.Errors["service_url"] = "Service already in submission queue!"
-		renderNewServiceForm(w, r, lang, form)
+		err = db.BumpServiceSubmissionCount(existing)
+		if err != nil {
+			logger.LogError(err, "Failed to update submission count")
+		}
+		http.Redirect(w, r, "/"+lang+"/new_service", http.StatusSeeOther)
 		return
 	}
 
