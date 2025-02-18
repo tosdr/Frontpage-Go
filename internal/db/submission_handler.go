@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"strings"
 	"tosdrgo/internal/email"
 	"tosdrgo/internal/logger"
 )
@@ -345,4 +346,47 @@ func BumpServiceSubmissionCount(submissionID int) error {
 
 	_, err = stmt.Exec(submissionID)
 	return err
+}
+
+func SearchSubmissions(term string, page, perPage int) ([]ServiceSubmission, int, error) {
+	offset := (page - 1) * perPage
+	normalizedTerm := strings.ToLower(strings.TrimSpace(term))
+
+	var total int
+	err := SubDB.QueryRow(`
+		SELECT COUNT(*) 
+		FROM service_requests 
+		WHERE LOWER(name) LIKE $1 
+		OR LOWER(domains) LIKE $1 
+		OR LOWER(note) LIKE $1
+	`, "%"+normalizedTerm+"%").Scan(&total)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	rows, err := SubDB.Query(`
+		SELECT id, name, domains, documents, wikipedia, note, count
+		FROM service_requests 
+		WHERE LOWER(name) LIKE $1 
+		OR LOWER(domains) LIKE $1 
+		OR LOWER(note) LIKE $1
+		ORDER BY count DESC, id DESC 
+		LIMIT $2 OFFSET $3
+	`, "%"+normalizedTerm+"%", perPage, offset)
+	if err != nil {
+		return nil, 0, err
+	}
+	defer rows.Close()
+
+	var submissions []ServiceSubmission
+	for rows.Next() {
+		var s ServiceSubmission
+		err := rows.Scan(&s.ID, &s.Name, &s.Domains, &s.Documents, &s.Wikipedia, &s.Note, &s.Count)
+		if err != nil {
+			return nil, 0, err
+		}
+		submissions = append(submissions, s)
+	}
+
+	return submissions, total, nil
 }

@@ -121,6 +121,65 @@ tr:hover td {
     font-weight: 500;
 }
 
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+}
+
+.search-container {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+    min-width: 300px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--input-border);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.search-input:focus {
+    border-color: var(--link-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    outline: none;
+}
+
+.search-button {
+    padding: 0.75rem 1.5rem;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-button:hover {
+    background: var(--link-hover-color);
+    transform: translateY(-1px);
+}
+
+td:not(.action-buttons) {
+    cursor: pointer;
+}
+td:not(.action-buttons):hover {
+    opacity: 0.8;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
     .dashboard-container {

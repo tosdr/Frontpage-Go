@@ -164,6 +164,7 @@ func main() {
 
 	// Dashboard route
 	r.HandleFunc("/{lang:[a-z]{2}}/dashboard", handlers.DashboardHandler).Methods("GET").Name("dashboard")
+	r.HandleFunc("/{lang:[a-z]{2}}/dashboard/{term}", handlers.MinifyMiddleware(handlers.DashboardSearchHandler))
 
 	r.HandleFunc("/api/submissions/{id}/{action}", handlers.HandleSubmissionAction).Methods("POST").Name("submission_action")
 

@@ -12,7 +12,13 @@
 
 {{ define "content" }}
 <div class="dashboard-container">
-    <h1>Service Submissions Dashboard</h1>
+    <div class="dashboard-header">
+        <h1>Service Submissions Dashboard</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search submissions..." class="search-input" value="{{ if .SearchTerm }}{{ .SearchTerm }}{{ end }}">
+            <button id="searchButton" class="search-button">Search</button>
+        </div>
+    </div>
 
     <div class="submissions-table">
         <table>
@@ -61,6 +67,29 @@
     </div>
 </div>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        function performSearch() {
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm.length > 0) {
+                window.location.href = `/{{ .Lang }}/dashboard/${encodeURIComponent(searchTerm)}`;
+            } else {
+                // assume user wants to clear and go back to normal dashboard
+                window.location.href = `/{{ .Lang }}/dashboard`;
+            }
+        }
+
+        searchButton.addEventListener('click', performSearch);
+        
+        searchInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    });
+
     function goToPage(page) {
         window.location.href = `?page=${page}`;
     }

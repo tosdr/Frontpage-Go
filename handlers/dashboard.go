@@ -52,17 +52,87 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	hasPrev := page > 1
 
 	data := struct {
-		Title     string
-		Beta      bool
-		Lang      string
-		User      *auth.A0User
-		Dashboard DashboardData
-		Languages map[string]string
+		Title      string
+		Beta       bool
+		Lang       string
+		User       *auth.A0User
+		Dashboard  DashboardData
+		SearchTerm *string
+		Languages  map[string]string
 	}{
 		Title: localization.Get(lang, "page.dashboard"),
 		Beta:  isBeta,
 		Lang:  lang,
 		User:  user,
+		Dashboard: DashboardData{
+			Submissions: submissions,
+			Page:        page,
+			TotalPages:  totalPages,
+			HasNext:     hasNext,
+			HasPrev:     hasPrev,
+		},
+		SearchTerm: nil,
+		Languages:  SupportedLanguages,
+	}
+
+	tmpl, err := parseTemplates("templates/contents/dashboard.gohtml", lang, r)
+	if err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to load dashboard template", err)
+		return
+	}
+
+	var buf bytes.Buffer
+	if err := tmpl.ExecuteTemplate(&buf, "layout", data); err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render dashboard", err)
+		return
+	}
+
+	w.Header().Set(ContentType, ContentTypeHtml)
+	_, _ = w.Write(buf.Bytes())
+}
+
+func DashboardSearchHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	lang := vars["lang"]
+	searchTerm := vars["term"]
+
+	user, err := auth.GetUserSession(r)
+	if err != nil {
+		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
+		return
+	}
+
+	page := 1
+	if pageStr := r.URL.Query().Get("page"); pageStr != "" {
+		if p, err := strconv.Atoi(pageStr); err == nil && p > 0 {
+			page = p
+		}
+	}
+
+	submissions, total, err := db.SearchSubmissions(searchTerm, page, 50)
+	if err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to fetch submissions", err)
+		return
+	}
+
+	totalPages := (total + 49) / 50
+	hasNext := page < totalPages
+	hasPrev := page > 1
+
+	data := struct {
+		Title      string
+		Beta       bool
+		Lang       string
+		User       *auth.A0User
+		Dashboard  DashboardData
+		SearchTerm string
+		Languages  map[string]string
+	}{
+		Title:      localization.Get(lang, "page.dashboard"),
+		Beta:       isBeta,
+		Lang:       lang,
+		User:       user,
+		SearchTerm: searchTerm,
 		Dashboard: DashboardData{
 			Submissions: submissions,
 			Page:        page,
@@ -80,8 +150,9 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var buf bytes.Buffer
-	if err := tmpl.ExecuteTemplate(&buf, "layout", data); err != nil {
-		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render dashboard", err)
+	err = tmpl.ExecuteTemplate(&buf, "layout", data)
+	if err != nil {
+		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render the dashboard", err)
 		return
 	}
 
