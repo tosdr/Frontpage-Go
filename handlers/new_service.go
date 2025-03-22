@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -10,7 +11,10 @@ import (
 	"tosdrgo/internal/logger"
 
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 )
+
+var store = sessions.NewCookieStore([]byte("tosdr-secret-key"))
 
 type Document struct {
 	Name  string `json:"name"`
@@ -85,6 +89,9 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 	existing, err := db.GetServiceSubmissionByDomain(form.ServiceURL)
 	if err != nil {
 		logger.LogError(err, "Failed to check if service already exists")
+		form.Errors["general"] = "Failed to process submission. Please try again later."
+		renderNewServiceForm(w, r, lang, form)
+		return
 	}
 
 	if existing != 0 {
@@ -92,16 +99,21 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 		if err != nil {
 			logger.LogError(err, "Failed to update submission count")
 		}
+		// Add success message to session
+		session, _ := store.Get(r, "flash-session")
+		session.AddFlash("Service already exists. Your submission has been counted.")
+		session.Save(r, w)
 		http.Redirect(w, r, "/"+lang+"/new_service", http.StatusSeeOther)
 		return
 	}
 
+	// Properly trim URLs
 	urls := strings.Split(form.ServiceURL, ",")
-	for _, url := range urls {
-		url = strings.TrimSpace(url)
+	for i := range urls {
+		urls[i] = strings.TrimSpace(urls[i])
 	}
-
 	trimmedUrls := strings.Join(urls, ",")
+
 	logger.LogDebug("Form validation passed, creating submission")
 
 	// Create submission
@@ -122,6 +134,11 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 		renderNewServiceForm(w, r, lang, form)
 		return
 	}
+
+	// Add success message to session
+	session, _ := store.Get(r, "flash-session")
+	session.AddFlash("Service submitted successfully!")
+	session.Save(r, w)
 
 	logger.LogDebug("Service submission successful, redirecting")
 	http.Redirect(w, r, "/"+lang+"/new_service", http.StatusSeeOther)
@@ -242,23 +259,33 @@ func renderNewServiceForm(w http.ResponseWriter, r *http.Request, lang string, f
 		return
 	}
 
+	session, _ := store.Get(r, "flash-session")
+	flashes := session.Flashes()
+	session.Save(r, w)
+
 	data := struct {
-		Title     string
-		Beta      bool
-		Lang      string
-		Form      *ServiceForm
-		Languages map[string]string
+		Title         string
+		Beta          bool
+		Lang          string
+		Form          *ServiceForm
+		Languages     map[string]string
+		FlashMessages []interface{}
 	}{
-		Title:     localization.Get(lang, "page.newservice"),
-		Beta:      isBeta,
-		Lang:      lang,
-		Form:      form,
-		Languages: SupportedLanguages,
+		Title:         localization.Get(lang, "page.new_service"),
+		Beta:          isBeta,
+		Lang:          lang,
+		Form:          form,
+		Languages:     SupportedLanguages,
+		FlashMessages: flashes,
 	}
 
-	err = tmpl.ExecuteTemplate(w, "layout", data)
+	var buf bytes.Buffer
+	err = tmpl.ExecuteTemplate(&buf, "layout", data)
 	if err != nil {
 		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render the new service form", err)
 		return
 	}
+
+	w.Header().Set(ContentType, ContentTypeHtml)
+	_, _ = w.Write(buf.Bytes())
 }

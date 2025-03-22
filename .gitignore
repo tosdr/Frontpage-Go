@@ -1,4 +1,6 @@
 .idea/
+.vscode/
 /settings.yaml
+*.exe
 
 .DS_Store

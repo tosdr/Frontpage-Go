@@ -7,6 +7,12 @@
     <h1>{{ t "new_service.title" }}</h1>
     <p>{{ t "new_service.description" }}</p>
 
+    {{ if .FlashMessages }}
+        {{ range .FlashMessages }}
+            <div class="alert alert-success">{{ . }}</div>
+        {{ end }}
+    {{ end }}
+
     <form method="POST" class="service-form" id="serviceForm" novalidate>
         <div class="form-group">
             <label for="service_name">{{ t "new_service.name_label" }}</label>
