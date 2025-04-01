@@ -107,9 +107,10 @@ func main() {
 	))
 	metricsRouter.Handle("", promhttp.Handler())
 
+	// Health check endpoint (no language prefix needed)
 	r.HandleFunc("/v1/health", handlers.HealthCheckHandler).Methods("GET").Name("health")
 
-	// Serve static files with content type middleware and minification for CSS
+	// Static files (no language prefix needed)
 	r.PathPrefix("/static/css/").Handler(handlers.MinifyMiddlewareHandler(
 		setCSSContentType(http.StripPrefix("/static/css/", http.FileServer(http.Dir("static/css"))))))
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
@@ -118,12 +119,33 @@ func main() {
 	r.HandleFunc("/{lang:[a-z]{2}}/shield/{serviceID}", handlers.ShieldHandler).Methods("GET")
 	r.HandleFunc("/legacyshield/{lang:[a-z]{2}}_{serviceID}.svg", handlers.ShieldHandler).Methods("GET")
 
-	// Add redirects for non-language-prefixed routes
-	r.HandleFunc("/service/{serviceID}", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
-	r.HandleFunc("/about", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
-	r.HandleFunc("/donate", handlers.RedirectDonate).Methods("GET")
-	r.HandleFunc("/thanks", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
-	r.HandleFunc("/sites/{sitename}", handlers.DetectLanguageAndRedirectWithPath).Methods("GET")
+	// API endpoints (no language prefix needed)
+	r.HandleFunc("/api/submissions/{id}/{action}", handlers.HandleSubmissionAction).Methods("POST").Name("submission_action")
+	r.HandleFunc("/api/teams", handlers.HandleTeamAction).Methods("GET")
+
+	// Auth routes (no language prefix needed)
+	r.HandleFunc("/login", handlers.LoginHandler).Methods("GET").Name("login")
+	r.HandleFunc("/logout", handlers.LogoutHandler).Methods("GET").Name("logout")
+	r.HandleFunc("/auth/callback", handlers.CallbackHandler).Methods("GET").Name("auth_callback")
+
+	// Non-language-prefixed routes that should redirect based on browser language
+	nonLangRoutes := []string{
+		"/service/{serviceID}",
+		"/about",
+		"/donate",
+		"/thanks",
+		"/sites/{sitename}",
+		"/new_service",
+		"/services/{grade}",
+		"/contact",
+		"/profile",
+		"/dashboard",
+		"/dashboard/{term}",
+	}
+
+	for _, route := range nonLangRoutes {
+		r.HandleFunc(route, handlers.DetectLanguageAndRedirectWithPath).Methods("GET", "POST")
+	}
 
 	// Root redirect to browser language
 	r.HandleFunc("/", handlers.DetectLanguageAndRedirect)
@@ -142,6 +164,9 @@ func main() {
 	r.HandleFunc("/{lang:[a-z]{2}}/new_service", handlers.MinifyMiddleware(handlers.NewServiceHandler)).Methods("GET", "POST").Name("new_service")
 	r.HandleFunc("/{lang:[a-z]{2}}/services/{grade}", handlers.MinifyMiddleware(handlers.GradedServicesHandler))
 	r.HandleFunc("/{lang:[a-z]{2}}/contact", handlers.MinifyMiddleware(handlers.ContactHandler)).Name("contact")
+	r.HandleFunc("/{lang:[a-z]{2}}/profile", handlers.ProfileHandler).Methods("GET").Name("profile")
+	r.HandleFunc("/{lang:[a-z]{2}}/dashboard", handlers.DashboardHandler).Methods("GET").Name("dashboard")
+	r.HandleFunc("/{lang:[a-z]{2}}/dashboard/{term}", handlers.MinifyMiddleware(handlers.DashboardSearchHandler))
 
 	searchRouter := r.PathPrefix("/{lang:[a-z]{2}}/search").Subrouter()
 	searchRouter.Use(middleware.RateLimitMiddleware)
@@ -155,20 +180,6 @@ func main() {
 
 	//goland:noinspection GoBoolExpressions
 	handlers.SetIsBeta(IsBeta)
-
-	// Auth routes
-	r.HandleFunc("/login", handlers.LoginHandler).Methods("GET").Name("login")
-	r.HandleFunc("/logout", handlers.LogoutHandler).Methods("GET").Name("logout")
-	r.HandleFunc("/auth/callback", handlers.CallbackHandler).Methods("GET").Name("auth_callback")
-	r.HandleFunc("/{lang:[a-z]{2}}/profile", handlers.ProfileHandler).Methods("GET").Name("profile")
-
-	// Dashboard route
-	r.HandleFunc("/{lang:[a-z]{2}}/dashboard", handlers.DashboardHandler).Methods("GET").Name("dashboard")
-	r.HandleFunc("/{lang:[a-z]{2}}/dashboard/{term}", handlers.MinifyMiddleware(handlers.DashboardSearchHandler))
-
-	r.HandleFunc("/api/submissions/{id}/{action}", handlers.HandleSubmissionAction).Methods("POST").Name("submission_action")
-
-	r.HandleFunc("/api/teams", handlers.HandleTeamAction).Methods("GET")
 
 	// Start the server
 	log.Printf("Server starting on 0.0.0.0:80")
