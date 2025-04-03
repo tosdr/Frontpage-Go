@@ -271,7 +271,7 @@ func renderNewServiceForm(w http.ResponseWriter, r *http.Request, lang string, f
 		Languages     map[string]string
 		FlashMessages []interface{}
 	}{
-		Title:         localization.Get(lang, "page.new_service"),
+		Title:         localization.Get(lang, "page.newservice"),
 		Beta:          isBeta,
 		Lang:          lang,
 		Form:          form,
