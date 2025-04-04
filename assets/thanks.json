@@ -24,6 +24,12 @@
         "description": "Email Service"
     },
     {
+        "name": "GitLab",
+        "logo": "https://s3.tosdr.org/logos-thanks/gitlab.svg",
+        "link": "https://gitlab.com",
+        "description": "ToS;DR's Git Infrastructure"
+    },
+    {
         "name": "OpenCollective contributors",
         "logo": "https://s3.tosdr.org/logos-thanks/opencollective.svg",
         "link": "https://opencollective.com/tosdr",
