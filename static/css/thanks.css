@@ -108,6 +108,18 @@ h1 {
     transition: opacity 0.2s ease;
 }
 
+.sponsor-gitlab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #E24328 0%, #FCA327 100%);
+    opacity: 0.15;
+    transition: opacity 0.2s ease;
+}
+
 .sponsor-opencollective::before {
     content: '';
     position: absolute;
