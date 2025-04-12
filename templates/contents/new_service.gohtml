@@ -2,258 +2,143 @@
 <link rel="stylesheet" href="/static/css/form.css">
 {{ end }}
 
-{{ define "content" }}
-<div class="form-container">
-    <h1>{{ t "new_service.title" }}</h1>
-    <p>{{ t "new_service.description" }}</p>
+{{define "content"}}
+<div class="container mt-5">
+    <div class="form-container">
+        <h1>{{t "page.newservice"}}</h1>
+        
+        {{range .FlashMessages}}
+            <div class="alert alert-info">{{.}}</div>
+        {{end}}
 
-    {{ if .FlashMessages }}
-        {{ range .FlashMessages }}
-            <div class="alert alert-success">{{ . }}</div>
-        {{ end }}
-    {{ end }}
+        {{if .Form.Errors.general}}
+            <div class="alert alert-danger">{{.Form.Errors.general}}</div>
+        {{end}}
 
-    <form method="POST" class="service-form" id="serviceForm" novalidate>
-        <div class="form-group">
-            <label for="service_name">{{ t "new_service.name_label" }}</label>
-            <input type="text" 
-                   id="service_name" 
-                   name="service_name" 
-                   value="{{ .Form.ServiceName }}" 
-                   required
-                   minlength="2"
-                   maxlength="100"
-                   pattern="[A-Za-z0-9\s\-]+">
-            {{ if .Form.Errors.service_name }}
-            <span class="error">{{ .Form.Errors.service_name }}</span>
-            {{ end }}
-        </div>
+        <form method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="service_name" class="form-label">{{t "new_service.name_label"}} *</label>
+                <input type="text" class="form-control {{if .Form.Errors.service_name}}invalid{{end}}" 
+                       id="service_name" name="service_name" value="{{.Form.ServiceName}}" required>
+                {{if .Form.Errors.service_name}}
+                    <span class="error">{{.Form.Errors.service_name}}</span>
+                {{end}}
+            </div>
 
-        <div class="form-group">
-            <label for="service_url">{{ t "new_service.url_label" }}</label>
-            <input type="text" 
-                   id="service_url" 
-                   name="service_url" 
-                   value="{{ .Form.ServiceURL }}" 
-                   required
-                   placeholder="example.com, app.example.com">
-            <small class="help-text">Enter domains separated by commas, without protocols or www</small>
-            {{ if .Form.Errors.service_url }}
-            <span class="error">{{ .Form.Errors.service_url }}</span>
-            {{ end }}
-        </div>
+            <div class="mb-3">
+                <label for="domains-container" class="form-label">{{t "new_service.url_label"}} *</label>
+                <div id="domains-container">
+                    <div class="domain-entry mb-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control domain-input {{if .Form.Errors.service_url}}invalid{{end}}" 
+                                   placeholder="example.com" required>
+                            <button type="button" class="btn btn-danger remove-domain" style="display: none;">×</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm mt-2" id="add-domain">+ Add Domain</button>
+                <input type="hidden" name="service_url" id="service_url_hidden" value="{{.Form.ServiceURL}}">
+                {{if .Form.Errors.service_url}}
+                    <span class="error">{{.Form.Errors.service_url}}</span>
+                {{end}}
+            </div>
 
-        <div class="form-group">
-            <label for="wikipedia_url">{{ t "new_service.wikipedia_label" }}</label>
-            <input type="url" 
-                   id="wikipedia_url" 
-                   name="wikipedia_url" 
-                   value="{{ .Form.WikipediaURL }}"
-                   pattern="https?:\/\/(en\.)?wikipedia\.org\/wiki\/.*">
-            {{ if .Form.Errors.wikipedia_url }}
-            <span class="error">{{ .Form.Errors.wikipedia_url }}</span>
-            {{ end }}
-        </div>
+            <div class="mb-3">
+                <label for="wikipedia_url" class="form-label">{{t "new_service.wikipedia_label"}}</label>
+                <input type="url" class="form-control {{if .Form.Errors.wikipedia_url}}invalid{{end}}" 
+                       id="wikipedia_url" name="wikipedia_url" value="{{.Form.WikipediaURL}}" 
+                       placeholder="https://en.wikipedia.org/wiki/Example">
+                {{if .Form.Errors.wikipedia_url}}
+                    <span class="error">{{.Form.Errors.wikipedia_url}}</span>
+                {{end}}
+            </div>
 
-        <div class="form-group">
-            <label for="email">{{ t "new_service.email_label" }}</label>
-            <input type="email" 
-                   id="email" 
-                   name="email" 
-                   value="{{ .Form.EmailAddress }}" 
-                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-            {{ if .Form.Errors.email }}
-            <span class="error">{{ .Form.Errors.email }}</span>
-            {{ end }}
-        </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">{{t "new_service.email_label"}}</label>
+                <input type="email" class="form-control {{if .Form.Errors.email}}invalid{{end}}" 
+                       id="email" name="email" value="{{.Form.EmailAddress}}">
+                <span class="help-text">{{t "new_service.email_help"}}</span>
+                {{if .Form.Errors.email}}
+                    <span class="error">{{.Form.Errors.email}}</span>
+                {{end}}
+            </div>
 
-        <div class="form-group" id="documents-container">
-            <label>{{ t "new_service.documents_label" }}</label>
-            <div class="documents-list"></div>
-            <button type="button" class="btn btn-secondary" onclick="addDocument()">{{ t "new_service.add_document" }}</button>
-        </div>
+            <div class="mb-3">
+                <label for="note" class="form-label">{{t "new_service.note_label"}}</label>
+                <textarea class="form-control" id="note" name="note" rows="3">{{.Form.Note}}</textarea>
+                <span class="help-text">{{t "new_service.note_help"}}</span>
+            </div>
 
-        <div class="form-group">
-            <label for="notes">{{ t "new_service.notes_label" }}</label>
-            <textarea id="notes" name="notes" rows="4">{{ .Form.Notes }}</textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">{{ t "new_service.submit" }}</button>
-    </form>
+            <button type="submit" class="btn btn-primary">{{t "new_service.submit"}}</button>
+        </form>
+    </div>
 </div>
 
 <script>
-document.getElementById('serviceForm').addEventListener('submit', function(e) {
-    console.log('Form submission started');
-    let isValid = true;
-    const form = this;
-    
-    // Validate service name
-    const serviceName = form.service_name.value.trim();
-    console.log('Service name:', serviceName);
-    if (!serviceName || serviceName.length < 2 || serviceName.length > 100) {
-        isValid = false;
-        form.service_name.classList.add('invalid');
-        console.log('Service name validation failed');
-    }
-
-    // Validate service URL
-    const serviceUrl = form.service_url.value.trim();
-    console.log('Service URL:', serviceUrl);
-    
-    // Split domains and validate each one
-    const domains = serviceUrl.split(',').map(d => d.trim()).filter(d => d);
-    if (domains.length === 0) {
-        isValid = false;
-        form.service_url.classList.add('invalid');
-        console.log('At least one domain is required');
-    }
-
-    // Domain validation regex (no protocol, no www, no paths)
-    const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-z]{2,}$/;
-    for (const domain of domains) {
-        if (!domainRegex.test(domain)) {
-            isValid = false;
-            form.service_url.classList.add('invalid');
-            console.log(`Invalid domain format: ${domain}`);
-        }
-    }
-
-    // Validate Wikipedia URL if provided
-    const wikipediaUrl = form.wikipedia_url.value.trim();
-    console.log('Wikipedia URL:', wikipediaUrl);
-    if (wikipediaUrl) {
-        if (!wikipediaUrl.match(/^https?:\/\/(en\.)?wikipedia\.org\/wiki\/.+/)) {
-            isValid = false;
-            form.wikipedia_url.classList.add('invalid');
-            console.log('Wikipedia URL validation failed');
-        }
-    }
-
-    // Validate email if provided
-    const email = form.email.value.trim();
-    console.log('Email:', email);
-    if (email) {  // Only validate if email is provided
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(email)) {
-            isValid = false;
-            form.email.classList.add('invalid');
-            console.log('Email validation failed');
-        }
-    }
-
-    // Validate documents
-    const documents = [];
-    const documentEntries = document.querySelectorAll('.document-entry');
-    
-    documentEntries.forEach(entry => {
-        const name = entry.querySelector('.document-name').value.trim();
-        const url = entry.querySelector('.document-url').value.trim();
-        const xpath = entry.querySelector('.document-xpath').value.trim();
-        
-        if (name && url) {
-            documents.push({
-                name: name,
-                url: url,
-                xpath: xpath
-            });
-        }
-    });
-
-    // Require at least one document
-    if (documents.length === 0) {
-        isValid = false;
-        document.getElementById('documents-container').classList.add('invalid');
-        console.log('At least one document is required');
-    }
-
-    // Add documents to form data
-    const documentsInput = document.createElement('input');
-    documentsInput.type = 'hidden';
-    documentsInput.name = 'documents';
-    documentsInput.value = JSON.stringify(documents);
-    this.appendChild(documentsInput);
-
-    console.log('Form validation result:', isValid);
-    if (!isValid) {
-        e.preventDefault();
-        console.log('Form submission prevented due to validation');
-    } else {
-        console.log('Form submission proceeding');
-    }
-});
-
-function addDocument() {
-    const container = document.createElement('div');
-    container.className = 'document-entry';
-
-    container.innerHTML = `
-        <div class="form-group">
-            <input type="text"
-                   placeholder="{{ t "new_service.document_name_placeholder" }}"
-                   class="document-name" required>
-        </div>
-        <div class="form-group">
-            <input type="url"
-                   placeholder="{{ t "new_service.document_url_placeholder" }}"
-                   class="document-url" required>
-        </div>
-        <div class="form-group">
-            <input type="text"
-                   placeholder="{{ t "new_service.document_xpath_placeholder" }}"
-                   class="document-xpath">
-        </div>
-        <button type="button" class="btn btn-danger" onclick="removeDocument(this)">
-            {{ t "new_service.remove_document" }}
-        </button>
-    `;
-    document.querySelector('.documents-list').appendChild(container);
-}
-
-function removeDocument(button) {
-    const documentsList = document.querySelector('.documents-list');
-    if (documentsList.children.length <= 1) {
-        alert('At least one document is required');
-        return;
-    }
-    button.parentElement.remove();
-}
-
-addDocument();
-
 document.addEventListener('DOMContentLoaded', function() {
-    let formModified = false;
-    const form = document.getElementById('serviceForm');
+    const domainsContainer = document.getElementById('domains-container');
+    const addDomainBtn = document.getElementById('add-domain');
+    const hiddenInput = document.getElementById('service_url_hidden');
 
-    const inputs = form.querySelectorAll('input, textarea');
-    inputs.forEach(input => {
-        input.addEventListener('change', () => {
-            formModified = true;
+    // Initialize with existing domains if any
+    if (hiddenInput.value) {
+        const domains = hiddenInput.value.split(',').map(d => d.trim());
+        domains.forEach((domain, index) => {
+            if (index === 0) {
+                domainsContainer.querySelector('.domain-input').value = domain;
+            } else {
+                addDomainField(domain);
+            }
         });
-        input.addEventListener('keyup', () => {
-            formModified = true;
-        });
+    }
+
+    // Show remove button if there's more than one domain
+    updateRemoveButtons();
+
+    addDomainBtn.addEventListener('click', () => {
+        addDomainField();
+        updateRemoveButtons();
     });
 
-    const originalObserver = new MutationObserver(() => {
-        formModified = true;
-    });
-    originalObserver.observe(document.querySelector('.documents-list'), {
-        childList: true,
-        subtree: true
-    });
-
-    form.addEventListener('submit', () => {
-        formModified = false;
-    });
-
-    window.addEventListener('beforeunload', (e) => {
-        if (formModified) {
-            e.preventDefault();
-            e.returnValue = '';
-            return '';
+    domainsContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-domain')) {
+            e.target.closest('.domain-entry').remove();
+            updateRemoveButtons();
+            updateHiddenInput();
         }
     });
+
+    domainsContainer.addEventListener('input', (e) => {
+        if (e.target.classList.contains('domain-input')) {
+            updateHiddenInput();
+        }
+    });
+
+    function addDomainField(value = '') {
+        const domainEntry = document.createElement('div');
+        domainEntry.className = 'domain-entry mb-2';
+        domainEntry.innerHTML = `
+            <div class="input-group">
+                <input type="text" class="form-control domain-input" placeholder="example.com" value="${value}" required>
+                <button type="button" class="btn btn-danger remove-domain">×</button>
+            </div>
+        `;
+        domainsContainer.appendChild(domainEntry);
+    }
+
+    function updateRemoveButtons() {
+        const removeButtons = domainsContainer.querySelectorAll('.remove-domain');
+        removeButtons.forEach(btn => {
+            btn.style.display = removeButtons.length > 1 ? '' : 'none';
+        });
+    }
+
+    function updateHiddenInput() {
+        const domains = Array.from(domainsContainer.querySelectorAll('.domain-input'))
+            .map(input => input.value.trim())
+            .filter(Boolean);
+        hiddenInput.value = domains.join(',');
+    }
 });
 </script>
-{{ end }}
+{{end}} 

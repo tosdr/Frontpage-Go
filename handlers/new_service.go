@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
@@ -12,14 +11,23 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"gorm.io/gorm"
 )
 
 var store = sessions.NewCookieStore([]byte("tosdr-secret-key"))
 
-type Document struct {
-	Name  string `json:"name"`
-	URL   string `json:"url"`
-	XPath string `json:"xpath"`
+type ServiceRequest struct {
+	ID        uint   `gorm:"primarykey"`
+	Name      string `gorm:"column:name"`
+	Domains   string `gorm:"column:domains"`
+	Wikipedia string `gorm:"column:wikipedia"`
+	Email     string `gorm:"column:email"`
+	Note      string `gorm:"column:note"`
+	Count     int    `gorm:"column:count;default:1"`
+}
+
+func (ServiceRequest) TableName() string {
+	return "service_requests_new"
 }
 
 type ServiceForm struct {
@@ -27,8 +35,7 @@ type ServiceForm struct {
 	ServiceURL   string
 	WikipediaURL string
 	EmailAddress string
-	Notes        string
-	Documents    []Document
+	Note         string
 	Errors       map[string]string
 }
 
@@ -52,31 +59,17 @@ func NewServiceHandler(w http.ResponseWriter, r *http.Request) {
 func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string) {
 	logger.LogDebug("Starting service submission handling")
 
-	// Parse documents JSON from form
-	var documents []Document
-	documentsJSON := r.FormValue("documents")
-	if documentsJSON != "" {
-		if err := json.Unmarshal([]byte(documentsJSON), &documents); err != nil {
-			logger.LogError(err, "Failed to parse documents JSON")
-			renderNewServiceForm(w, r, lang, &ServiceForm{
-				Errors: map[string]string{"documents": "Invalid document format"},
-			})
-			return
-		}
-	}
-
 	form := &ServiceForm{
 		ServiceName:  strings.TrimSpace(r.FormValue("service_name")),
 		ServiceURL:   strings.TrimSpace(r.FormValue("service_url")),
 		WikipediaURL: strings.TrimSpace(r.FormValue("wikipedia_url")),
 		EmailAddress: strings.TrimSpace(r.FormValue("email")),
-		Notes:        strings.TrimSpace(r.FormValue("notes")),
-		Documents:    documents,
+		Note:         strings.TrimSpace(r.FormValue("note")),
 		Errors:       make(map[string]string),
 	}
 
-	logger.LogDebug("Form values received - Name: %s, URL: %s, Wiki: %s, Email: %s, Documents: %v",
-		form.ServiceName, form.ServiceURL, form.WikipediaURL, form.EmailAddress, form.Documents)
+	logger.LogDebug("Form values received - Name: %s, URL: %s, Wiki: %s, Email: %s, Note: %s",
+		form.ServiceName, form.ServiceURL, form.WikipediaURL, form.EmailAddress, form.Note)
 
 	// Validate form
 	if !validateForm(form) {
@@ -85,21 +78,34 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 		return
 	}
 
-	// check if already exists (domain in db)
-	existing, err := db.GetServiceSubmissionByDomain(form.ServiceURL)
-	if err != nil {
-		logger.LogError(err, "Failed to check if service already exists")
-		form.Errors["general"] = "Failed to process submission. Please try again later."
-		renderNewServiceForm(w, r, lang, form)
-		return
+	// Process domains
+	domains := strings.Split(form.ServiceURL, ",")
+	for i := range domains {
+		domains[i] = strings.TrimSpace(domains[i])
+	}
+	domainsStr := strings.Join(domains, ",")
+
+	// Create submission object
+	submission := &ServiceRequest{
+		Name:      form.ServiceName,
+		Domains:   domainsStr,
+		Wikipedia: form.WikipediaURL,
+		Email:     form.EmailAddress,
+		Note:      form.Note,
 	}
 
-	if existing != 0 {
-		err = db.BumpServiceSubmissionCount(existing)
-		if err != nil {
+	// Check if service already exists
+	var existing ServiceRequest
+	result := db.SubDB.Where("domains LIKE ?", "%"+domains[0]+"%").First(&existing)
+	if result.Error == nil {
+		// Service exists, increment count
+		if err := db.SubDB.Model(&existing).Update("count", gorm.Expr("count + ?", 1)).Error; err != nil {
 			logger.LogError(err, "Failed to update submission count")
+			form.Errors["general"] = "Failed to process submission. Please try again later."
+			renderNewServiceForm(w, r, lang, form)
+			return
 		}
-		// Add success message to session
+
 		session, _ := store.Get(r, "flash-session")
 		session.AddFlash("Service already exists. Your submission has been counted.")
 		session.Save(r, w)
@@ -107,28 +113,8 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 		return
 	}
 
-	// Properly trim URLs
-	urls := strings.Split(form.ServiceURL, ",")
-	for i := range urls {
-		urls[i] = strings.TrimSpace(urls[i])
-	}
-	trimmedUrls := strings.Join(urls, ",")
-
-	logger.LogDebug("Form validation passed, creating submission")
-
-	// Create submission
-	submission := &db.ServiceSubmission{
-		Name:      form.ServiceName,
-		Domains:   trimmedUrls,
-		Documents: documentsJSON,
-		Wikipedia: form.WikipediaURL,
-		Email:     form.EmailAddress,
-		Note:      form.Notes,
-	}
-
-	// Add submission to database
-	err = db.AddSubmission(submission)
-	if err != nil {
+	// Add new submission
+	if err := db.SubDB.Create(submission).Error; err != nil {
 		logger.LogError(err, "Database submission failed")
 		form.Errors["general"] = "Failed to submit service. Please try again later."
 		renderNewServiceForm(w, r, lang, form)
@@ -147,7 +133,6 @@ func handleServiceSubmission(w http.ResponseWriter, r *http.Request, lang string
 func validateForm(form *ServiceForm) bool {
 	isValid := true
 
-	// Validate each field using separate functions
 	if !validateServiceName(form) {
 		isValid = false
 	}
@@ -158,9 +143,6 @@ func validateForm(form *ServiceForm) bool {
 		isValid = false
 	}
 	if !validateEmail(form) {
-		isValid = false
-	}
-	if !validateDocuments(form) {
 		isValid = false
 	}
 
@@ -222,34 +204,6 @@ func validateEmail(form *ServiceForm) bool {
 		return false
 	}
 	return true
-}
-
-func validateDocuments(form *ServiceForm) bool {
-	if len(form.Documents) == 0 {
-		form.Errors["documents"] = "At least one document is required"
-		return false
-	}
-
-	for i, doc := range form.Documents {
-		if err := validateDocument(i, doc); err != nil {
-			form.Errors["documents"] = err.Error()
-			return false
-		}
-	}
-	return true
-}
-
-func validateDocument(index int, doc Document) error {
-	if strings.TrimSpace(doc.Name) == "" {
-		return fmt.Errorf("document %d: Name is required", index+1)
-	}
-	if strings.TrimSpace(doc.URL) == "" {
-		return fmt.Errorf("document %d: URL is required", index+1)
-	}
-	if !strings.HasPrefix(doc.URL, "http://") && !strings.HasPrefix(doc.URL, "https://") {
-		return fmt.Errorf("document %d: URL must start with http:// or https://", index+1)
-	}
-	return nil
 }
 
 func renderNewServiceForm(w http.ResponseWriter, r *http.Request, lang string, form *ServiceForm) {
