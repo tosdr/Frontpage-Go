@@ -6,11 +6,16 @@ import (
 	"tosdrgo/internal/config"
 	"tosdrgo/internal/logger"
 
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+
 	_ "github.com/lib/pq"
 )
 
-var DB *sql.DB
-var SubDB *sql.DB
+var (
+	DB    *sql.DB
+	SubDB *gorm.DB
+)
 
 type dbConfig struct {
 	Host     string
@@ -53,6 +58,19 @@ func createConnection(conf dbConfig, readOnly bool) (*sql.DB, error) {
 	return db, nil
 }
 
+func createGormConnection(conf dbConfig) (*gorm.DB, error) {
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		conf.Host,
+		conf.Port,
+		conf.User,
+		conf.Password,
+		conf.DBName,
+		conf.SSLMode,
+	)
+
+	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
+}
+
 func InitDB() error {
 	// Initialize main database
 	mainConfig := dbConfig{
@@ -71,7 +89,7 @@ func InitDB() error {
 		return err
 	}
 
-	// Initialize submissions database
+	// Initialize submissions database with GORM
 	subConfig := dbConfig{
 		Host:     config.AppConfig.SubmissionsDatabase.Host,
 		Port:     config.AppConfig.SubmissionsDatabase.Port,
@@ -81,7 +99,7 @@ func InitDB() error {
 		SSLMode:  config.AppConfig.SubmissionsDatabase.SSLMode,
 	}
 
-	SubDB, err = createConnection(subConfig, false)
+	SubDB, err = createGormConnection(subConfig)
 	if err != nil {
 		logger.LogError(err, "Failed to open submissions database connection")
 		CloseDB() // Close main DB if submissions DB fails
@@ -97,6 +115,8 @@ func CloseDB() {
 		_ = DB.Close()
 	}
 	if SubDB != nil {
-		_ = SubDB.Close()
+		if sqlDB, err := SubDB.DB(); err == nil {
+			_ = sqlDB.Close()
+		}
 	}
 }

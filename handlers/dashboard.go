@@ -13,7 +13,7 @@ import (
 )
 
 type DashboardData struct {
-	Submissions []db.ServiceSubmission
+	Submissions []db.ServiceRequest
 	Page        int
 	TotalPages  int
 	HasNext     bool
@@ -40,7 +40,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Fetch submissions with pagination
-	submissions, total, err := db.GetSubmissions(page, 50)
+	submissions, total, err := db.GetSubmissionsV2(page, 50)
 	if err != nil {
 		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to fetch submissions", err)
 		return
@@ -48,7 +48,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Calculate pagination info
 	totalPages := (total + 49) / 50 // Round up division
-	hasNext := page < totalPages
+	hasNext := int64(page) < totalPages
 	hasPrev := page > 1
 
 	data := struct {
@@ -67,7 +67,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 		Dashboard: DashboardData{
 			Submissions: submissions,
 			Page:        page,
-			TotalPages:  totalPages,
+			TotalPages:  int(totalPages),
 			HasNext:     hasNext,
 			HasPrev:     hasPrev,
 		},
@@ -109,14 +109,14 @@ func DashboardSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	submissions, total, err := db.SearchSubmissions(searchTerm, page, 50)
+	submissions, total, err := db.SearchSubmissionsV2(searchTerm, page, 50)
 	if err != nil {
 		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to fetch submissions", err)
 		return
 	}
 
 	totalPages := (total + 49) / 50
-	hasNext := page < totalPages
+	hasNext := int64(page) < totalPages
 	hasPrev := page > 1
 
 	data := struct {
@@ -136,7 +136,7 @@ func DashboardSearchHandler(w http.ResponseWriter, r *http.Request) {
 		Dashboard: DashboardData{
 			Submissions: submissions,
 			Page:        page,
-			TotalPages:  totalPages,
+			TotalPages:  int(totalPages),
 			HasNext:     hasNext,
 			HasPrev:     hasPrev,
 		},
@@ -184,7 +184,7 @@ func HandleSubmissionAction(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Update submission status in database
-	err = db.UpdateSubmissionStatus(id, action)
+	err = db.UpdateSubmissionStatusV2(id, action)
 	if err != nil {
 		logger.LogError(err, "Failed to update submission")
 		http.Error(w, "Failed to update submission", http.StatusInternalServerError)

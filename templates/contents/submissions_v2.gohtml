@@ -1,0 +1,103 @@
+{{define "content"}}
+<div class="container mt-5">
+    <h1>{{i18n "page.submissions"}}</h1>
+
+    {{if .FlashMessages}}
+        {{range .FlashMessages}}
+            <div class="alert alert-info">{{.}}</div>
+        {{end}}
+    {{end}}
+
+    <div class="mb-4">
+        <form method="GET" class="d-flex">
+            <input type="text" name="search" class="form-control me-2" value="{{.SearchTerm}}" 
+                   placeholder="{{i18n "form.search_placeholder"}}">
+            <button type="submit" class="btn btn-primary">{{i18n "form.search"}}</button>
+        </form>
+    </div>
+
+    {{if .Submissions}}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{{i18n "table.service_name"}}</th>
+                        <th>{{i18n "table.domains"}}</th>
+                        <th>{{i18n "table.wikipedia"}}</th>
+                        <th>{{i18n "table.count"}}</th>
+                        <th>{{i18n "table.actions"}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Submissions}}
+                        <tr>
+                            <td>{{.Name}}</td>
+                            <td>{{join .Domains ", "}}</td>
+                            <td>
+                                {{if .Wikipedia}}
+                                    <a href="{{.Wikipedia}}" target="_blank" rel="noopener">
+                                        {{i18n "link.view"}}
+                                    </a>
+                                {{end}}
+                            </td>
+                            <td>{{.Count}}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <form method="POST" class="d-inline">
+                                        <input type="hidden" name="id" value="{{.ID}}">
+                                        <input type="hidden" name="action" value="allow">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            {{i18n "button.accept"}}
+                                        </button>
+                                    </form>
+                                    <form method="POST" class="d-inline ms-1">
+                                        <input type="hidden" name="id" value="{{.ID}}">
+                                        <input type="hidden" name="action" value="deny">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            {{i18n "button.deny"}}
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+
+        {{if gt .TotalPages 1}}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {{if gt .CurrentPage 1}}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{subtract .CurrentPage 1}}{{if .SearchTerm}}&search={{.SearchTerm}}{{end}}">
+                                {{i18n "pagination.previous"}}
+                            </a>
+                        </li>
+                    {{end}}
+
+                    {{range $i := sequence 1 .TotalPages}}
+                        <li class="page-item {{if eq $i $.CurrentPage}}active{{end}}">
+                            <a class="page-link" href="?page={{$i}}{{if $.SearchTerm}}&search={{$.SearchTerm}}{{end}}">
+                                {{$i}}
+                            </a>
+                        </li>
+                    {{end}}
+
+                    {{if lt .CurrentPage .TotalPages}}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{add .CurrentPage 1}}{{if .SearchTerm}}&search={{.SearchTerm}}{{end}}">
+                                {{i18n "pagination.next"}}
+                            </a>
+                        </li>
+                    {{end}}
+                </ul>
+            </nav>
+        {{end}}
+    {{else}}
+        <div class="alert alert-info">
+            {{i18n "message.no_submissions"}}
+        </div>
+    {{end}}
+</div>
+{{end}} 
