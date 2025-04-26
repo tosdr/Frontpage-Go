@@ -43,6 +43,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set(ContentType, ContentTypeHtml)
+	w.Header().Set("Cache-Control", "private, no-store, no-cache, must-revalidate, max-age=0")
 	if err := tmpl.ExecuteTemplate(w, "layout", data); err != nil {
 		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to render profile page", err)
 	}

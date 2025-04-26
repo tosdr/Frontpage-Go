@@ -88,6 +88,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set(ContentType, ContentTypeHtml)
+	w.Header().Set("Cache-Control", "private, no-store, no-cache, must-revalidate, max-age=0")
 	_, _ = w.Write(buf.Bytes())
 }
 
@@ -157,6 +158,7 @@ func DashboardSearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set(ContentType, ContentTypeHtml)
+	w.Header().Set("Cache-Control", "private, no-store, no-cache, must-revalidate, max-age=0")
 	_, _ = w.Write(buf.Bytes())
 }
 
