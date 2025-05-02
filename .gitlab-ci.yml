@@ -3,46 +3,9 @@ image: docker:latest
 services:
   - docker:dind
 
-variables:
-  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
-  GIT_DEPTH: "0"
-
 stages:
-  - sonarqube-check
-  - sonarqube-vulnerability-report
   - build
   - deploy
-  - notify
-
-sonarqube-check:
-  stage: sonarqube-check
-  image: 
-    name: sonarsource/sonar-scanner-cli:11
-    entrypoint: [""]
-  script: 
-    - sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}"
-  allow_failure: true
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'master'
-    - if: $CI_COMMIT_BRANCH == 'main'
-    - if: $CI_COMMIT_BRANCH == 'develop'
-
-sonarqube-vulnerability-report:
-  stage: sonarqube-vulnerability-report
-  image: curlimages/curl:latest
-  script:
-    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=tosdr_tosdr-go_8f0af1d4-fa57-4d88-9809-7dd99a89e2dd&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
-  allow_failure: true
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'master'
-    - if: $CI_COMMIT_BRANCH == 'main'
-    - if: $CI_COMMIT_BRANCH == 'develop'
-  artifacts:
-    expire_in: 1 day
-    reports:
-      sast: gl-sast-sonar-report.json
 
 build:
   stage: build
