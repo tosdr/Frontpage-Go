@@ -43,7 +43,7 @@
                     <td onclick="showContent(this)">{{ .Note }}</td>
                     <td>{{ add .Count 1 }}</td>
                     <td class="action-buttons">
-                        <button class="btn-accept" onclick="handleSubmission({{ .ID }}, 'accept')">Accept</button>
+                        <button class="btn-accept" onclick="handleSubmission({{ .ID }}, 'allow')">Accept</button>
                         <button class="btn-deny" onclick="handleSubmission({{ .ID }}, 'deny')">Deny</button>
                     </td>
                 </tr>

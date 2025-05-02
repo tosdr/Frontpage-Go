@@ -180,7 +180,7 @@ func HandleSubmissionAction(w http.ResponseWriter, r *http.Request) {
 	action := vars["action"]
 
 	// Validate action
-	if action != "accept" && action != "deny" {
+	if action != "allow" && action != "deny" {
 		http.Error(w, "Invalid action", http.StatusBadRequest)
 		return
 	}

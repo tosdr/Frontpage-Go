@@ -34,6 +34,11 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if serviceID == "" {
+		RenderErrorPage(w, lang, http.StatusBadRequest, "Service ID is required", nil)
+		return
+	}
+
 	intServiceID, err := strconv.Atoi(serviceID)
 	if err != nil {
 		log.Printf("Error parsing service ID: %v", err)
