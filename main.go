@@ -141,6 +141,7 @@ func main() {
 		"/profile",
 		"/dashboard",
 		"/dashboard/{term}",
+		"/search/{term}",
 	}
 
 	for _, route := range nonLangRoutes {
