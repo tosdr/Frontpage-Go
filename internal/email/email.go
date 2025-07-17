@@ -1,37 +1,54 @@
 package email
 
 import (
+	"crypto/tls"
 	"fmt"
-	"github.com/sendgrid/sendgrid-go"
 	"tosdrgo/internal/config"
 	"tosdrgo/internal/logger"
 
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"gopkg.in/gomail.v2"
 )
 
 type Client struct {
-	apiKey string
-	from   string
+	host     string
+	port     int
+	username string
+	password string
+	from     string
+	tls      bool
+	dialer   *gomail.Dialer
 }
 
 var defaultClient *Client
 
-// Init creates a new email client using app config values
 func Init() error {
 	cfg := config.AppConfig.SMTP
-	if cfg.APIKey == "" || cfg.From == "" {
+	if cfg.Host == "" || cfg.From == "" {
 		return fmt.Errorf("missing required email configuration")
 	}
 
+	d := gomail.NewDialer(cfg.Host, cfg.Port, cfg.Username, cfg.Password)
+
+	if cfg.TLS {
+		d.TLSConfig = nil
+	} else {
+		d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+		d.SSL = false
+	}
+
 	defaultClient = &Client{
-		apiKey: cfg.APIKey,
-		from:   cfg.From,
+		host:     cfg.Host,
+		port:     cfg.Port,
+		username: cfg.Username,
+		password: cfg.Password,
+		from:     cfg.From,
+		tls:      cfg.TLS,
+		dialer:   d,
 	}
 
 	return nil
 }
 
-// SendEmail sends an email using the default client
 func SendEmail(to string, subject string, body string) error {
 	if to == "" { // no email
 		logger.LogDebug("There is no email.")
@@ -43,13 +60,12 @@ func SendEmail(to string, subject string, body string) error {
 	return defaultClient.Send(to, subject, body)
 }
 
-// Send sends an email using the client's configuration
 func (c *Client) Send(to string, subject string, body string) error {
-	from := mail.NewEmail("ToS;DR", c.from)
-	toEmail := mail.NewEmail("", to)
-	message := mail.NewSingleEmail(from, subject, toEmail, "", body)
+	m := gomail.NewMessage()
+	m.SetAddressHeader("From", c.from, "ToS;DR Notifications")
+	m.SetHeader("To", to)
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/html", body)
 
-	client := sendgrid.NewSendClient(c.apiKey)
-	_, err := client.Send(message)
-	return err
+	return c.dialer.DialAndSend(m)
 }

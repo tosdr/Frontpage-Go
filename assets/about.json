@@ -48,25 +48,6 @@
             }
         },
         {
-            "photo": "https://s3.tosdr.org/team/2130.jpg",
-            "name": "Dmitri Pedersen",
-            "title": "Privacy Philanthropist",
-            "description": "Dmitri is dedicated to making the world a better place, giving people advice, and helping people. He currently resides in Washington.",
-            "links": {
-                "github": "https://github.com/pederdm000",
-                "email": "dmitri.pedersen@tosdr.org"
-            }
-        },
-        {
-            "photo": "https://s3.tosdr.org/team/20760.jpg",
-            "name": "Inés Rubio",
-            "title": "Phoenix Contributor",
-            "description": "Inés Rubio (alias Agnes de Lion) is a teenage girl committed to informing people about their rights online. Strangely enough, she enjoys spending time reading long and tortuous terms of service. She currently resides in France.",
-            "links": {
-                "email": "ines.rubio@tosdr.org"
-            }
-        },
-        {
             "photo": "https://s3.tosdr.org/team/32634.JPG",
             "name": "Erik Hering",
             "title": "Lead-ish Developer*",
@@ -88,10 +69,29 @@
             }
         },
         {
+            "photo": "https://s3.tosdr.org/team/2130.jpg",
+            "name": "Dmitri Pedersen",
+            "title": "Privacy Philanthropist",
+            "description": "Dmitri is dedicated to making the world a better place, giving people advice, and helping people. He currently resides in Washington.",
+            "links": {
+                "github": "https://github.com/pederdm000",
+                "email": "dmitri.pedersen@tosdr.org"
+            }
+        },
+        {
+            "photo": "https://s3.tosdr.org/team/20760.jpg",
+            "name": "Inés Rubio",
+            "title": "Phoenix Contributor",
+            "description": "Inés Rubio (alias Agnes de Lion) is a teenage girl committed to informing people about their rights online. Strangely enough, she enjoys spending time reading long and tortuous terms of service. She currently resides in France.",
+            "links": {
+                "email": "ines.rubio@tosdr.org"
+            }
+        },
+        {
             "photo": "https://s3.tosdr.org/team/28460.jpg",
             "name": "Moritz Beneke",
             "title": "Lead Community Manager",
-            "description": "TBD",
+            "description": "You will see Moritz all around ToS;DR, creating summaries, reading your submissions and finding ways to get ToS;DR in front of more people. When not knee-deep in Phoenix, Moritz is a student from Germany and occasionally active in Circus arts.",
             "links": {
                 "website": "https://codeberg.org/shadowwwind",
                 "github": "https://github.com/shadowwwind",
