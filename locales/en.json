@@ -109,6 +109,7 @@
     "graded_services.title": "Services with Grade %s",
     "graded_services.no_results": "No services found with Grade %s",
     "translation.warning": "The points above have been machine translated. They may not be 100% accurate and we encourage you to check the original point to verify accuracy.",
+    "no_grade.warning": "This summary has not been completed and information is probably missing. You can help us finish this summary <a href=\"https://edit.tosdr.org\">by contributing</a>.",
     "donate.header_text": "Help us keep ToS;DR free and open source by donating to our project.",
     "donate.header_link": "Donate",
     "donate.close": "Close",

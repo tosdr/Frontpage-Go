@@ -41,6 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
         <span class="service-grade grade-{{ .Service.Rating }}">{{ t "service.grade_prefix" }} {{ .Service.Rating }}</span>
     </div>
 
+    {{ if eq .Service.Rating "N/A" }}
+        <div class="service-warning">
+            <p>{{ t "no_grade.warning" | safeHTML }}</p>
+        </div>
+        {{ end }}
+
     <div class="service-details">
         <h2>{{ t "service.points_title" }}</h2>
         <ul class="service-points">
@@ -73,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
 
         {{ if eq .Lang "de" "fr" "es" "nl" }}
-        <div class="translation-warning">
+        <div class="service-warning">
             <p>{{ t "translation.warning" }}</p>
         </div>
         {{ end }}

@@ -168,7 +168,7 @@ a:hover {
     color: var(--link-hover-color);
 }
 
-.translation-warning {
+.service-warning {
     background-color: var(--point-bad-bg);
     border: 1px solid var(--point-bad-text);
     color: var(--point-bad-text);
@@ -181,7 +181,7 @@ a:hover {
     border-color: rgba(102, 77, 3, 0.2);
 }
 
-.translation-warning::before {
+.service-warning::before {
     content: '';
     width: 28px;
     height: 28px;
@@ -192,7 +192,7 @@ a:hover {
     filter: invert(27%) sepia(51%) saturate(768%) hue-rotate(12deg) brightness(92%) contrast(96%);
 }
 
-.translation-warning p {
+.service-warning p {
     margin: 0;
     font-size: 0.9rem;
     flex: 1;
