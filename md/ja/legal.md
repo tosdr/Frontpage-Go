@@ -8,8 +8,8 @@ Title: 法的情報
 
 ## プライバシーポリシー
 
-[私たちのプライバシーポリシーを閲覧する](https://docs.tosdr.org/sp/tosdr.org-Privacy-Policy.89456373.html)
+[私たちのプライバシーポリシーを閲覧する](https://docs.tosdr.org/site-policy/tosdr-terms/tosdr.org-privacy-policy)
 
 ## 寄稿条件
 
-[私たちの寄稿条件を閲覧する](https://docs.tosdr.org/sp/tosdr.org-Terms-of-Contribution.102825720.html)
+[私たちの寄稿条件を閲覧する](https://docs.tosdr.org/site-policy/tosdr-terms/tosdr.org-terms-of-contribution)

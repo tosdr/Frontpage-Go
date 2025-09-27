@@ -8,8 +8,8 @@ Title: Юридическая информация
 
 ## Политика конфиденциальности
 
-[Просмотреть нашу Политику конфиденциальности](https://docs.tosdr.org/sp/tosdr.org-Privacy-Policy.89456373.html)
+[Просмотреть нашу Политику конфиденциальности](https://docs.tosdr.org/site-policy/tosdr-terms/tosdr.org-privacy-policy)
 
 ## Условия вклада
 
-[Просмотреть наши Условия вклада](https://docs.tosdr.org/sp/tosdr.org-Terms-of-Contribution.102825720.html)
+[Просмотреть наши Условия вклада](https://docs.tosdr.org/site-policy/tosdr-terms/tosdr.org-terms-of-contribution)

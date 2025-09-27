@@ -8,8 +8,8 @@ Title: Rechtliche Informationen
 
 ## Datenschutzerklärung
 
-[Unsere Datenschutzerklärung ansehen](https://docs.tosdr.org/sp/tosdr.org-Privacy-Policy.89456373.html)
+[Unsere Datenschutzerklärung ansehen](https://docs.tosdr.org/site-policy/tosdr-terms/tosdr.org-privacy-policy)
 
 ## Beitragsbedingungen
 
-[Unsere Beitragsbedingungen ansehen](https://docs.tosdr.org/sp/tosdr.org-Terms-of-Contribution.102825720.html)
+[Unsere Beitragsbedingungen ansehen](https://docs.tosdr.org/site-policy/tosdr-terms/tosdr.org-terms-of-contribution)

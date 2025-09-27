@@ -8,8 +8,8 @@ Title: Informacje prawne
 
 ## Polityka prywatności
 
-[Zobacz naszą politykę prywatności](https://docs.tosdr.org/sp/tosdr.org-Privacy-Policy.89456373.html)
+[Zobacz naszą politykę prywatności](https://docs.tosdr.org/site-policy/tosdr-terms/tosdr.org-privacy-policy)
 
 ## Warunki uczestnictwa
 
-[Zobacz nasze warunki uczestnictwa](https://docs.tosdr.org/sp/tosdr.org-Terms-of-Contribution.102825720.html)
+[Zobacz nasze warunki uczestnictwa](https://docs.tosdr.org/site-policy/tosdr-terms/tosdr.org-terms-of-contribution)
