@@ -25,3 +25,22 @@ deploy:
     - curl -X POST $REDEPLOY_WEBHOOK
   only:
     - master
+
+build_test:
+  stage: build
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA-test .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA-test
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA-test $CI_REGISTRY_IMAGE:test
+    - docker push $CI_REGISTRY_IMAGE:test
+  only:
+    - develop
+
+deploy_test:
+  stage: deploy
+  image: curlimages/curl:latest
+  script:
+    - curl -X POST $TEST_REDEPLOY_WEBHOOK
+  only:
+    - develop

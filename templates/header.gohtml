@@ -1,9 +1,9 @@
 {{ define "header" }}
 <header>
-    <nav>
+    <nav role="navigation" aria-label="Main navigation">
         <div class="logo-and-links">
-            <a href="/" class="logo">
-                <img src="https://s3.tosdr.org/branding/tosdr-icon-32.svg" alt="Logo">
+            <a href="/" class="logo" aria-label="ToS;DR Home">
+                <img src="https://s3.tosdr.org/branding/tosdr-icon-32.svg" alt="Logo" width="32" height="32">
             </a>
             <ul class="nav-links">
                 <li><a href="/{{ .Lang }}/">{{ t "nav.home" }}</a></li>
@@ -13,7 +13,10 @@
                 <li><a href="/{{ .Lang }}/sites/communities">{{ t "nav.communities" }}</a></li>
                 <li><a href="/{{ .Lang }}/thanks">{{ t "footer.links.thanks" }}</a></li>
                 <li class="dropdown">
-                    <a href="#">{{ t "nav.contribute" }}</a>
+                    <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                        {{ t "nav.contribute" }}
+                        <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                    </button>
                     <ul class="dropdown-content">
                         <li><a href="https://edit.tosdr.org/">{{ t "nav.contribute_analysis" }}</a></li>
                         <li><a href="/{{ .Lang }}/new_service">{{ t "nav.add_service" }}</a></li>
@@ -28,11 +31,11 @@
             <a href="https://tosdr.org/" class="leave-beta-btn">{{ t "nav.leave_beta" }}</a>
             {{end}}
         </div>
-        <div class="hamburger">
+        <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
-        </div>
+        </button>
     </nav>
 </header>
 
@@ -42,27 +45,82 @@
         const logoAndLinks = document.querySelector('.logo-and-links');
         const navLinks = document.querySelector('.nav-links');
         const rightNav = document.querySelector('.right-nav');
-
-        // Add dropdown handling
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
         const dropdowns = document.querySelectorAll('.dropdown');
-        
-        dropdowns.forEach(dropdown => {
-            const link = dropdown.querySelector('a');
-            link.addEventListener('click', (e) => {
-                // Only handle click on mobile
-                if (window.innerWidth <= 768) {
+
+        function closeAllDropdowns() {
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                dropdown.classList.remove('active');
+                if (toggle) toggle.setAttribute('aria-expanded', 'false');
+            });
+        }
+
+        // Keyboard navigation for dropdowns
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const dropdown = toggle.closest('.dropdown');
+                const isActive = dropdown.classList.contains('active');
+                closeAllDropdowns();
+                if (!isActive) {
+                    dropdown.classList.add('active');
+                    toggle.setAttribute('aria-expanded', 'true');
+                }
+            });
+
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    dropdown.classList.toggle('active');
+                    toggle.click();
+                } else if (e.key === 'Escape') {
+                    closeAllDropdowns();
+                    toggle.focus();
                 }
             });
         });
 
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                closeAllDropdowns();
+            }
+        });
+
+        // Mobile menu toggle
         hamburger.addEventListener('click', () => {
+            const isActive = logoAndLinks.classList.contains('active');
             logoAndLinks.classList.toggle('active');
             navLinks.classList.toggle('active');
             rightNav.classList.toggle('active');
-            // Reset dropdowns when closing menu
-            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+            hamburger.setAttribute('aria-expanded', !isActive);
+
+            if (!isActive) {
+                closeAllDropdowns();
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close mobile menu on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && logoAndLinks.classList.contains('active')) {
+                hamburger.click();
+            }
+        });
+
+        // Handle dropdown item keyboard navigation
+        const dropdownItems = document.querySelectorAll('.dropdown-content a');
+        dropdownItems.forEach(item => {
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeAllDropdowns();
+                    const dropdown = item.closest('.dropdown');
+                    const toggle = dropdown.querySelector('.dropdown-toggle');
+                    if (toggle) toggle.focus();
+                }
+            });
         });
     });
 </script>

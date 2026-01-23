@@ -1,7 +1,8 @@
 {{ define "css_block" }}
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="stylesheet" href="/static/css/md.css">
-    
+    <link rel="canonical" href="https://tosdr.org/{{ .Lang }}/">
+
     <!-- Open Graph meta tags -->
     <meta property="og:title" content="Terms of Service; Didn't Read">
     <meta property="og:description" content="'I have read and agree to the Terms' is the biggest lie on the web. Together, we can fix that.">
@@ -76,7 +77,7 @@
                 <a href="https://www.datingnews.com/daters-pulse/tosdr-brings-transparency-to-dating-industry-by-assessing-terms-of-service/" target="_blank" rel="noopener">
                     <span>Dating News</span>
                 </a>
-                <a href="https://www.waka.com/2024/07/19/whats-really-in-those-terms-of-service-agreements/" target="_blank" rel="noopener"></a>
+                <a href="https://www.waka.com/2024/07/19/whats-really-in-those-terms-of-service-agreements/" target="_blank" rel="noopener">
                     <span>Waka</span>
                 </a>
             </div>
@@ -94,7 +95,7 @@
         {{ range .Featured }}
             <div class="service-card">
                 <div class="service-header">
-                    <img src="{{.Icon}}" alt='{{ t "home.service_icon_alt" .Name }}' class="service-icon">
+                    <img src="{{.Icon}}" alt='{{ t "home.service_icon_alt" .Name }}' class="service-icon" loading="lazy">
                     <h2 class="service-name"><a href="/{{ $lang }}/service/{{.ID}}">{{.Name}}</a></h2>
                     <span class="service-grade grade-{{.Grade}}">{{ t "home.grade" .Grade }}</span>
                 </div>
@@ -102,7 +103,7 @@
                     {{ range .Points }}
                         <li class="point-{{ .Case.Classification }}">
                             <div class="point-content">
-                                <img src="/static/svg/{{ .Case.Classification }}.svg" alt='{{ t "home.classification_icon_alt" .Case.Classification }}' class="point-icon">
+                                <img src="/static/svg/{{ .Case.Classification }}.svg" alt='{{ t "home.classification_icon_alt" .Case.Classification }}' class="point-icon" loading="lazy">
                                 {{.Title}}
                             </div>
                         </li>
@@ -111,11 +112,11 @@
                 <div class="service-footer">
                     <a href="/{{ $lang }}/service/{{.ID}}" class="btn btn-primary"
                        title="{{ t "home.view_details_button" }}">
-                        <img src="/static/svg/info.svg" alt="" class="btn-icon-img">
+                        <img src="/static/svg/info.svg" alt="" class="btn-icon-img" loading="lazy">
                         {{ t "home.view_details_button" }}
                     </a>
                     <a href="https://edit.tosdr.org/services/{{.ID}}/annotate/" class="btn btn-secondary">
-                        <img src="/static/svg/document.svg" alt="" class="btn-icon-img">
+                        <img src="/static/svg/document.svg" alt="" class="btn-icon-img" loading="lazy">
                         {{ t "home.help_analyze" }}
                     </a>
                 </div>

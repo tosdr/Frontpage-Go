@@ -18,8 +18,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var IsBeta = false
-
 func init() {
 	if err := config.LoadConfig(); err != nil {
 		log.Fatalf("Failed to load configuration: %v", err)
@@ -110,10 +108,19 @@ func main() {
 	// Health check endpoint (no language prefix needed)
 	r.HandleFunc("/v1/health", handlers.HealthCheckHandler).Methods("GET").Name("health")
 
-	// Static files (no language prefix needed)
-	r.PathPrefix("/static/css/").Handler(handlers.MinifyMiddlewareHandler(
-		setCSSContentType(http.StripPrefix("/static/css/", http.FileServer(http.Dir("static/css"))))))
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
+	// Sitemap and robots (no language prefix needed for SEO)
+	r.HandleFunc("/sitemap.xml", handlers.SitemapHandler).Methods("GET")
+	r.HandleFunc("/robots.txt", handlers.RobotsHandler).Methods("GET")
+
+	// Static files (no language prefix needed) with cache headers
+	cssHandler := handlers.CacheControlMiddleware(
+		handlers.MinifyMiddlewareHandler(
+			setCSSContentType(http.StripPrefix("/static/css/", http.FileServer(http.Dir("static/css"))))))
+	r.PathPrefix("/static/css/").Handler(cssHandler)
+
+	otherStaticHandler := handlers.CacheControlMiddleware(
+		http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	r.PathPrefix("/static/").Handler(otherStaticHandler)
 
 	// Shield endpoints (without language prefix)
 	r.HandleFunc("/{lang:[a-z]{2}}/shield/{serviceID}", handlers.ShieldHandler).Methods("GET")
@@ -179,8 +186,7 @@ func main() {
 		handlers.RenderErrorPage(w, "en", http.StatusNotFound, "The requested page was not found", nil)
 	})
 
-	//goland:noinspection GoBoolExpressions
-	handlers.SetIsBeta(IsBeta)
+	handlers.SetIsBeta(config.AppConfig.IsBeta)
 
 	// Start the server
 	log.Printf("Server starting on 0.0.0.0:80")

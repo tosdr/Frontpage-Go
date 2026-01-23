@@ -72,8 +72,36 @@ nav {
     margin-top: 0;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown .dropdown-toggle {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.dropdown-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.dropdown.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown.active .dropdown-content {
     display: block;
+}
+
+.dropdown-toggle:focus-visible {
+    outline: 3px solid var(--btn-primary-bg);
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 
 .right-nav {
@@ -180,6 +208,16 @@ nav {
         display: flex;
         position: absolute;
         right: 1rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .hamburger:focus-visible {
+        outline: 3px solid var(--btn-primary-bg);
+        outline-offset: 2px;
+        border-radius: 4px;
     }
 
     .logo-and-links.active .nav-links,

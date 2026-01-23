@@ -115,7 +115,7 @@ p {
 
 .service-card {
     background: var(--card-bg);
-    border-radius: 12px;
+    border-radius: var(--border-radius);
     padding: 1.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
@@ -282,6 +282,11 @@ p {
     display: flex;
     gap: 1rem;
     margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.service-footer .btn {
+    flex: 1 1 180px;
 }
 
 .how-it-works {
@@ -316,6 +321,7 @@ p {
     align-items: center;
     justify-content: center;
     min-height: 44px;
+    white-space: normal;
 }
 
 @keyframes fadeIn {
@@ -458,9 +464,11 @@ p {
     }
 
     .search-button {
-        visibility: hidden;
-        height: 0;
-        width: 0;
+        display: none;
+    }
+
+    .search-input {
+        width: 100%;
     }
 
     .services-grid {
@@ -498,6 +506,25 @@ p {
     .featured-on-label {
         font-size: 0.8rem;
         margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .service-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .service-footer .btn {
+        flex: 0 0 auto;
+        width: 100%;
+        height: 32px;
+        padding: 0.45rem 0.6rem;
+        font-size: 0.8rem;
+        line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 

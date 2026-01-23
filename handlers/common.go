@@ -8,6 +8,7 @@ import (
 	"time"
 	"tosdrgo/handlers/localization"
 	"tosdrgo/internal/logger"
+	"tosdrgo/models"
 
 	"github.com/patrickmn/go-cache"
 )
@@ -39,9 +40,52 @@ func SetIsBeta(value bool) {
 	isBeta = value
 }
 
+func GenerateOGDescription(service models.Service, lang string) string {
+	ogDesc := localization.Get(lang, "service.og.rated_by")
+	ogDesc = fmt.Sprintf(ogDesc, service.Name, service.Rating) + " "
+
+	if len(service.Points) > 0 {
+		goodPoints := 0
+		badPoints := 0
+
+		for _, point := range service.Points {
+			if point.Case != nil {
+				if point.Case.Classification == "good" {
+					goodPoints++
+				} else if point.Case.Classification == "bad" || point.Case.Classification == "blocker" {
+					badPoints++
+				}
+			}
+		}
+
+		analysisPrefix := localization.Get(lang, "service.og.analysis_prefix") + " "
+		goodKey := "service.og.good_point"
+		if goodPoints != 1 {
+			goodKey = "service.og.good_points"
+		}
+		badKey := "service.og.bad_point"
+		if badPoints != 1 {
+			badKey = "service.og.bad_points"
+		}
+
+		ogDesc += analysisPrefix
+		ogDesc += fmt.Sprintf(localization.Get(lang, goodKey), goodPoints) + " and "
+		ogDesc += fmt.Sprintf(localization.Get(lang, badKey), badPoints) + ". "
+	} else {
+		ogDesc += localization.Get(lang, "service.og.no_points") + " "
+	}
+
+	return strings.TrimSpace(ogDesc)
+}
+
 func parseTemplates(contentTemplate string, lang string, r *http.Request) (*template.Template, error) {
 	templates := append([]string{}, baseTemplates...)
 	templates = append(templates, contentTemplate)
+
+	var canonicalURL string
+	if r != nil {
+		canonicalURL = "https://tosdr.org" + r.URL.Path
+	}
 
 	funcMap := template.FuncMap{
 		"t": func(key string, args ...interface{}) string {
@@ -73,6 +117,9 @@ func parseTemplates(contentTemplate string, lang string, r *http.Request) (*temp
 				currentMonth == time.June ||
 				currentMonth == time.September ||
 				currentMonth == time.December
+		},
+		"canonicalURL": func() string {
+			return canonicalURL
 		},
 	}
 

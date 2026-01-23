@@ -4,14 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{.Title}} - Terms of Service; Didn't Read. We rate terms and privacy policies so you can make informed decisions.">
     <title>{{.Title}} - ToS;DR</title>
     <link rel="icon" type="image/svg+xml" href="https://s3.tosdr.org/branding/tosdr-icon-32.svg">
+    <link rel="canonical" href="{{ canonicalURL }}">
     <link rel="stylesheet" href="/static/css/header.css">
     <link rel="stylesheet" href="/static/css/footer.css">
     <link rel="stylesheet" href="/static/css/main.css">
     {{block "css_block" .}}{{end}}
 </head>
 <body>
+    <a href="#main-content" class="skip-link">{{ t "accessibility.skip_to_main" }}</a>
     {{template "header" .}}
     {{if isDonationMonth}}
     <div class="donate-header">
@@ -25,7 +28,7 @@
         <button class="close-donate" aria-label="{{ t "donate.banner.close" }}">×</button>
     </div>
     {{end}}
-    <main>
+    <main id="main-content">
         {{template "content" .}}
     </main>
     {{template "footer" .}}

@@ -43,6 +43,7 @@ type Config struct {
 		RedirectURI  string `yaml:"redirect_uri"`
 		SessionKey   string `yaml:"session_key"`
 	} `yaml:"login"`
+	IsBeta bool `yaml:"isBeta"`
 }
 
 var AppConfig *Config
@@ -53,5 +54,13 @@ func LoadConfig() error {
 		return err
 	}
 
-	return yaml.Unmarshal(file, &AppConfig)
+	if err := yaml.Unmarshal(file, &AppConfig); err != nil {
+		return err
+	}
+
+	if envValue := os.Getenv("IS_BETA"); envValue != "" {
+		AppConfig.IsBeta = envValue == "true" || envValue == "1"
+	}
+
+	return nil
 }

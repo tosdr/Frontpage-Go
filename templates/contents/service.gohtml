@@ -1,5 +1,19 @@
 {{ define "css_block" }}
 <link rel="stylesheet" href="/static/css/service.css">
+<link rel="canonical" href="{{ .Canonical }}">
+
+<!-- Open Graph meta tags -->
+<meta property="og:title" content="{{ .OGTitle }}">
+<meta property="og:description" content="{{ .OGDesc }}">
+<meta property="og:image" content="{{ .OGImage }}">
+<meta property="og:url" content="{{ .Canonical }}">
+<meta property="og:type" content="{{ .OGType }}">
+
+<!-- Twitter Card meta tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ .OGTitle }}">
+<meta name="twitter:description" content="{{ .OGDesc }}">
+<meta name="twitter:image" content="{{ .OGImage }}">
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -36,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 {{ define "content" }}
 <div class="service-container">
     <div class="service-header">
-        <img src="{{ .Service.Image }}" alt="{{ t "service.logo_alt" .Service.Name }}" class="service-logo">
+        <img src="{{ .Service.Image }}" alt="{{ t "service.logo_alt" .Service.Name }}" class="service-logo" loading="lazy" width="64" height="64">
         <h1>{{ .Service.Name }}</h1>
         <span class="service-grade grade-{{ .Service.Rating }}">{{ t "service.grade_prefix" }} {{ .Service.Rating }}</span>
     </div>
@@ -53,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {{ range .Service.Points }}
             <li class="point-{{ .Case.Classification }}">
                 <div class="point-content">
-                    <img src="/static/svg/{{ .Case.Classification }}.svg" alt="{{ .Case.Classification }} icon" class="point-icon">
+                    <img src="/static/svg/{{ .Case.Classification }}.svg" alt="{{ .Case.Classification }} icon" class="point-icon" loading="lazy" width="24" height="24">
                     <div class="point-text">
                         <h3>{{ .Title }}</h3>
                     </div>
@@ -61,14 +75,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="point-actions">
                     {{ if .Case.Description }}
                     <button class="expand-description" aria-expanded="false" title="{{ t "service.point_expand" }}">
-                        <img src="/static/svg/expand.svg" alt="Expand" class="expand-icon">
+                        <img src="/static/svg/expand.svg" alt="Expand" class="expand-icon" loading="lazy">
                     </button>
                     {{ end }}
                     <span class="updated-on" title="{{ t "service.point_updated" (.UpdatedAt.Format "2006-01-02 15:04:05") }}">
-                        <img src="/static/svg/schedule.svg" alt="{{ t "service.point_updated_alt" }}">
+                        <img src="/static/svg/schedule.svg" alt="{{ t "service.point_updated_alt" }}" loading="lazy" width="16" height="16">
                     </span>
                     <a href="https://edit.tosdr.org/points/{{ .ID }}" target="_blank" class="edit-icon" title="{{ t "service.point_edit" }}">
-                        <img src="/static/svg/edit.svg" alt="{{ t "service.point_edit" }}">
+                        <img src="/static/svg/edit.svg" alt="{{ t "service.point_edit" }}" loading="lazy" width="20" height="20">
                     </a>
                 </div>
                 {{ if .Case.Description }}

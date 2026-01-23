@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+	"tosdrgo/handlers/localization"
 	"tosdrgo/internal/db"
 	"tosdrgo/models"
 
@@ -52,18 +53,31 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ogTitle := localization.Get(lang, "service.og.title")
+	ogTitle = fmt.Sprintf(ogTitle, service.Name, service.Rating)
+
 	data := struct {
 		Title     string
 		Beta      bool
 		Lang      string
 		Service   models.Service
 		Languages map[string]string
+		Canonical string
+		OGTitle   string
+		OGDesc    string
+		OGImage   string
+		OGType    string
 	}{
-		Title:     service.Name,
+		Title:     service.Name + " - ToS;DR",
 		Beta:      isBeta,
 		Lang:      lang,
 		Service:   *service,
 		Languages: SupportedLanguages,
+		Canonical: fmt.Sprintf("https://tosdr.org/%s/service/%d", lang, intServiceID),
+		OGTitle:   ogTitle,
+		OGDesc:    GenerateOGDescription(*service, lang),
+		OGImage:   service.Image,
+		OGType:    "website",
 	}
 
 	var buf bytes.Buffer

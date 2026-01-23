@@ -13,6 +13,12 @@ RUN go mod download
 # Copy the source code into the container
 COPY . .
 
+# Install CSS minifier
+RUN go install github.com/tdewolff/minify/v2/cmd/minify@latest
+
+# Minify CSS and JS assets in place
+RUN find static -type f \( -name "*.css" -o -name "*.js" \) -print0 | xargs -0 -I {} /go/bin/minify -o "{}" "{}"
+
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
