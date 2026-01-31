@@ -72,28 +72,23 @@ func DeleteSubmissionV2(id string) (*ServiceRequest, error) {
 
 // AddServiceV2 adds a new service to the main database
 func AddServiceV2(name string, domains []string, wikipedia string) (uint, error) {
-	service := struct {
-		gorm.Model
-		Name      string
-		URL       string
-		Wikipedia string
-	}{
-		Name:      name,
-		URL:       strings.Join(domains, ", "),
-		Wikipedia: wikipedia,
-	}
+	var serviceID uint
 
-	_, err := DB.Exec(`
+	err := DB.QueryRow(`
 		INSERT INTO services (name, url, wikipedia, created_at, updated_at) 
-		VALUES (?, ?, ?, NOW(), NOW()) 
-		RETURNING id`, service.Name, service.URL, service.Wikipedia)
+		VALUES ($1, $2, $3, NOW(), NOW()) 
+		RETURNING id`,
+		name,
+		strings.Join(domains, ", "),
+		wikipedia,
+	).Scan(&serviceID)
 
 	if err != nil {
 		logger.LogError(err, "Failed to insert service")
 		return 0, err
 	}
 
-	return service.ID, nil
+	return serviceID, nil
 }
 
 // AcceptSubmissionV2 accepts a submission and returns the service name, email, and newly created service ID
