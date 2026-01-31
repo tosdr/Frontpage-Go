@@ -1,0 +1,31 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.pagination-btn:hover {
+    background: var(--link-hover-color);
+    transform: translateY(-1px);
+    color: var(--btn-primary-text);
+}
+
+.page-info {
+    color: var(--text-color);
+    font-weight: 500;
+}

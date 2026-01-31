@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </a>
                 </div>
                 {{ if .Case.Description }}
-                <div class="point-description" style="max-height: 0px; opacity: 0; margin-top: 0px;" hidden>{{ .Case.Description }}</div>
+                <div class="point-description" style="max-height: 0px; opacity: 0; margin-top: 0px;" hidden>{{ t "service.explaination" .Case.Description}}</div>
                 {{ end }}
             </li>
             {{ end }}

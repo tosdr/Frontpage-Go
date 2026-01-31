@@ -108,40 +108,7 @@
 
 .view-details:hover {
     background: var(--link-hover-color);
-    color: var(--btn-secondary-bg);
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    margin-top: 2rem;
-    padding: 1rem;
-    background: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.pagination-btn {
-    padding: 0.6rem 1.2rem;
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    font-weight: 500;
-}
-
-.pagination-btn:hover {
-    background: var(--link-hover-color);
-    transform: translateY(-1px);
-    color: var(--btn-primary-text);
-}
-
-.page-info {
-    color: var(--text-color);
-    font-weight: 500;
+    color: var(--btn-secondary-text);
 }
 
 .grade-picker {

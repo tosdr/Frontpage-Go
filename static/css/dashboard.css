@@ -90,37 +90,6 @@ tr:hover td {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1rem;
-    background: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.pagination-btn {
-    padding: 0.6rem 1.2rem;
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-    text-decoration: none;
-    border-radius: var(--border-radius);
-    transition: all 0.2s;
-    font-weight: 500;
-}
-
-.pagination-btn:hover {
-    background: var(--link-hover-color);
-    transform: translateY(-1px);
-}
-
-.page-info {
-    color: var(--text-color);
-    font-weight: 500;
-}
-
 .dashboard-header {
     display: flex;
     align-items: center;
@@ -134,43 +103,18 @@ tr:hover td {
 }
 
 .search-container {
-    display: flex;
-    gap: 1rem;
     flex: 1;
     min-width: 300px;
 }
 
 .search-input {
-    flex: 1;
     padding: 0.75rem 1rem;
-    border: 2px solid var(--input-border);
-    border-radius: var(--border-radius);
     font-size: 1rem;
-    transition: all 0.2s ease;
-    background: var(--bg-color);
-    color: var(--text-color);
-}
-
-.search-input:focus {
-    border-color: var(--link-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-    outline: none;
 }
 
 .search-button {
     padding: 0.75rem 1.5rem;
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-    border: none;
-    border-radius: var(--border-radius);
     font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.search-button:hover {
-    background: var(--link-hover-color);
-    transform: translateY(-1px);
 }
 
 td:not(.action-buttons) {

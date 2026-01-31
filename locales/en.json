@@ -82,6 +82,7 @@
     "service.point_updated": "Last updated: %s",
     "service.point_updated_alt": "Last updated",
     "service.point_edit": "Edit",
+    "service.explaination": "Explanation: %s",
     "service.og.rated_by": "%s has been rated %s by ToS;DR.",
     "service.og.analysis_prefix": "Analysis shows",
     "service.og.good_point": "%d good point",

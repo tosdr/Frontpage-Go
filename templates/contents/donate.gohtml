@@ -124,6 +124,21 @@
                 </button>
             </div>
         </div>
+
+        <div class="crypto-item">
+            <h3>🔒 Monero (XMR)</h3>
+            <div class="crypto-address">
+                <button class="qr-button" data-qr="/static/crypto/crypto_qr_XMR.png" aria-label="{{ t "donate.show_qr" }}">
+                    <img src="/static/svg/qrcode.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.show_qr" }}</span>
+                </button>
+                <input type="text" readonly value="43kvwTqWozsjdurChxf5vCN865JMLHYWVj5hnvkQWkWVHH9ysjoa3qmGBMsvyWRuet8aends9FT9DhXABdTyN8yyKQxaxPv" class="crypto-input">
+                <button class="copy-button" data-address="43kvwTqWozsjdurChxf5vCN865JMLHYWVj5hnvkQWkWVHH9ysjoa3qmGBMsvyWRuet8aends9FT9DhXABdTyN8yyKQxaxPv" aria-label="{{ t "donate.copy_address" }}">
+                    <img src="/static/svg/copy.svg" width="18" height="18" alt="">
+                    <span class="mobile-only">{{ t "donate.copy_address" }}</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <p>{{ t "donate.crypto.disclaimer" }}</p>

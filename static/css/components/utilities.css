@@ -1,0 +1,30 @@
+.skip-link {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    padding: 8px 16px;
+    z-index: 100;
+    transition: top 0.2s ease-in-out;
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 0;
+}
+
+.skip-link:focus {
+    top: 0;
+    opacity: 1;
+}
+
+/* Improve focus styles */
+:focus-visible {
+    outline: 3px solid var(--btn-primary-bg);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Keep outline for keyboard navigation while allowing it to be removed for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
