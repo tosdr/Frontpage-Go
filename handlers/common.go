@@ -78,6 +78,14 @@ func GenerateOGDescription(service models.Service, lang string) string {
 	return strings.TrimSpace(ogDesc)
 }
 
+func GenerateOGImageURLBasic(title string) string {
+	return fmt.Sprintf("https://tosdr.org/og/tosdr/?title=%s", title)
+}
+
+func GenerateOGImageURLService(title string, service_icon_url string, grade string, good int, bad int) string {
+	return fmt.Sprintf("http://tosdr.org/og/tosdr/?title=%s&icon=%s&grade=%s&good=%d&bad=%d", title, service_icon_url, grade, good, bad)
+}
+
 func parseTemplates(contentTemplate string, lang string, r *http.Request) (*template.Template, error) {
 	templates := append([]string{}, baseTemplates...)
 	templates = append(templates, contentTemplate)

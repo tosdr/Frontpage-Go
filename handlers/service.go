@@ -56,6 +56,19 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 	ogTitle := localization.Get(lang, "service.og.title")
 	ogTitle = fmt.Sprintf(ogTitle, service.Name, service.Rating)
 
+	goodPoints := 0
+	badPoints := 0
+
+	for _, point := range service.Points {
+		if point.Case != nil {
+			if point.Case.Classification == "good" {
+				goodPoints++
+			} else if point.Case.Classification == "bad" || point.Case.Classification == "blocker" {
+				badPoints++
+			}
+		}
+	}
+
 	data := struct {
 		Title     string
 		Beta      bool
@@ -76,7 +89,7 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 		Canonical: fmt.Sprintf("https://tosdr.org/%s/service/%d", lang, intServiceID),
 		OGTitle:   ogTitle,
 		OGDesc:    GenerateOGDescription(*service, lang),
-		OGImage:   service.Image,
+		OGImage:   GenerateOGImageURLService(service.Name, service.Image, service.Rating, goodPoints, badPoints),
 		OGType:    "website",
 	}
 
