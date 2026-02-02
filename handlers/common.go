@@ -103,6 +103,23 @@ func parseTemplates(contentTemplate string, lang string, r *http.Request) (*temp
 			}
 			return translation
 		},
+		"flag": func(langCode string) string {
+			flags := map[string]string{
+				"de": "🇩🇪",
+				"en": "🇬🇧",
+				"es": "🇪🇸",
+				"fr": "🇫🇷",
+				"ja": "🇯🇵",
+				"nl": "🇳🇱",
+				"pl": "🇵🇱",
+				"ru": "🇷🇺",
+				"zh": "🇨🇳",
+			}
+			if f, ok := flags[langCode]; ok {
+				return f
+			}
+			return "🌐"
+		},
 		"langURL": func(targetLang string) string {
 			if r == nil {
 				return "/" + targetLang

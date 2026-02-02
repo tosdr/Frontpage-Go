@@ -62,9 +62,25 @@ main .search-container {
 }
 
 @media (max-width: 768px) {
+    .search-result-container {
+        padding: 1rem;
+    }
+
     .search-container {
+        display: flex;
         flex-direction: column;
-        padding: 0 1rem;
+        padding: 0;
+        gap: 0.75rem;
+    }
+
+    .search-container .search-input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+    }
+
+    .search-container .search-button {
+        display: none;
     }
 
     .search-inputs {
@@ -73,5 +89,18 @@ main .search-container {
 
     .grade-filter {
         width: 100%;
+    }
+
+    .search-result {
+        padding: 0.75rem;
+    }
+
+    .result-logo {
+        width: 48px;
+        height: 48px;
+    }
+
+    .result-info h2 {
+        font-size: 1rem;
     }
 }
