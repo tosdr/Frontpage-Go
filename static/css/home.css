@@ -25,7 +25,7 @@ p {
 }
 
 .logo-display .logo-banner {
-    content: url('/static/svg/logolight.svg');
+    content: url("/static/svg/logolight.svg");
     max-width: 70%;
     height: auto;
     animation: scaleIn 0.4s ease-out;
@@ -40,7 +40,7 @@ p {
     animation: slideUp 0.5s ease-out;
 }
 
-.search-container {
+main .search-container {
     max-width: 800px;
     margin: 3rem auto;
     animation: slideUp 0.6s ease-out;
@@ -198,7 +198,7 @@ p {
 
 .featured-on::before,
 .featured-on::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     width: 100px;
@@ -345,6 +345,6 @@ p {
 
 @media (prefers-color-scheme: dark) {
     .logo-display .logo-banner {
-        content: url('/static/svg/logodark.svg');
+        content: url("/static/svg/logodark.svg");
     }
 }

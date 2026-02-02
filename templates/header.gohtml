@@ -416,6 +416,8 @@
                 if (!isActive) {
                     dropdown.classList.add('active');
                     toggle.setAttribute('aria-expanded', 'true');
+                } else {
+                    toggle.blur();
                 }
             });
 
