@@ -1,35 +1,346 @@
 {{ define "header" }}
 <header class="site-header">
+    <noscript>
+        <style>
+            .search-toggle,
+            .search-box,
+            .hamburger,
+            .mobile-menu,
+            .mobile-menu-overlay {
+                display: none !important;
+            }
+            .nav-center {
+                display: flex !important;
+            }
+            .dropdown:hover .dropdown-content,
+            .dropdown:focus-within .dropdown-content {
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(-50%) translateY(0);
+            }
+            .language-dropdown:hover .dropdown-content,
+            .language-dropdown:focus-within .dropdown-content {
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(-50%) translateY(0);
+            }
+            @media (max-width: 1024px) {
+                .nav-center {
+                    display: flex !important;
+                    flex-wrap: wrap;
+                    gap: 0.25rem;
+                }
+                .nav-links {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+                .language-dropdown {
+                    display: flex !important;
+                }
+            }
+        </style>
+    </noscript>
     <nav role="navigation" aria-label="Main navigation">
-        <div class="logo-and-links">
-            <a href="/" class="logo" aria-label="ToS;DR Home">
-                <img src="https://s3.tosdr.org/branding/tosdr-icon-32.svg" alt="ToS;DR Logo" width="40" height="40">
-            </a>
-            <ul class="nav-links">
-                <li><a href="/{{ .Lang }}/">{{ t "nav.home" }}</a></li>
-                <li><a href="/{{ .Lang }}/services/A">{{ t "nav.services" }}</a></li>
-                <li><a href="/{{ .Lang }}/about">{{ t "nav.about" }}</a></li>
-                <li><a href="/{{ .Lang }}/sites/download">{{ t "nav.download" }}</a></li>
-                <li><a href="/{{ .Lang }}/sites/communities">{{ t "nav.communities" }}</a></li>
-                <li><a href="/{{ .Lang }}/thanks">{{ t "footer.links.thanks" }}</a></li>
-                <li class="dropdown">
-                    <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                        {{ t "nav.contribute" }}
-                        <svg class="dropdown-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/{{ .Lang }}/" class="logo" aria-label="ToS;DR Home">
+                    <img src="https://s3.tosdr.org/branding/tosdr-icon-32.svg" alt="ToS;DR Logo" width="40" height="40">
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="/{{ .Lang }}/" class="nav-link">
+                        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span>{{ t "nav.home" }}</span>
+                    </a></li>
+                    <li><a href="/{{ .Lang }}/sites/download" class="nav-link">
+                        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        <span>{{ t "nav.download" }}</span>
+                    </a></li>
+                    <li><a href="/{{ .Lang }}/about" class="nav-link">
+                        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <span>{{ t "nav.about" }}</span>
+                    </a></li>
+                    <li class="dropdown">
+                        <button class="dropdown-toggle nav-link" aria-haspopup="true" aria-expanded="false">
+                            <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                            <span>{{ t "nav.contribute" }}</span>
+                            <svg class="dropdown-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <ul class="dropdown-content">
+                            <li><a href="https://edit.tosdr.org/">
+                                <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                                <span>{{ t "nav.contribute_analysis" }}</span>
+                            </a></li>
+                            <li><a href="/{{ .Lang }}/new_service">
+                                <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="8" x2="12" y2="16"/>
+                                    <line x1="8" y1="12" x2="16" y2="12"/>
+                                </svg>
+                                <span>{{ t "nav.add_service" }}</span>
+                            </a></li>
+                            <li><a href="/login">
+                                <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="3" y1="9" x2="21" y2="9"/>
+                                    <line x1="9" y1="21" x2="9" y2="9"/>
+                                </svg>
+                                <span>{{ t "nav.dashboard" }}</span>
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown more-dropdown">
+                        <button class="dropdown-toggle nav-link" aria-haspopup="true" aria-expanded="false">
+                            <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="1"/>
+                                <circle cx="19" cy="12" r="1"/>
+                                <circle cx="5" cy="12" r="1"/>
+                            </svg>
+                            <span>{{ t "nav.more" }}</span>
+                            <svg class="dropdown-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <ul class="dropdown-content">
+                            <li><a href="/{{ .Lang }}/services/A">
+                                <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                    <line x1="8" y1="21" x2="16" y2="21"/>
+                                    <line x1="12" y1="17" x2="12" y2="21"/>
+                                </svg>
+                                <span>{{ t "nav.services" }}</span>
+                            </a></li>
+                            <li><a href="/{{ .Lang }}/sites/communities">
+                                <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                                <span>{{ t "nav.communities" }}</span>
+                            </a></li>
+                            <li><a href="/{{ .Lang }}/thanks">
+                                <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                                <span>{{ t "footer.links.thanks" }}</span>
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <div class="search-container">
+                    <button class="search-toggle" aria-label="Toggle search" aria-expanded="false">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
                         </svg>
                     </button>
-                    <ul class="dropdown-content">
-                        <li><a href="https://edit.tosdr.org/">{{ t "nav.contribute_analysis" }}</a></li>
-                        <li><a href="/{{ .Lang }}/new_service">{{ t "nav.add_service" }}</a></li>
-                        <li><a href="/login">{{ t "nav.dashboard" }}</a></li>
+                    <div class="search-box">
+                        <form action="/{{ .Lang }}/search" method="GET" class="search-form">
+                            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" name="q" placeholder="Search services..." aria-label="Search services" autocomplete="off">
+                            <button type="button" class="search-close" aria-label="Close search">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="language-dropdown dropdown">
+                    <button class="language-toggle dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Select language">
+                        <span class="current-lang-flag">{{ if eq .Lang "de" }}🇩🇪{{ else if eq .Lang "en" }}🇬🇧{{ else if eq .Lang "es" }}🇪🇸{{ else if eq .Lang "fr" }}🇫🇷{{ else if eq .Lang "ja" }}🇯🇵{{ else if eq .Lang "nl" }}🇳🇱{{ else if eq .Lang "pl" }}🇵🇱{{ else if eq .Lang "ru" }}🇷🇺{{ else if eq .Lang "zh" }}🇨🇳{{ else }}🌐{{ end }}</span>
+                        <svg class="dropdown-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <ul class="dropdown-content language-list">
+                        {{ range $code, $name := .Languages }}
+                        <li><a href="{{ langURL $code }}" {{ if eq $.Lang $code }}class="active"{{ end }}>
+                            <span class="lang-flag">{{ if eq $code "de" }}🇩🇪{{ else if eq $code "en" }}🇬🇧{{ else if eq $code "es" }}🇪🇸{{ else if eq $code "fr" }}🇫🇷{{ else if eq $code "ja" }}🇯🇵{{ else if eq $code "nl" }}🇳🇱{{ else if eq $code "pl" }}🇵🇱{{ else if eq $code "ru" }}🇷🇺{{ else if eq $code "zh" }}🇨🇳{{ else }}🌐{{ end }}</span>
+                            <span class="lang-name">{{ $name }}</span>
+                        </a></li>
+                        {{ end }}
                     </ul>
-                </li>
-            </ul>
+                </div>
+
+                <a href="/{{ .Lang }}/donate" class="donate-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
+                    </svg>
+                    <span>{{ t "nav.donate" }}</span>
+                </a>
+
+                {{if .Beta}}
+                <a href="https://tosdr.org/" class="beta-badge">
+                    <span class="beta-text">BETA</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/>
+                        <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                </a>
+                {{end}}
+            </div>
+
+            <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
         </div>
-        <div class="right-nav">
-            <a href="/{{ .Lang }}/donate" class="donate-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" aria-hidden="true"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" aria-hidden="true">
+        <div class="mobile-menu-header">
+            <a href="/{{ .Lang }}/" class="logo" aria-label="ToS;DR Home">
+                <img src="https://s3.tosdr.org/branding/tosdr-icon-32.svg" alt="ToS;DR Logo" width="32" height="32">
+            </a>
+            <button class="mobile-menu-close" aria-label="Close menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mobile-search">
+            <form action="/{{ .Lang }}/search" method="GET">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" name="q" placeholder="Search services..." aria-label="Search services">
+            </form>
+        </div>
+
+        <ul class="mobile-nav-links">
+            <li><a href="/{{ .Lang }}/">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>{{ t "nav.home" }}</span>
+            </a></li>
+            <li><a href="/{{ .Lang }}/sites/download">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>{{ t "nav.download" }}</span>
+            </a></li>
+            <li><a href="/{{ .Lang }}/services/A">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                <span>{{ t "nav.services" }}</span>
+            </a></li>
+            <li><a href="/{{ .Lang }}/about">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <span>{{ t "nav.about" }}</span>
+            </a></li>
+            <li><a href="/{{ .Lang }}/sites/communities">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>{{ t "nav.communities" }}</span>
+            </a></li>
+            <li><a href="/{{ .Lang }}/thanks">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <span>{{ t "footer.links.thanks" }}</span>
+            </a></li>
+        </ul>
+
+        <div class="mobile-divider"></div>
+
+        <h3 class="mobile-section-title">{{ t "nav.contribute" }}</h3>
+        <ul class="mobile-nav-links">
+            <li><a href="https://edit.tosdr.org/">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+                <span>{{ t "nav.contribute_analysis" }}</span>
+            </a></li>
+            <li><a href="/{{ .Lang }}/new_service">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                <span>{{ t "nav.add_service" }}</span>
+            </a></li>
+            <li><a href="/login">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
+                </svg>
+                <span>{{ t "nav.dashboard" }}</span>
+            </a></li>
+        </ul>
+
+        <div class="mobile-divider"></div>
+
+        <div class="mobile-language-selector">
+            <h3 class="mobile-section-title">Language</h3>
+            <div class="language-grid">
+                {{ range $code, $name := .Languages }}
+                <a href="{{ langURL $code }}" class="language-option {{ if eq $.Lang $code }}active{{ end }}" title="{{ $name }}">
+                    <span class="lang-flag">{{ if eq $code "de" }}🇩🇪{{ else if eq $code "en" }}🇬🇧{{ else if eq $code "es" }}🇪🇸{{ else if eq $code "fr" }}🇫🇷{{ else if eq $code "ja" }}🇯🇵{{ else if eq $code "nl" }}🇳🇱{{ else if eq $code "pl" }}🇵🇱{{ else if eq $code "ru" }}🇷🇺{{ else if eq $code "zh" }}🇨🇳{{ else }}🌐{{ end }}</span>
+                </a>
+                {{ end }}
+            </div>
+        </div>
+
+        <div class="mobile-menu-footer">
+            <a href="/{{ .Lang }}/donate" class="donate-btn mobile-donate">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
                 </svg>
                 <span>{{ t "nav.donate" }}</span>
@@ -38,33 +349,34 @@
             <a href="https://tosdr.org/" class="leave-beta-btn">{{ t "nav.leave_beta" }}</a>
             {{end}}
         </div>
-        <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </nav>
+    </div>
 </header>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const header = document.querySelector('.site-header');
         const hamburger = document.querySelector('.hamburger');
-        const logoAndLinks = document.querySelector('.logo-and-links');
-        const navLinks = document.querySelector('.nav-links');
-        const rightNav = document.querySelector('.right-nav');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+        const mobileMenuClose = document.querySelector('.mobile-menu-close');
         const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
         const dropdowns = document.querySelectorAll('.dropdown');
+        const searchToggle = document.querySelector('.search-toggle');
+        const searchBox = document.querySelector('.search-box');
+        const searchClose = document.querySelector('.search-close');
+        const searchInput = document.querySelector('.search-box input');
 
-        // Sticky header on scroll
+        // Sticky header with glassmorphism on scroll
         let lastScroll = 0;
-        window.addEventListener('scroll', () => {
+        let ticking = false;
+
+        function updateHeader() {
             const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > 100) {
+
+            if (currentScroll > 50) {
                 header.classList.add('scrolled');
-                
-                if (currentScroll > lastScroll && currentScroll > 200) {
+
+                if (currentScroll > lastScroll && currentScroll > 150) {
                     header.classList.add('hidden');
                 } else {
                     header.classList.remove('hidden');
@@ -73,10 +385,19 @@
                 header.classList.remove('scrolled');
                 header.classList.remove('hidden');
             }
-            
+
             lastScroll = currentScroll;
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateHeader);
+                ticking = true;
+            }
         });
 
+        // Dropdown functionality
         function closeAllDropdowns() {
             dropdowns.forEach(dropdown => {
                 const toggle = dropdown.querySelector('.dropdown-toggle');
@@ -85,10 +406,10 @@
             });
         }
 
-        // Keyboard navigation for dropdowns
         dropdownToggles.forEach(toggle => {
             toggle.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 const dropdown = toggle.closest('.dropdown');
                 const isActive = dropdown.classList.contains('active');
                 closeAllDropdowns();
@@ -105,51 +426,128 @@
                 } else if (e.key === 'Escape') {
                     closeAllDropdowns();
                     toggle.focus();
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const dropdown = toggle.closest('.dropdown');
+                    const firstLink = dropdown.querySelector('.dropdown-content a');
+                    if (firstLink) firstLink.focus();
                 }
             });
         });
 
-        // Close dropdowns when clicking outside
+        // Close dropdowns on outside click
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.dropdown')) {
                 closeAllDropdowns();
             }
         });
 
-        // Mobile menu toggle
-        hamburger.addEventListener('click', () => {
-            const isActive = logoAndLinks.classList.contains('active');
-            logoAndLinks.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            rightNav.classList.toggle('active');
-            hamburger.setAttribute('aria-expanded', !isActive);
+        // Search functionality
+        function openSearch() {
+            searchBox.classList.add('active');
+            searchToggle.setAttribute('aria-expanded', 'true');
+            setTimeout(() => searchInput.focus(), 100);
+        }
 
-            if (!isActive) {
-                closeAllDropdowns();
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        });
+        function closeSearch() {
+            searchBox.classList.remove('active');
+            searchToggle.setAttribute('aria-expanded', 'false');
+            searchInput.value = '';
+        }
 
-        // Close mobile menu on escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && logoAndLinks.classList.contains('active')) {
-                hamburger.click();
-            }
-        });
-
-        // Handle dropdown item keyboard navigation
-        const dropdownItems = document.querySelectorAll('.dropdown-content a');
-        dropdownItems.forEach(item => {
-            item.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeAllDropdowns();
-                    const dropdown = item.closest('.dropdown');
-                    const toggle = dropdown.querySelector('.dropdown-toggle');
-                    if (toggle) toggle.focus();
+        if (searchToggle) {
+            searchToggle.addEventListener('click', () => {
+                if (searchBox.classList.contains('active')) {
+                    closeSearch();
+                } else {
+                    openSearch();
                 }
             });
+        }
+
+        if (searchClose) {
+            searchClose.addEventListener('click', closeSearch);
+        }
+
+        // Mobile menu functionality
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            mobileMenu.setAttribute('aria-hidden', 'false');
+            mobileMenuOverlay.setAttribute('aria-hidden', 'false');
+            hamburger.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+            mobileMenuOverlay.setAttribute('aria-hidden', 'true');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        hamburger.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        });
+
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAllDropdowns();
+                closeSearch();
+                if (mobileMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                    hamburger.focus();
+                }
+            }
+        });
+
+        // Dropdown keyboard navigation
+        const dropdownItems = document.querySelectorAll('.dropdown-content a');
+        dropdownItems.forEach((item, index) => {
+            item.addEventListener('keydown', (e) => {
+                const dropdown = item.closest('.dropdown');
+                const items = dropdown.querySelectorAll('.dropdown-content a');
+
+                if (e.key === 'Escape') {
+                    closeAllDropdowns();
+                    dropdown.querySelector('.dropdown-toggle').focus();
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = (index + 1) % items.length;
+                    items[nextIndex].focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prevIndex = (index - 1 + items.length) % items.length;
+                    items[prevIndex].focus();
+                }
+            });
+        });
+
+        // Handle focus trap in mobile menu
+        const focusableElements = mobileMenu.querySelectorAll('a, button, input');
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        mobileMenu.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                if (e.shiftKey && document.activeElement === firstFocusable) {
+                    e.preventDefault();
+                    lastFocusable.focus();
+                } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+                    e.preventDefault();
+                    firstFocusable.focus();
+                }
+            }
         });
     });
 </script>
