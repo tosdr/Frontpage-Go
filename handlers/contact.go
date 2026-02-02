@@ -3,8 +3,10 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"tosdrgo/handlers/localization"
+	"tosdrgo/internal/logger"
 
 	"github.com/patrickmn/go-cache"
 
@@ -28,6 +30,10 @@ func InitContact(webhook string) {
 func ContactHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
+
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
 
 	if r.Method == "POST" {
 		err := r.ParseMultipartForm(32 << 20)

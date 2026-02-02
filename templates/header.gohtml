@@ -469,6 +469,28 @@
             searchClose.addEventListener('click', closeSearch);
         }
 
+        // Handle search form submissions to redirect to /lang/search/query format
+        const searchForm = document.querySelector('.search-form');
+        const mobileSearchForm = document.querySelector('.mobile-search form');
+        const currentLang = '{{ .Lang }}';
+
+        function handleSearchSubmit(e) {
+            e.preventDefault();
+            const input = e.target.querySelector('input[name="q"]');
+            const query = input.value.trim();
+            if (query.length > 0) {
+                window.location.href = '/' + currentLang + '/search/' + encodeURIComponent(query);
+            }
+        }
+
+        if (searchForm) {
+            searchForm.addEventListener('submit', handleSearchSubmit);
+        }
+
+        if (mobileSearchForm) {
+            mobileSearchForm.addEventListener('submit', handleSearchSubmit);
+        }
+
         // Mobile menu functionality
         function openMobileMenu() {
             mobileMenu.classList.add('active');

@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/patrickmn/go-cache"
 	"net/http"
 	"os"
 	"strings"
 	"tosdrgo/handlers/localization"
 	"tosdrgo/internal/logger"
+
+	"github.com/gorilla/mux"
+	"github.com/patrickmn/go-cache"
 )
 
 type Sponsor struct {
@@ -25,15 +26,15 @@ func ThanksHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
 
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
+
 	cacheKey := "thanks_" + lang
 	if cachedPage, found := pageCache.Get(cacheKey); found {
 		w.Header().Set(ContentType, ContentTypeHtml)
 		_, _ = w.Write(cachedPage.([]byte))
 		return
-	}
-
-	if err := localization.LoadTranslations(lang); err != nil {
-		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
 	}
 
 	tmpl, err := parseTemplates("templates/contents/thanks.gohtml", lang, r)

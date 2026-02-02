@@ -7,7 +7,9 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"path/filepath"
 	"tosdrgo/handlers/localization"
+	"tosdrgo/internal/logger"
 	"tosdrgo/models"
 
 	"github.com/gorilla/mux"
@@ -28,6 +30,10 @@ func renderTeamDescriptions(members []models.TeamMember) ([]models.TeamMember, e
 func AboutHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
+
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
 
 	cacheKey := fmt.Sprintf("about_%s", lang)
 	if cachedPage, found := pageCache.Get(cacheKey); found {
@@ -72,10 +78,21 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mdContent, err := os.ReadFile("assets/about.md")
+	// Try to load language-specific about content first, fall back to English
+	mdPath := filepath.Join("md", lang, "about.md")
+	mdContent, err := os.ReadFile(mdPath)
 	if err != nil {
-		RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to load about content", err)
-		return
+		// Fall back to English version
+		mdPath = filepath.Join("md", "en", "about.md")
+		mdContent, err = os.ReadFile(mdPath)
+		if err != nil {
+			// Fall back to assets/about.md as last resort
+			mdContent, err = os.ReadFile("assets/about.md")
+			if err != nil {
+				RenderErrorPage(w, lang, http.StatusInternalServerError, "Failed to load about content", err)
+				return
+			}
+		}
 	}
 
 	rendered, err := RenderMarkdown(mdContent)

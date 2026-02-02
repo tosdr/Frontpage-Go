@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"strconv"
 	"tosdrgo/handlers/auth"
@@ -23,6 +24,10 @@ type DashboardData struct {
 func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
+
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
 
 	// Check if user is logged in
 	user, err := auth.GetUserSession(r)
@@ -96,6 +101,10 @@ func DashboardSearchHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
 	searchTerm := vars["term"]
+
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
 
 	user, err := auth.GetUserSession(r)
 	if err != nil {

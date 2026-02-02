@@ -11,6 +11,7 @@ import (
 	"tosdrgo/handlers/localization"
 	"tosdrgo/handlers/metrics"
 	"tosdrgo/internal/db"
+	"tosdrgo/internal/logger"
 	"tosdrgo/models"
 
 	"github.com/gorilla/mux"
@@ -22,6 +23,10 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	lang := vars["lang"]
 	searchTerm := vars["term"]
 	grade := r.URL.Query().Get("grade")
+
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
 
 	if strings.HasPrefix(searchTerm, "http") {
 		searchTerm = strings.Replace(searchTerm, ":/", "://", 1)

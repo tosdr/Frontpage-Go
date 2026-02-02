@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"tosdrgo/handlers/auth"
 	"tosdrgo/handlers/localization"
+	"tosdrgo/internal/logger"
 
 	"github.com/gorilla/mux"
 )
@@ -15,6 +16,10 @@ import (
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
+
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
 
 	user, err := auth.GetUserSession(r)
 	if err != nil {

@@ -43,6 +43,10 @@ func NewServiceHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
 
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
+
 	if r.Method == "GET" {
 		renderNewServiceForm(w, r, lang, &ServiceForm{})
 		return

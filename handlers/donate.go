@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"tosdrgo/handlers/localization"
+	"tosdrgo/internal/logger"
 
 	"github.com/gorilla/mux"
 	"github.com/patrickmn/go-cache"
@@ -17,6 +19,10 @@ func RedirectDonate(w http.ResponseWriter, r *http.Request) {
 func DonateHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
+
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
 
 	cacheKey := "donate_" + lang
 	if cachedPage, found := pageCache.Get(cacheKey); found {

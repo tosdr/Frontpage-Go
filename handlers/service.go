@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"tosdrgo/handlers/localization"
 	"tosdrgo/internal/db"
+	"tosdrgo/internal/logger"
 	"tosdrgo/models"
 
 	"github.com/gorilla/mux"
@@ -19,6 +20,10 @@ func ServiceHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	lang := vars["lang"]
 	serviceID := vars["serviceID"]
+
+	if err := localization.LoadTranslations(lang); err != nil {
+		logger.LogError(err, fmt.Sprintf("Failed to load translations for %s", lang))
+	}
 
 	serviceID = regexp.MustCompile("[^0-9]").ReplaceAllString(serviceID, "")
 
