@@ -1,11 +1,11 @@
 .skip-link {
-    position: absolute;
+    position: fixed;
     top: -50px;
     left: 0;
     background: var(--btn-primary-bg);
     color: var(--btn-primary-text);
     padding: 8px 16px;
-    z-index: 100;
+    z-index: 1001;
     transition: top 0.2s ease-in-out;
     text-decoration: none;
     font-weight: 500;

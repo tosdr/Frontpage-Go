@@ -55,6 +55,8 @@
   "footer.links.donate": "Donate",
   "search.results_for": "Search Results for \"%s\"",
   "search.no_results": "No results found for \"%s\"",
+  "search.results_found": "results found",
+  "search.try_different": "Try a different search term or check the spelling",
   "search.match": "Match: %.2f%%",
   "search.placeholder": "Search for a service...",
   "search.button": "Search",

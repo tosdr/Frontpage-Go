@@ -3,33 +3,59 @@
 {{ end }}
 
 {{ define "content" }}
-<div class="search-result-container">
-
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="{{ t "search.placeholder" }}" class="search-input" value="{{ .SearchTerm }}">
-        <button id="searchButton" class="search-button">{{ t "search.button" }}</button>
+<div class="search-page">
+    <div class="search-header">
+        <h1 class="search-title">{{ t "search.results_for" .SearchTerm }}</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="{{ t "search.placeholder" }}" class="search-input" value="{{ .SearchTerm }}">
+            <button id="searchButton" class="search-button">{{ t "search.button" }}</button>
+        </div>
     </div>
 
-    <h1>{{ t "search.results_for" .SearchTerm }}</h1>
-    
-    <div class="search-results">
+    <div class="search-content">
         {{ if .SearchResults }}
-            {{ $lang := .Lang }}
-            {{ range .SearchResults }}
-                <div class="search-result">
-                    <img src="{{ .Image }}" alt="{{ .Name }} {{ t "search.logo_alt" }}" class="result-logo">
-                    <div class="result-info">
-                        <h2><a href="/{{ $lang }}/service/{{ .ID }}">{{ .Name }}</a></h2>
-                        <span class="result-rating grade-{{ .Rating }}">{{ .Rating }}</span>
-                        <span class="result-match">{{ t "search.match" .MatchPercentage }}</span>
-                    </div>
-                </div>
-            {{ end }}
+            <p class="results-count">{{ len .SearchResults }} {{ t "search.results_found" }}</p>
+            <div class="search-results-grid">
+                {{ $lang := .Lang }}
+                {{ range .SearchResults }}
+                    <a href="/{{ $lang }}/service/{{ .ID }}" class="result-card">
+                        <div class="result-card-inner">
+                            <div class="result-icon-wrapper">
+                                <img src="{{ .Image }}" alt="{{ .Name }} {{ t "search.logo_alt" }}" class="result-logo" loading="lazy">
+                            </div>
+                            <div class="result-details">
+                                <h2 class="result-name">{{ .Name }}</h2>
+                                <div class="result-meta">
+                                    <span class="result-rating grade-{{ .Rating }}">{{ t "service.grade_prefix" }} {{ .Rating }}</span>
+                                    <span class="result-match-badge">{{ t "search.match" .MatchPercentage }}</span>
+                                </div>
+                            </div>
+                            <div class="result-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                {{ end }}
+            </div>
         {{ else }}
-            <p>{{ t "search.no_results" .SearchTerm }}</p>
+            <div class="no-results">
+                <div class="no-results-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="8" y1="8" x2="14" y2="14"></line>
+                        <line x1="14" y1="8" x2="8" y2="14"></line>
+                    </svg>
+                </div>
+                <h2>{{ t "search.no_results" .SearchTerm }}</h2>
+                <p class="no-results-hint">{{ t "search.try_different" }}</p>
+            </div>
         {{ end }}
     </div>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
@@ -39,8 +65,12 @@
         document.querySelectorAll('.result-logo').forEach(img => {
             img.addEventListener('error', function() {
                 this.classList.add('placeholder');
-                this.src = 'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"></svg>';
-                this.insertAdjacentHTML('afterbegin', initial);
+                const initial = this.alt.charAt(0).toUpperCase();
+                this.style.display = 'none';
+                const placeholder = document.createElement('div');
+                placeholder.className = 'logo-placeholder';
+                placeholder.textContent = initial;
+                this.parentNode.appendChild(placeholder);
             });
         });
 
@@ -53,7 +83,7 @@
         }
 
         searchButton.addEventListener('click', performSearch);
-        
+
         searchInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 performSearch();
