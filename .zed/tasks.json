@@ -1,0 +1,20 @@
+[
+  {
+    "label": "Go: Run main",
+    "command": "go",
+    "args": ["run", "main.go"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "Go: Debug main (Delve CLI)",
+    "command": "dlv",
+    "args": ["debug", "."],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  }
+]

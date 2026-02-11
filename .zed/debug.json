@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Go: Debug main package",
+    "adapter": "Delve",
+    "request": "launch",
+    "mode": "debug",
+    "program": ".",
+    "cwd": "$ZED_WORKTREE_ROOT"
+  }
+]

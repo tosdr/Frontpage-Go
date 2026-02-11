@@ -133,18 +133,6 @@
     outline-offset: 2px;
 }
 
-.nav-icon {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
-}
-
-.nav-link:hover .nav-icon {
-    opacity: 1;
-}
-
 @media (max-width: 1100px) {
     .donate-btn span {
         display: none;
