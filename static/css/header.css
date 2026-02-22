@@ -38,14 +38,14 @@
 
 @media (prefers-color-scheme: dark) {
     .site-header nav {
-        background: rgba(30, 30, 30, 0.85);
+        background: rgba(40, 40, 40, 0.85);
         box-shadow:
             0 4px 24px rgba(0, 0, 0, 0.2),
             0 0 0 1px rgba(255, 255, 255, 0.05);
     }
 
     .site-header.scrolled nav {
-        background: rgba(30, 30, 30, 0.95);
+        background: rgba(40, 40, 40, 0.95);
         box-shadow:
             0 8px 32px rgba(0, 0, 0, 0.3),
             0 0 0 1px rgba(255, 255, 255, 0.08);
