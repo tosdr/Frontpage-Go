@@ -107,6 +107,16 @@
                 "github": "https://github.com/Tech-TTGames",
                 "email": "tomasz.gebarski@tosdr.org"
             }
+        },
+        {
+            "photo": "https://s3.tosdr.org/team/Dr_Jeff.jpg",
+            "name": "Guennadi Maximov Cortés",
+            "title": "Self Taught",
+            "description": "Guennadi Maximov (A.K.A. \"Dr_Jeff\" or \"DrKJeff16\"), is an advocate for privacy. He promotes the adoption of open source software in his country of origin, Mexico, as well as evidence-based mental health support for ADHD, which he's been diagnosed with.",
+            "links": {
+                "github": "https://github.com/DrKJeff16",
+                "email": "g.maxc.fox@tosdr.org"
+            }
         }
     ],
     "past": [
@@ -172,16 +182,6 @@
                 "twitter": "https://x.com/justinrene_back",
                 "website": "https://justinback.de",
                 "github": "https://github.com/justinback"
-            }
-        },
-        {
-            "photo": "https://s3.tosdr.org/team/20149.jpg",
-            "name": "Guennadi Maximov Cortés",
-            "title": "Self Taught",
-            "description": "19 year-old Guennadi (AKA 'Dr.Jeff') has yet a lot to learn, but is determined to help in any way he can. He currently resides in Mexico, and is barely starting his career on Philosophy, expecting to someday focus his research on Privacy. Also learning to code.",
-            "links": {
-                "twitter": "https://x.com/jeffsamonarch",
-                "github": "https://github.com/DrKJeff16"
             }
         },
         {
