@@ -18,19 +18,19 @@ Obwohl Discord nicht die datenschutzfreundlichste Lösung ist, haben wir hier et
 
 Das dezentrale Web ist da! Mit unserer selbst gehosteten Matrix-Instanz können Sie sich mit jedem matrix-protokollkompatiblen Heimserver verbinden, um mit Discord- und IRC-Mitgliedern in unserer Instanz zu chatten.
 
-[Matrix Space beitreten](https://matrix.to/#/#official:matrix.tosdr.org)
+[Matrix Space beitreten](https://matrix.to/#/#space:tosdr.community)
 
 <details>
 
-[Ankündigungen Raum beitreten](https://matrix.to/#/#announcements:matrix.tosdr.org)
+[Ankündigungen Raum beitreten](https://matrix.to/#/#announcements:tosdr.community)
 
-[General Raum beitreten](https://matrix.to/#/#welcome:matrix.tosdr.org)
+[Allgemeinem Raum beitreten](https://matrix.to/#/#General:tosdr.community)
 
-[Privacy Raum beitreten](https://matrix.to/#/#privacy:matrix.tosdr.org)
+[Privacy Raum beitreten](https://matrix.to/#/#privacy:tosdr.community)
 
-[Kuratoren Raum beitreten](https://matrix.to/#/#curators:matrix.tosdr.org)
+[Kuratoren Raum beitreten](https://matrix.to/#/#curators:tosdr.community)
 
-[Feedback Raum beitreten](https://matrix.to/#/#feedback:matrix.tosdr.org)
+[Feedback Raum beitreten](https://matrix.to/#/#feedback:tosdr.community)
 
 
 <summary>Einzelene Räume, falls dein Client Matrix Spaces nicht unterstützt</summarny>

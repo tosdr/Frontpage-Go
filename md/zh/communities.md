@@ -14,7 +14,25 @@ Title: 社区
 
 去中心化网络来了！ 通过我们自托管的 matrix 实例，您可以连接任何与 matrix 协议兼容的家庭服务器，与我们实例中的 Discord 和 IRC 成员聊天。
 
-[加入社区](https://matrix.tosdr.org/)
+[Join Matrix Space](https://matrix.to/#/#space:tosdr.community)
+
+<details>
+<br>
+
+[Join Anouncments](https://matrix.to/#/#announcements:tosdr.community)
+
+[Join General](https://matrix.to/#/#General:tosdr.community)
+
+[Join Privacy](https://matrix.to/#/#privacy:tosdr.community)
+
+[Join Curator ](https://matrix.to/#/#curators:tosdr.community)
+
+[Join Feedback](https://matrix.to/#/#feedback:tosdr.community)
+
+
+<summary>Click to show individual rooms in case your client doesn't support spaces</summarny>
+
+</details>
 
 ## 官方 Telegram
 
