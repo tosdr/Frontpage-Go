@@ -61,7 +61,7 @@ func FetchServicesByGrade(grade string, page int, perPage int) ([]models.SearchR
 			Name:                    service.Name,
 			ComprehensivelyReviewed: service.ComprehensivelyReviewed,
 			Rating:                  rating,
-			Image:                   "https://s3.tosdr.org/logos/" + strconv.Itoa(service.ID) + ".png",
+			Image:                   "https://logos.tosdr.org/" + strconv.Itoa(service.ID) + ".png",
 		}
 
 		result.MatchPercentage = 100

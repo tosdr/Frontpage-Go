@@ -28,7 +28,7 @@ func FetchServiceData(serviceID int, lang string) (*models.Service, error) {
 	}
 
 	service.Points = organizePoints(service.Points)
-	service.Image = "https://s3.tosdr.org/logos/" + strconv.Itoa(service.ID) + ".png"
+	service.Image = "https://logos.tosdr.org/" + strconv.Itoa(service.ID) + ".png"
 
 	cache.SetService(serviceID, lang, service)
 	return service, nil

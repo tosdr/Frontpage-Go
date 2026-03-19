@@ -89,7 +89,7 @@ func SearchServices(term string, grade string) ([]models.SearchResult, int, erro
 			Name:                    service.Name,
 			ComprehensivelyReviewed: service.ComprehensivelyReviewed,
 			Rating:                  rating,
-			Image:                   "https://s3.tosdr.org/logos/" + strconv.Itoa(service.ID) + ".png",
+			Image:                   "https://logos.tosdr.org/" + strconv.Itoa(service.ID) + ".png",
 		}
 
 		nameMatch := calculateQuickSimilarity(normalizedTerm, strings.ToLower(service.Name))

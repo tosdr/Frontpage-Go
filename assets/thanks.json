@@ -1,37 +1,37 @@
 [
     {
         "name": "Atlassian",
-        "logo": "https://s3.tosdr.org/logos-thanks/atlassian.png",
+        "logo": "https://assets.tosdr.org/thanks/atlassian.png",
         "link": "https://www.atlassian.com",
         "description": "Jira, Confluence, Software Licenses"
     },
     {
         "name": "Fastly",
-        "logo": "https://s3.tosdr.org/logos-thanks/fastly.svg",
+        "logo": "https://assets.tosdr.org/thanks/fastly.svg",
         "link": "https://fastly.com",
         "description": "CDN & DDoS Protection"
     },
     {
         "name": "BetterStack",
-        "logo": "https://s3.tosdr.org/logos-thanks/betterstack.png",
+        "logo": "https://assets.tosdr.org/thanks/betterstack.png",
         "link": "https://betterstack.com",
         "description": "Monitoring & Status Page"
     },
     {
         "name": "StartMail",
-        "logo": "https://s3.tosdr.org/logos-thanks/startmail.svg",
+        "logo": "https://assets.tosdr.org/thanks/startmail.svg",
         "link": "https://startmail.com",
         "description": "Email Service"
     },
     {
         "name": "GitLab",
-        "logo": "https://s3.tosdr.org/logos-thanks/gitlab.svg",
+        "logo": "https://assets.tosdr.org/thanks/gitlab.svg",
         "link": "https://gitlab.com",
         "description": "ToS;DR's Git Infrastructure"
     },
     {
         "name": "OpenCollective contributors",
-        "logo": "https://s3.tosdr.org/logos-thanks/opencollective.svg",
+        "logo": "https://assets.tosdr.org/thanks/opencollective.svg",
         "link": "https://opencollective.com/tosdr",
         "description": "Everyone around the world!"
     }
