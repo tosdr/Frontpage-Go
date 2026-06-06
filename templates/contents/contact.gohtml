@@ -17,6 +17,7 @@
 
     <form id="contactForm" method="POST" class="wizard-form">
         <input type="hidden" id="categoryInput" name="category" value="">
+        <input type="text" name="contact_hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" value="">
         <div class="wizard-step active" data-step="1">
             <h2>{{ t "contact.title" }}</h2>
             <p class="contact-intro">{{ t "contact.description" }}</p>
