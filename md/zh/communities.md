@@ -10,12 +10,6 @@ Title: 社区
 
 [加入社区](https://discord.gg/tosdr)
 
-## 官方 ToS;DR Matrix
-
-去中心化网络来了！ 通过我们自托管的 matrix 实例，您可以连接任何与 matrix 协议兼容的家庭服务器，与我们实例中的 Discord 和 IRC 成员聊天。
-
-[加入社区](https://matrix.tosdr.org/)
-
 ## 官方 Telegram
 
 最初是一个非官方小组，现在这个 Telegram 小组是一个官方社区，您可以加入获取最新的 ToS;DR 新闻。 此小组与我们的 Discord 和 Matrix 上的 #General 频道连接。
