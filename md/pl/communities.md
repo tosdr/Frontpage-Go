@@ -10,12 +10,6 @@ Chociaż Discord nie jest najbardziej przyjaznym rozwiązaniem dla prywatności,
 
 [Dołącz do Społeczności](https://discord.gg/tosdr)
 
-## Oficjalny ToS;DR Matrix
-
-Zdecentralizowana sieć jest tutaj! Dzięki naszemu samodzielnie hostowanemu serwerowi matrix możesz połączyć się z dowolnym serwerem zgodnym z protokołem matrix, aby porozmawiać z członkami Discord i IRC na naszej instancji.
-
-[Dołącz do Społeczności](https://matrix.tosdr.org/)
-
 ## Oficjalny Telegram
 
 Rozpoczęta jako nieoficjalna grupa, ta grupa Telegram jest teraz oficjalną społecznością, do której możesz dołączyć, aby uzyskać najnowsze wiadomości ToS;DR. Ta grupa jest połączona z #General na naszym Discord i Matrix.
