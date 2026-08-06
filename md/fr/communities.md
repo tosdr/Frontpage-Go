@@ -10,12 +10,6 @@ Bien que Discord ne soit pas la solution la plus respectueuse de la vie privée,
 
 [Rejoindre la communauté](https://discord.gg/tosdr)
 
-## Matrix officiel ToS;DR
-
-Le web décentralisé est là ! Avec notre instance matrix auto-hébergée, vous pouvez vous connecter à tout serveur compatible avec le protocole matrix pour discuter avec les membres Discord et IRC de notre instance.
-
-[Rejoindre la communauté](https://matrix.tosdr.org/)
-
 ## Telegram officiel
 
 Créé comme un groupe non officiel, ce groupe Telegram est désormais une communauté officielle que vous pouvez rejoindre pour les dernières nouvelles de ToS;DR. Ce groupe est connecté avec #General sur notre Discord et Matrix.
