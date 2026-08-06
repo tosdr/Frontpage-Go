@@ -10,12 +10,6 @@ Aunque Discord no es la solución más amigable con la privacidad, tenemos aquí
 
 [Unirse a la Comunidad](https://discord.gg/tosdr)
 
-## Matrix Oficial ToS;DR
-
-¡La web descentralizada está aquí! Con nuestra instancia de matrix autoalojada, puedes conectar con cualquier servidor compatible con el protocolo matrix para chatear con miembros de Discord e IRC en nuestra instancia.
-
-[Unirse a la Comunidad](https://matrix.tosdr.org/)
-
 ## Telegram Oficial
 
 Comenzando como un grupo no oficial, este grupo de Telegram es ahora una comunidad oficial a la que puedes unirte para obtener las últimas noticias de ToS;DR. Este grupo está conectado con #General en nuestro Discord y Matrix.
