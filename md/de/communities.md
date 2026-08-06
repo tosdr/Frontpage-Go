@@ -14,29 +14,6 @@ Obwohl Discord nicht die datenschutzfreundlichste Lösung ist, haben wir hier et
 
 [Community beitreten](https://discord.gg/tosdr)
 
-## Offizieller Matrix Space
-
-Das dezentrale Web ist da! Mit unserer selbst gehosteten Matrix-Instanz können Sie sich mit jedem matrix-protokollkompatiblen Heimserver verbinden, um mit Discord- und IRC-Mitgliedern in unserer Instanz zu chatten.
-
-[Matrix Space beitreten](https://matrix.to/#/#official:matrix.tosdr.org)
-
-<details>
-
-[Ankündigungen Raum beitreten](https://matrix.to/#/#announcements:matrix.tosdr.org)
-
-[General Raum beitreten](https://matrix.to/#/#welcome:matrix.tosdr.org)
-
-[Privacy Raum beitreten](https://matrix.to/#/#privacy:matrix.tosdr.org)
-
-[Kuratoren Raum beitreten](https://matrix.to/#/#curators:matrix.tosdr.org)
-
-[Feedback Raum beitreten](https://matrix.to/#/#feedback:matrix.tosdr.org)
-
-
-<summary>Einzelene Räume, falls dein Client Matrix Spaces nicht unterstützt</summarny>
-
-</details>
-
 ## Offizieller Telegram Kanal & Gruppe
 
 Begonnen als inoffizielle Gruppe, ist diese Telegram-Gruppe jetzt eine offizielle Community, der Sie beitreten können, um die neuesten ToS;DR-News zu erhalten. Diese Gruppe ist mit #General auf unserem Discord und Matrix verbunden.
