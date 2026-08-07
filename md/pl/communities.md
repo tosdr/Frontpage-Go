@@ -14,7 +14,7 @@ Chociaż Discord nie jest najbardziej przyjaznym rozwiązaniem dla prywatności,
 
 Zdecentralizowana sieć jest tutaj! Dzięki naszemu samodzielnie hostowanemu serwerowi matrix możesz połączyć się z dowolnym serwerem zgodnym z protokołem matrix, aby porozmawiać z członkami Discord i IRC na naszej instancji.
 
-[Dołącz do Społeczności](https://matrix.tosdr.org/)
+[Dołącz do Społeczności](https://matrix.to/#/#space:tosdr.community)
 
 ## Oficjalny Telegram
 
