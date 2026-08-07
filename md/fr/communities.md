@@ -14,7 +14,7 @@ Bien que Discord ne soit pas la solution la plus respectueuse de la vie privée,
 
 Le web décentralisé est là ! Avec notre instance matrix auto-hébergée, vous pouvez vous connecter à tout serveur compatible avec le protocole matrix pour discuter avec les membres Discord et IRC de notre instance.
 
-[Rejoindre la communauté](https://matrix.tosdr.org/)
+[Rejoindre la communauté](https://matrix.to/#/#space:tosdr.community)
 
 ## Telegram officiel
 
