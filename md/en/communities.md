@@ -23,7 +23,7 @@ The decentralized web is here! With our self hosted matrix instance you can conn
 <details>
 <br>
 
-[Join Anouncments](https://matrix.to/#/#announcements:tosdr.community)
+[Join Announcements](https://matrix.to/#/#announcements:tosdr.community)
 
 [Join General](https://matrix.to/#/#General:tosdr.community)
 
@@ -34,7 +34,7 @@ The decentralized web is here! With our self hosted matrix instance you can conn
 [Join Feedback](https://matrix.to/#/#feedback:tosdr.community)
 
 
-<summary>Click to show individual rooms in case your client doesn't support spaces</summarny>
+<summary>Click to show individual rooms in case your client doesn't support spaces</summary>
 
 </details>
 
