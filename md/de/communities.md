@@ -33,7 +33,7 @@ Das dezentrale Web ist da! Mit unserer selbst gehosteten Matrix-Instanz können 
 [Feedback Raum beitreten](https://matrix.to/#/#feedback:tosdr.community)
 
 
-<summary>Einzelene Räume, falls dein Client Matrix Spaces nicht unterstützt</summarny>
+<summary>Einzelene Räume, falls dein Client Matrix Spaces nicht unterstützt</summary>
 
 </details>
 
