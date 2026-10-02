@@ -4,7 +4,7 @@ Title: Informations légales
 
 # Informations légales
 
-**Rien ici ne doit être considéré comme un conseil juridique**. Nous exprimons notre opinion sans garantie et nous ne soutenons en aucun cas un service. Veuillez consulter un avocat qualifié pour obtenir des conseils juridiques. **Lire ToS;DR ne peut en aucun cas remplacer la lecture des termes complets auxquels vous êtes soumis.** Divulgation : notre liste de donateurs et de soutiens [est publique](https://thanks.tosdr.org/).
+**Rien ici ne doit être considéré comme un conseil juridique**. Nous exprimons notre opinion sans garantie et nous ne soutenons en aucun cas un service. Veuillez consulter un avocat qualifié pour obtenir des conseils juridiques. **Lire ToS;DR ne peut en aucun cas remplacer la lecture des termes complets auxquels vous êtes soumis.** Divulgation : notre liste de donateurs et de soutiens [est publique](https://tosdr.org/fr/thanks).
 
 ## Politique de confidentialité
 
